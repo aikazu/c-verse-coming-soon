@@ -14,16 +14,16 @@ npm run preview  # http://localhost:4173
 
 ## Apa yang ada
 
-- **Hero only**: centered `CREATOR` / `VERSE` flip ke `クリエイター` / `の世界` (neon frame per huruf), `REVOLUTION`, `COMING SOON` typewriter + cursor. `ARCADE MODE · READY` pill, clock, `SOUND` toggle.
-- **Vapor horizon + EQ**: neon grid, low-poly mountains di horizon, 56 bar equalizer bumpy bottom→top beat-reactive (idle muted, play jadi blue fire), star dome, shooting stars, jet kecil, particles/bokeh, CRT+vignette.
-- **Interaktivitas**: mouse/touch X+Y + gyro (iOS permission via gesture) full 2D parallax, camera Z breathing + lookAt, ring/light/particles reaktif ke `bass/kick`.
-- **Audio**: `public/audio/ambient.mp3` (1.6 MB, copy strip cover) + `ambient.ogg` fallback, bundled ke `dist/audio/` — Vercel drop 3.04 MB. Bisa dipisah ke R2/S3 ganti `<source src>`.
+- **Hero**: `CREATOR` / `VERSE` flip ke `クリエイター` / `の世界` (neon frame per huruf), `REVOLUTION`, `COMING SOON` typewriter + cursor. `ARCADE MODE · READY` pill, clock, `SOUND` toggle.
+- **Vapor horizon + EQ**: neon grid, low-poly mountains, 56 bar equalizer bumpy bottom→top beat-reactive (idle muted, play jadi blue fire), star dome, shooting stars, jet kecil, particles/bokeh, CRT+vignette.
+- **Motion**: mouse/touch X+Y + gyro full 2D parallax, camera Z breathing + lookAt, ring/light/particles reaktif ke `bass/kick`.
+- **Audio**: `public/audio/ambient.mp3` + `ambient.ogg` bundled ke `dist/audio/` (3.04 MB drop). Bisa dipisah ke R2/S3 kalau mau.
 
 ## Deploy (Vercel)
 
-- **Drop**: `cverse-coming-soon--vercel-drop.zip` — isi prebuilt `dist/` (5 files) drag ke Vercel.
+- **Drop**: `cverse-coming-soon--vercel-drop.zip` — prebuilt `dist/` drag langsung.
 - **Git**: push repo ini, framework preset **Vite**.
 
 ## Stack
 
-Vite 5, Three 0.160, GSAP 3, `Noto Sans JP` untuk JP. Tidak pakai NFC/drop/limited — general hype only.
+Vite 5 · Three 0.160 · GSAP 3 · Noto Sans JP.
