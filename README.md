@@ -1,28 +1,29 @@
-# C.Verse — Coming Soon (Arcade)
+# C.Verse — Coming Soon
 
-Workspace: `01_Coming_Soon` — landing page arcade-style untuk **C.Verse — Revolusi Ekonomi Kreator**.
-
-## Anti-error Next.js
-Project ini **Vite + Three.js + GSAP**, bukan Next.js. `01_Coming_Soon` tidak punya `app/` atau `pages/` Next.js, jadi tidak akan trigger error shadcn/Next di IDE.
+Hero-only arcade coming soon untuk **C.Verse** — **CREATOR / VERSE — REVOLUTION**.
 
 ## Run
+
 ```bash
 cd C:/Users/iqbal/Projects/01_Coming_Soon
 npm install
 npm run dev      # http://localhost:5173
-npm run build
+npm run build    # -> dist/
 npm run preview  # http://localhost:4173
 ```
 
-## Apa yang dibangun
-- **Tema arcade maximal**: CRT scanline, vignette, neon grid floor shader (Three.js), floating wireframe geometry, ring portals, particle starfield + bokeh, bloom via color.
-- **Hero**: KREATOR + Coming Soon (Silkscreen gold), insert coin CTA → scroll ke waitlist, tilt/parallax Three.js mengikuti mouse + scroll.
-- **Marquee** berjalan, **Select Your Class** 3 kartu (creator/collector/culture), **High Score waitlist** panel.
-- **Waitlist**: validasi email, localStorage queue, animasi counter, high-score table update, modal YOU'RE IN, sound coin (WebAudio) dengan toggle. Tidak pakai elemen NFC/drop limited (sesuai instruksi).
-- Stack: Vite 5, Three 0.160 (ESM), GSAP 3, fonts via Google Fonts (Syne/Space Grotesk/JetBrains Mono/Silkscreen).
+## Apa yang ada
 
-## Catatan C.Verse (konteks, tidak ditampilkan di landing)
-C.Verse = Creator Verse, MVP C.Card (kartu acrylic + NTAG 424 DNA) — detail ada di `00_Dream_Project/`. Landing ini sengaja tidak menampilkan istilah NFC/drop/limited agar tetap general hype.
+- **Hero only**: centered `CREATOR` / `VERSE` flip ke `クリエイター` / `の世界` (neon frame per huruf), `REVOLUTION`, `COMING SOON` typewriter + cursor. `ARCADE MODE · READY` pill, clock, `SOUND` toggle.
+- **Vapor horizon + EQ**: neon grid, low-poly mountains di horizon, 56 bar equalizer bumpy bottom→top beat-reactive (idle muted, play jadi blue fire), star dome, shooting stars, jet kecil, particles/bokeh, CRT+vignette.
+- **Interaktivitas**: mouse/touch X+Y + gyro (iOS permission via gesture) full 2D parallax, camera Z breathing + lookAt, ring/light/particles reaktif ke `bass/kick`.
+- **Audio**: `public/audio/ambient.mp3` (1.6 MB, copy strip cover) + `ambient.ogg` fallback, bundled ke `dist/audio/` — Vercel drop 3.04 MB. Bisa dipisah ke R2/S3 ganti `<source src>`.
 
-## Deploy (preview serve)
-`npm run preview` sudah diverifikasi 200 OK. Untuk produksi: `npm run build` → `dist/` siap di Cloudflare Pages / Vercel / static hosting mana pun.
+## Deploy (Vercel)
+
+- **Drop**: `cverse-coming-soon--vercel-drop.zip` — isi prebuilt `dist/` (5 files) drag ke Vercel.
+- **Git**: push repo ini, framework preset **Vite**.
+
+## Stack
+
+Vite 5, Three 0.160, GSAP 3, `Noto Sans JP` untuk JP. Tidak pakai NFC/drop/limited — general hype only.
