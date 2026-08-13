@@ -1,0 +1,20 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Deps
+node_modules/
+
+# Build
+dist/
+
+# Zip drop (generated, not source)
+*.zip
+
+# Env
+.env
+.env.local
+*.pem

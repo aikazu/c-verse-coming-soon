@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C.Verse — Coming Soon</title>
+  <meta name="description" content="C.Verse — Creator Verse. Revolution. Coming soon." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&family=Silkscreen:wght@400;700&family=Syne:wght@700;800&family=Noto+Sans+JP:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="crt"></div>
+  <div class="vignette"></div>
+  <div class="noise"></div>
+
+  <audio id="bgMusic" loop preload="auto" crossorigin="anonymous" playsinline>
+    <source src="/audio/ambient.ogg" type="audio/ogg">
+    <source src="/audio/ambient.mp3" type="audio/mpeg">
+  </audio>
+
+  <nav class="topbar">
+    <div class="topbar__left">
+      <span class="logo">C.VERSE</span>
+      <span class="logo__dot"></span>
+      <span class="logo__sub">SYSTEM 01</span>
+    </div>
+    <div class="topbar__center">
+      <span class="blink">●</span> SIGNAL LOCKED — JAKARTA // ID
+    </div>
+    <div class="topbar__right">
+      <span id="clock">00:00:00</span>
+      <span class="badge">COMING SOON</span>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero__cabinet-wrap" aria-hidden="true">
+        <div class="cabinet-glow"></div>
+      </div>
+
+      <div class="hero__content">
+        <p class="eyebrow"><span>ARCADE MODE</span> <i></i> <span>READY</span></p>
+
+        <h1 class="title">
+          <span class="title__big title__flip" data-text="CREATOR" data-en="CREATOR" data-jp="クリエイター">CREATOR</span>
+          <span class="title__big title__big--verse title__flip" data-text="VERSE" data-en="VERSE" data-jp="の世界">VERSE</span>
+          <span class="title__small">REVOLUTION</span>
+          <span class="title__coming" aria-label="COMING SOON">
+            <span class="coming-text">COMING SOON</span><span class="coming-cursor" aria-hidden="true"></span>
+          </span>
+        </h1>
+      </div>
+
+      <div class="hero__footer">
+        <span>© 2027 C.VERSE</span>
+        <span class="sep">·</span>
+        <a href="#" id="soundToggle">SOUND: ON</a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
