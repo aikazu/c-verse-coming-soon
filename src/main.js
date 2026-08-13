@@ -64,37 +64,36 @@ try{ const ro=new ResizeObserver(()=>fitKreator()); const hc=document.querySelec
   }
 
   let jp=false
+  function glitchSwap(el, nextJp){
+    // RGB split + slice glitch — swap text di tengah durasi
+    el.classList.add('glitching')
+    // force reflow biar animation restart tiap cycle
+    void el.offsetWidth
+    setTimeout(()=>{
+      renderJP(el, nextJp)
+      el.classList.toggle('ja', nextJp)
+      if(!nextJp) fitKreator()
+    }, 265)
+    setTimeout(()=> el.classList.remove('glitching'), 600)
+  }
   function stagger(nextJp){
     if(nextJp) titleEl?.classList.add('title--jp')
     const [a,b]=els
-    if(a){
-      a.classList.add('flipping')
-      setTimeout(()=>{
-        renderJP(a, nextJp)
-        a.classList.toggle('ja', nextJp)
-        a.classList.remove('flipping')
-        if(!nextJp) fitKreator()
-      }, 260)
-    }
+    if(a) glitchSwap(a, nextJp)
     setTimeout(()=>{
       if(!b){
         jp=nextJp
         if(!nextJp) titleEl?.classList.remove('title--jp')
         return
       }
-      b.classList.add('flipping')
+      glitchSwap(b, nextJp)
       setTimeout(()=>{
-        renderJP(b, nextJp)
-        b.classList.toggle('ja', nextJp)
-        b.classList.remove('flipping')
-        if(!nextJp) fitKreator()
         jp=nextJp
         if(!nextJp) titleEl?.classList.remove('title--jp')
-      }, 260)
-    }, 160)
+      }, 600)
+    }, 140)
     if(!b) jp=nextJp
-    else if(nextJp) setTimeout(()=>{ jp=nextJp }, 420)
-    else setTimeout(()=>{ jp=nextJp }, 420)
+    else setTimeout(()=>{ jp=nextJp }, 740)
   }
   // init render depends on current dom (EN) — no frame yet
   let id=setInterval(()=> stagger(!jp), 3400)

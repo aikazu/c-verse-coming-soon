@@ -160,6 +160,94 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
   filter:drop-shadow(0 0 22px rgba(0,240,255,.35)) drop-shadow(0 0 48px rgba(123,43,255,.25)) blur(0.6px);
   opacity:0.92;
 }
+
+/* — GLITCH flip EN↔JP — RGB split + slice + skew — */
+.title__flip.glitching{
+  position:relative;
+  animation:glitch-skew 560ms steps(9, end) both;
+  filter:drop-shadow(0 0 14px rgba(0,240,255,.35)) brightness(1.08);
+  will-change:transform, filter;
+}
+.title__flip.glitching::before,
+.title__flip.glitching::after{
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  background:none !important;
+  -webkit-background-clip:unset !important;
+  background-clip:unset !important;
+  -webkit-text-fill-color:unset !important;
+  color:#fff;
+  overflow:hidden;
+  mix-blend-mode:screen;
+  opacity:0;
+  white-space:nowrap;
+  font:inherit;
+  line-height:inherit;
+  letter-spacing:inherit;
+}
+.title__flip.glitching::before{
+  color:var(--cyan);
+  text-shadow:1.6px 0 var(--cyan), -0.6px 0 #fff;
+  opacity:.92;
+  transform:translateX(-2px);
+  animation:glitch-1 560ms steps(8, end) both;
+}
+.title__flip.glitching::after{
+  color:var(--magenta);
+  text-shadow:-1.6px 0 var(--magenta), 0.6px 0 #fff;
+  opacity:.92;
+  transform:translateX(2px);
+  animation:glitch-2 560ms steps(8, end) both;
+}
+@keyframes glitch-skew{
+  0%{ transform:translate(0) skewX(0); filter:brightness(1) contrast(1); }
+  8%{ transform:translate(-1.2px, .6px) skewX(.65deg); filter:brightness(1.18) contrast(1.08); }
+  14%{ transform:translate(1.4px, -.4px) skewX(-.75deg); }
+  22%{ transform:translate(-1.6px,0) skewX(.9deg); filter:brightness(1.22); }
+  31%{ transform:translate(1.1px,.5px) skewX(-.55deg); }
+  40%{ transform:translate(-.8px,-.3px) skewX(.45deg); filter:brightness(1.10); }
+  52%{ transform:translate(1.6px,0) skewX(-.85deg); }
+  64%{ transform:translate(-.6px,.4px) skewX(.35deg); }
+  78%{ transform:translate(.9px,-.5px) skewX(-.4deg); filter:brightness(1.06); }
+  100%{ transform:translate(0) skewX(0); filter:brightness(1) contrast(1); }
+}
+@keyframes glitch-1{
+  0%{ clip-path:inset(12% 0 68% 0); transform:translate(-2.6px,0); opacity:.92; }
+  10%{ clip-path:inset(42% 0 28% 0); transform:translate(2.4px, .8px); }
+  18%{ clip-path:inset(66% 0 6% 0); transform:translate(-1.8px,-.6px); opacity:.85; }
+  27%{ clip-path:inset(8% 0 74% 0); transform:translate(2.8px,0); }
+  36%{ clip-path:inset(38% 0 38% 0); transform:translate(-2.2px,.4px); }
+  48%{ clip-path:inset(52% 0 18% 0); transform:translate(1.9px,-.7px); }
+  60%{ clip-path:inset(18% 0 58% 0); transform:translate(-2.4px,0); opacity:.88; }
+  75%{ clip-path:inset(72% 0 4% 0); transform:translate(2.1px,.5px); }
+  88%{ clip-path:inset(28% 0 42% 0); transform:translate(-1.2px,0); }
+  100%{ clip-path:inset(0 0 0 0); transform:translate(-2px,0); opacity:0; }
+}
+@keyframes glitch-2{
+  0%{ clip-path:inset(68% 0 8% 0); transform:translate(2.6px,0); opacity:.92; }
+  10%{ clip-path:inset(18% 0 62% 0); transform:translate(-2.4px,-.6px); }
+  18%{ clip-path:inset(44% 0 32% 0); transform:translate(1.8px,.7px); opacity:.85; }
+  27%{ clip-path:inset(72% 0 4% 0); transform:translate(-2.8px,0); }
+  36%{ clip-path:inset(12% 0 66% 0); transform:translate(2.2px,-.4px); }
+  48%{ clip-path:inset(34% 0 44% 0); transform:translate(-1.9px,.6px); }
+  60%{ clip-path:inset(58% 0 18% 0); transform:translate(2.4px,0); opacity:.88; }
+  75%{ clip-path:inset(6% 0 76% 0); transform:translate(-2.1px,-.5px); }
+  88%{ clip-path:inset(48% 0 24% 0); transform:translate(1.2px,0); }
+  100%{ clip-path:inset(0 0 0 0); transform:translate(2px,0); opacity:0; }
+}
+/* override JA hiding while glitching */
+.title__flip.ja.glitching::before,
+.title__flip.ja.glitching::after{ opacity:.92 !important; display:flex !important; }
+@media(prefers-reduced-motion:reduce){
+  .title__flip.glitching{ animation:none; }
+  .title__flip.glitching::before,
+  .title__flip.glitching::after{ display:none !important; }
+}
 .title__flip.ja{
   font-family:"Noto Sans JP","Syne",sans-serif;
   letter-spacing:0.04em;
