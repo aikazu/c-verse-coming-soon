@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="C.Verse — Creator Verse Revolution — Coming Soon">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A0B18"/>
+      <stop offset="100%" stop-color="#07080E"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="18%" stop-color="#FFFFFF"/>
+      <stop offset="62%" stop-color="#C9D6FF"/>
+      <stop offset="100%" stop-color="#7BFFE8"/>
+    </linearGradient>
+    <linearGradient id="verseGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="12%" stop-color="#EAF0FF"/>
+      <stop offset="55%" stop-color="#A9B8FF"/>
+      <stop offset="90%" stop-color="#7B8CFF"/>
+    </linearGradient>
+    <radialGradient id="glowCyan" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="rgba(0,240,255,0.18)"/>
+      <stop offset="70%" stop-color="rgba(0,240,255,0)"/>
+    </radialGradient>
+    <radialGradient id="glowMagenta" cx="82%" cy="88%" r="60%">
+      <stop offset="0%" stop-color="rgba(255,10,108,0.14)"/>
+      <stop offset="70%" stop-color="rgba(255,10,108,0)"/>
+    </radialGradient>
+    <radialGradient id="glowPurple" cx="12%" cy="92%" r="65%">
+      <stop offset="0%" stop-color="rgba(123,43,255,0.14)"/>
+      <stop offset="70%" stop-color="rgba(123,43,255,0)"/>
+    </radialGradient>
+    <filter id="titleShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#00F0FF" flood-opacity="0.35"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="28" flood-color="#7B2BFF" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <!-- bg -->
+  <rect width="1200" height="630" rx="0" fill="url(#bgGrad)"/>
+  <rect width="1200" height="630" fill="url(#glowCyan)"/>
+  <rect width="1200" height="630" fill="url(#glowMagenta)"/>
+  <rect width="1200" height="630" fill="url(#glowPurple)"/>
+
+  <!-- subtle grid -->
+  <g opacity="0.08" stroke="#FFFFFF" stroke-width="1">
+    <!-- horizontal -->
+    <line x1="0" y1="120" x2="1200" y2="120"/><line x1="0" y1="200" x2="1200" y2="200"/><line x1="0" y1="280" x2="1200" y2="280"/><line x1="0" y1="360" x2="1200" y2="360"/><line x1="0" y1="440" x2="1200" y2="440"/><line x1="0" y1="520" x2="1200" y2="520"/>
+    <!-- vertical -->
+    <line x1="200" y1="0" x2="200" y2="630"/><line x1="400" y1="0" x2="400" y2="630"/><line x1="600" y1="0" x2="600" y2="630"/><line x1="800" y1="0" x2="800" y2="630"/><line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- topbar hint -->
+  <g font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2">
+    <text x="36" y="42" fill="#F2F2F7" font-family="Syne, sans-serif" font-weight="800" letter-spacing="3">C.VERSE</text>
+    <circle cx="142" cy="37" r="3.5" fill="#00F0FF"><animate attributeName="opacity" values="1;0.4;1" dur="1.2s" repeatCount="indefinite"/></circle>
+    <text x="152" y="41" fill="#5A5C78" font-size="10" letter-spacing="2.2">SYSTEM 01</text>
+    <text x="980" y="41" fill="#FFD84D" font-weight="700" font-size="10" letter-spacing="1.8">COMING SOON</text>
+  </g>
+  <line x1="0" y1="62" x2="1200" y2="62" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- vignette border -->
+  <rect x="0.5" y="0.5" width="1199" height="629" rx="0" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+  <!-- centered content -->
+  <!-- eyebrow pill -->
+  <g transform="translate(600, 168)">
+    <rect x="-128" y="-16" width="256" height="32" rx="16" fill="rgba(14,16,36,0.92)" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+    <text x="-58" y="6" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="3.2" fill="#00F0FF">ARCADE MODE</text>
+    <circle cx="36" cy="0" r="2.2" fill="rgba(255,255,255,0.55)"/>
+    <text x="78" y="6" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="3.2" fill="#FFFFFF">READY</text>
+  </g>
+
+  <!-- CREATOR -->
+  <text x="600" y="302" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="128" letter-spacing="-2" fill="url(#titleGrad)" filter="url(#titleShadow)">CREATOR</text>
+  <!-- VERSE -->
+  <text x="600" y="412" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="128" letter-spacing="-2" fill="url(#verseGrad)" filter="url(#titleShadow)">VERSE</text>
+  <!-- REVOLUTION -->
+  <text x="600" y="452" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="15.5" letter-spacing="9" fill="#8C8EA8">REVOLUTION</text>
+
+  <!-- COMING SOON gold -->
+  <text x="600" y="498" text-anchor="middle" font-family="Silkscreen, monospace" font-size="20" letter-spacing="7" fill="#FFD84D" opacity="0.98">COMING SOON</text>
+  <rect x="468" y="510" width="264" height="2" rx="1" fill="#FFD84D" opacity="0.55"/>
+  <rect x="468" y="510" width="264" height="2" rx="1" fill="none" stroke="#FFD84D" stroke-width="0.6" opacity="0.25" style="filter: blur(2px)"/>
+
+  <!-- footer -->
+  <text x="600" y="596" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="2.2" fill="#5A5C78">© 2027 C.VERSE  ·  CREATOR VERSE — ARCADE COMING SOON</text>
+
+  <!-- bottom accent line -->
+  <rect x="0" y="628" width="1200" height="2" fill="#00F0FF" opacity="0.45"/>
+  <rect x="0" y="628" width="1200" height="2" fill="none" stroke="#00F0FF" stroke-width="0.8" opacity="0.15" style="filter: blur(6px)"/>
+</svg>

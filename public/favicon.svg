@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="C.Verse CV neon favicon">
+  <defs>
+    <filter id="glowC" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.9" result="b"/>
+      <feFlood flood-color="#00F0FF" flood-opacity="1" result="f"/>
+      <feComposite in="f" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowV" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.9" result="b"/>
+      <feFlood flood-color="#C084FF" flood-opacity="1" result="f"/>
+      <feComposite in="f" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- bg -->
+  <rect width="32" height="32" rx="7" fill="#07080E"/>
+  <rect x="0.6" y="0.6" width="30.8" height="30.8" rx="6.4" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.9"/>
+
+  <!-- two neon frames like JP title -->
+  <!-- C frame cyan -->
+  <g filter="url(#glowC)">
+    <rect x="3.5" y="7.5" width="12.2" height="17" rx="3.2" fill="rgba(255,255,255,0.06)" stroke="#00F0FF" stroke-width="1.15"/>
+    <rect x="3.5" y="7.5" width="12.2" height="17" rx="3.2" fill="none" stroke="#00F0FF" stroke-width="1.15" opacity="0.95"/>
+    <text x="9.6" y="19.3" text-anchor="middle" font-family="Syne, Space Grotesk, sans-serif" font-weight="800" font-size="11.5" fill="#FFFFFF" style="paint-order: stroke; stroke: rgba(0,240,255,0.0);">C</text>
+    <text x="9.6" y="19.3" text-anchor="middle" font-family="Syne, Space Grotesk, sans-serif" font-weight="800" font-size="11.5" fill="#FFFFFF" style="filter: drop-shadow(0 0 4px rgba(255,255,255,0.9)) drop-shadow(0 0 7px rgba(0,240,255,0.7));">C</text>
+  </g>
+
+  <!-- V frame purple -->
+  <g filter="url(#glowV)">
+    <rect x="16.3" y="7.5" width="12.2" height="17" rx="3.2" fill="rgba(255,255,255,0.06)" stroke="#C084FF" stroke-width="1.15"/>
+    <rect x="16.3" y="7.5" width="12.2" height="17" rx="3.2" fill="none" stroke="#C084FF" stroke-width="1.15" opacity="0.95"/>
+    <text x="22.4" y="19.3" text-anchor="middle" font-family="Syne, Space Grotesk, sans-serif" font-weight="800" font-size="11.5" fill="#FFFFFF" style="filter: drop-shadow(0 0 4px rgba(255,255,255,0.9)) drop-shadow(0 0 7px rgba(192,132,255,0.7));">V</text>
+  </g>
+
+  <!-- dot accent like topbar -->
+  <circle cx="16" cy="5.2" r="0.9" fill="#00F0FF" opacity="0.9"/>
+</svg>
