@@ -1,7 +1,6 @@
 /* C.Verse — Arcade Coming Soon — HERO ONLY */
 :root{
   --bg:#07080E;
-  --panel:#12142A;
   --line:rgba(255,255,255,.08);
   --cyan:#00F0FF;
   --magenta:#FF0A6C;
@@ -155,11 +154,6 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
   margin-top:-0.02em;
 }
 .title__flip{ transition:transform 520ms cubic-bezier(.22,.85,.28,1), filter 520ms ease; will-change:transform; }
-.title__flip.flipping{
-  transform:rotateX(90deg) scale(0.96);
-  filter:drop-shadow(0 0 22px rgba(0,240,255,.35)) drop-shadow(0 0 48px rgba(123,43,255,.25)) blur(0.6px);
-  opacity:0.92;
-}
 
 /* — GLITCH flip EN↔JP — RGB split + slice + skew — */
 .title__flip.glitching{
