@@ -291,8 +291,8 @@ gridMesh.rotation.x=-Math.PI/2; gridMesh.position.set(0,-1.68,-4)
 scene.add(gridMesh)
 
 // ===== EQUALIZER — bumpy bars bottom→top, beat-reactive =====
-const EQ_COUNT=56
-const EQ_W=0.92, EQ_GAP=0.68
+const EQ_COUNT=32
+const EQ_W=1.5, EQ_GAP=1.06
 const EQ_TOTAL=EQ_COUNT*(EQ_W+EQ_GAP)-EQ_GAP
 const EQ_Z=-35, EQ_BASEY=-1.62
 const eqBars=[]
