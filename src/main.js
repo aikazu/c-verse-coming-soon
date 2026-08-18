@@ -95,11 +95,21 @@ try{ const ro=new ResizeObserver(()=>fitKreator()); const hc=document.querySelec
     if(!b) jp=nextJp
     else setTimeout(()=>{ jp=nextJp }, 740)
   }
-  // init render depends on current dom (EN) — no frame yet
-  let id=setInterval(()=> stagger(!jp), 3400)
+  // asymmetric cadence — EN (brand) dwells longer than JP (decorative)
+  const DWELL_EN=5000, DWELL_JP=3000
+  let flipTimer=null
+  function scheduleFlip(){
+    clearTimeout(flipTimer)
+    const dwell = jp ? DWELL_JP : DWELL_EN
+    flipTimer=setTimeout(()=>{
+      stagger(!jp)
+      setTimeout(scheduleFlip, 820) // wait for stagger to settle `jp`
+    }, dwell)
+  }
+  scheduleFlip()
   document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden) clearInterval(id)
-    else id=setInterval(()=> stagger(!jp), 3400)
+    if(document.hidden) clearTimeout(flipTimer)
+    else scheduleFlip()
   })
 })()
 
@@ -201,16 +211,19 @@ camera.lookAt(0,1.2,-6)
 
 // — wide motion X + Y —
 let targetX=0,targetY=0,hasGyro=false,gyroX=0,gyroY=0
+// single-gain motion convention: inputs land in ~[-0.5,0.5]; the loop applies the one gain.
+// dead-zone keeps micro mouse jitter near center from wobbling the camera (smooth, no threshold jump).
+function deadzone(v, d=0.04){ const a=Math.abs(v); return a<d ? 0 : Math.sign(v)*(a-d)/(0.5-d)*0.5 }
 window.addEventListener('mousemove', e=>{
   if(hasGyro) return
-  targetX=(e.clientX/window.innerWidth-0.5)*1.65
-  targetY=(e.clientY/window.innerHeight-0.5)*1.55
+  targetX=deadzone(e.clientX/window.innerWidth-0.5)
+  targetY=deadzone(e.clientY/window.innerHeight-0.5)
 }, {passive:true})
 window.addEventListener('touchmove', e=>{
   if(hasGyro||!e.touches[0]) return
   const t=e.touches[0]
-  targetX=(t.clientX/window.innerWidth-0.5)*1.6
-  targetY=(t.clientY/window.innerHeight-0.5)*1.2
+  targetX=(t.clientX/window.innerWidth-0.5)
+  targetY=(t.clientY/window.innerHeight-0.5)*0.8
 }, {passive:true})
 function handleOrientation(e){
   const g=e.gamma,b=e.beta
@@ -219,7 +232,7 @@ function handleOrientation(e){
   const nx=Math.max(-50,Math.min(50,g))/50
   const ny=Math.max(-35,Math.min(35,b-22))/35
   gyroX+=(nx-gyroX)*0.15; gyroY+=(ny-gyroY)*0.10
-  targetX=gyroX*2.0; targetY=-gyroY*1.45
+  targetX=gyroX*0.7; targetY=-gyroY*0.6   // gyro travels a touch wider for mobile tilt
 }
 async function tryRequestGyroPermission(){
   const DOE=window.DeviceOrientationEvent
@@ -503,7 +516,7 @@ for(let i=0;i<4;i++) shootingStars.push(new ShootingStar())
 let shootTimer=1.2+Math.random()*1.8
 function updateShootingStars(dt){
   shootTimer-=dt
-  if(shootTimer<=0){ const s=shootingStars.find(x=>!x.active); if(s){ s.spawn(); shootTimer=1.6+Math.random()*2.8 } else shootTimer=0.4 }
+  if(shootTimer<=0){ const s=shootingStars.find(x=>!x.active); if(s){ s.spawn(); shootTimer=2.6+Math.random()*4.0 } else shootTimer=0.5 }
   for(const s of shootingStars) s.update(dt)
 }
 
@@ -614,6 +627,30 @@ function updateEQ(){
   ridgeFar.material.opacity = 0.22 + beat.bass*0.14
 }
 
+// canvas fades in on first painted frame — no hard pop of EQ/stars/jet
+let firstFrame=true
+function revealCanvas(){ if(firstFrame){ firstFrame=false; requestAnimationFrame(()=>{ canvas.style.opacity='1' }) } }
+
+// reduced-motion: render ONE deliberately composed still (resting EQ curve + grid), not a random mid-idle freeze
+function renderStaticFrame(){
+  const t0=1.4
+  gridMat.uniforms.uTime.value=t0; gridMat.uniforms.uBeat.value=0; gridMat.uniforms.uBass.value=0
+  starMat.uniforms.uTime.value=t0; starMat.uniforms.uBeat.value=0
+  eqMat.uniforms.uBeat.value=0
+  // gentle symmetric resting curve — tallest at center, tapering out
+  for(let i=0;i<EQ_COUNT;i++){
+    const c=1-Math.abs(i-EQ_COUNT/2)/(EQ_COUNT/2)
+    const h=1.1 + c*2.4 + Math.sin(i*0.7)*0.35 + 0.6
+    eqCurrent[i]=h
+    const { bar, glow }=eqBars[i]
+    bar.scale.y=h; glow.scale.y=h*1.04; glow.material.opacity=0.08+(h/22)*0.22
+  }
+  baseBeam.material.opacity=0.20
+  camera.position.set(0,7.8,17.2); camera.rotation.set(0,0,0); camera.lookAt(0,1.0,-7.5)
+  renderer.render(scene,camera)
+  canvas.style.opacity='1'
+}
+
 let t=0,raf=0
 const clock=new THREE.Clock()
 function animate(){
@@ -631,8 +668,9 @@ function animate(){
   const idleX=Math.sin(t*0.10)*0.85 + Math.sin(t*0.06+1.2)*0.32 + Math.sin(t*0.18+2.4)*0.14
   const idleY=Math.cos(t*0.08)*0.52 + Math.sin(t*0.12+0.7)*0.28 + Math.cos(t*0.04+1.8)*0.16
   const jx=(Math.random()-0.5)*k*0.28, jy=(Math.random()-0.5)*k*0.16
-  const tx=targetX*2.0 + idleX + jx
-  const ty=targetY*1.45 + idleY + jy
+  // single motion gain applied here (inputs are pre-normalized ~[-0.5,0.5])
+  const tx=targetX*2.6 + idleX + jx
+  const ty=targetY*2.2 + idleY + jy
   camera.position.x+=(tx - camera.position.x)*0.052
   camera.position.y+=((7.8 + ty*1.85) - camera.position.y)*0.052
   const tz=17.2 - b*1.35 - k*1.05
@@ -647,13 +685,18 @@ function animate(){
   ppos.needsUpdate=true
   bMat.opacity=0.50 + lvl*0.22 + k*0.13; bokeh.rotation.y+=dt*(0.012 + b*0.022); bokeh.scale.setScalar(1 + b*0.07)
   stars.rotation.y+=dt*0.008; stars.rotation.x=Math.sin(t*0.04)*0.01
-  if(k>0.42){ beatFlash.style.opacity=String(0.10 + k*0.13); const title=document.querySelector('.title__big'); if(title&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches) title.style.transform=`scale(${1+k*0.016})` }
-  else{ beatFlash.style.opacity='0'; const title=document.querySelector('.title__big'); if(title) title.style.transform='' }
+  // beat pump lives on .hero__content, never on .title__big (which owns the flip transform)
+  if(k>0.42){ beatFlash.style.opacity=String(0.10 + k*0.13); const hc=document.querySelector('.hero__content'); if(hc&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches) hc.style.transform=`scale(${1+k*0.012})` }
+  else{ beatFlash.style.opacity='0'; const hc=document.querySelector('.hero__content'); if(hc) hc.style.transform='' }
   renderer.render(scene,camera)
+  revealCanvas()
 }
-animate()
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  renderStaticFrame()
+} else {
+  animate()
+}
 gsap.from('.title__big', { y:28, opacity:0, duration:0.9, ease:'power3.out', delay:0.15 })
 gsap.from('.title__small, .title__coming', { y:14, opacity:0, duration:0.7, stagger:0.08, ease:'power2.out', delay:0.35 })
 gsap.from('.eyebrow', { y:10, opacity:0, duration:0.6, ease:'power2.out', delay:0.45 })
-if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) cancelAnimationFrame(raf)
 if(import.meta.hot) import.meta.hot.dispose(()=>cancelAnimationFrame(raf))
