@@ -110,7 +110,17 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
 }
 .eyebrow span:first-child{color:var(--cyan); text-shadow:0 0 10px rgba(0,240,255,.55)}
 .eyebrow span:last-child{color:#FFFFFF}
-.eyebrow i{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.55);display:inline-block; box-shadow:0 0 6px rgba(255,255,255,.35)}
+.eyebrow i{
+  width:7px;height:7px;border-radius:50%;
+  background:#00FF6A;
+  display:inline-block;
+  box-shadow:0 0 6px rgba(0,255,106,.9), 0 0 12px rgba(0,255,106,.5);
+  animation:greenLight 1.4s steps(1) infinite;
+}
+@keyframes greenLight{
+  0%,54%{ background:#00FF6A; box-shadow:0 0 7px rgba(0,255,106,.95), 0 0 16px rgba(0,255,106,.6); opacity:1; }
+  55%,100%{ background:#0a3a1e; box-shadow:0 0 2px rgba(0,255,106,.25); opacity:.7; }
+}
 
 .title{
   line-height:.92;
@@ -125,14 +135,15 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
   letter-spacing:.34em;
   font-size:clamp(10px,1.9vw,13px);
   color:var(--muted);
-  margin-top:18px;
+  margin-top:clamp(18px,3vw,28px);
   margin-bottom:2px;
 }
 .title__big{
   display:block;
   font-family:"Syne",sans-serif;
   font-weight:800;
-  font-size:clamp(32px, 8.2vw, 96px);
+  --t-size:clamp(32px, 8.2vw, 96px);
+  font-size:var(--t-size);
   letter-spacing:-.02em;
   line-height:.86;
   background:linear-gradient(180deg, #fff 18%, #C9D6FF 62%, #7BFFE8 100%);
@@ -259,8 +270,8 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
   justify-content:center;
   align-items:center;
   gap:0.10em;
-  /* JP glyph optically smaller than Latin Syne — boost to match visual size */
-  font-size:1.18em !important;
+  /* JP glyph optically smaller than Latin Syne — size relative to EN (--t-size), not tiny parent em */
+  font-size:calc(var(--t-size) * 0.72) !important;
   max-width:100%;
   margin-inline:auto;
   /* avoid overlap with REVOLUTION */
@@ -268,12 +279,12 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
 }
 .title__big--verse.ja{
   letter-spacing:0.06em;
-  font-size:1.18em !important;
+  font-size:calc(var(--t-size) * 0.72) !important;
   margin-top:0.02em !important;
   margin-bottom:2px;
 }
 .title--jp .title__small{
-  margin-top:18px !important;
+  margin-top:clamp(30px,4vw,42px) !important;
 }
 .title__flip.ja::after{ opacity:0; }
 
@@ -318,7 +329,7 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
 }
 @media(max-width:620px){
   .title__big{
-    font-size:clamp(36px, 13.5vw, 64px);
+    --t-size:clamp(36px, 13.5vw, 64px);
     letter-spacing:-.01em;
     padding-inline:4px;
   }
@@ -327,7 +338,7 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
   .hero__content{padding-inline:2px}
 }
 @media(max-width:380px){
-  .title__big{font-size:clamp(30px, 12.5vw, 54px)}
+  .title__big{--t-size:clamp(30px, 12.5vw, 54px)}
 }
 .title__big::after{
   content:attr(data-text);
@@ -381,4 +392,5 @@ main{position:relative;z-index:2;height:100dvh;height:100vh;overflow:visible}
   .coming-text{animation:none;max-width:none}
   .coming-cursor{animation:none;opacity:1}
   .topbar__center .blink{animation:none}
+  .eyebrow i{animation:none;background:#00FF6A;box-shadow:0 0 7px rgba(0,255,106,.9)}
 }

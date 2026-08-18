@@ -12,19 +12,26 @@ function tickClock(){
 setInterval(tickClock, 1000)
 tickClock()
 
-// ---------- FIT CREATOR ----------
+// ---------- FIT TITLE (EN) ----------
+// Shrink BOTH title lines (CREATOR + VERSE) to one shared size so the wider word
+// (CREATOR) never ends up smaller than the shorter one (VERSE). JP frames self-size.
 function fitKreator(){
-  const el = document.querySelector('.title__big')
+  const els = [...document.querySelectorAll('.title__big')]
   const wrap = document.querySelector('.hero__content')
-  if(!el || !wrap) return
-  // JP mode pakai flex frame per huruf — jangan di-fit via fontSize (frame yang handle)
-  const isJP = document.querySelector('.title__flip.ja')
-  if(isJP) return
-  el.style.fontSize = ''
-  const maxW = wrap.clientWidth - 8
-  let size = parseFloat(getComputedStyle(el).fontSize)
-  let guard = 40
-  while(el.scrollWidth > maxW && size > 22 && guard-- > 0){ size-=1; el.style.fontSize=size+'px' }
+  if(!els.length || !wrap) return
+  // JP mode uses flex frame per char — don't touch fontSize (frames handle sizing)
+  if(document.querySelector('.title__flip.ja')) return
+  for(const el of els) el.style.fontSize = ''
+  // overflow test per-element: scrollWidth > clientWidth means the nowrap text
+  // genuinely spills. (Comparing to a container-derived maxW gave a phantom
+  // 4px overflow that shrank the title to its minimum on mobile.)
+  const overflow = () => els.some(el => el.scrollWidth > el.clientWidth + 1)
+  let size = parseFloat(getComputedStyle(els[0]).fontSize)
+  let guard = 60
+  while(overflow() && size > 24 && guard-- > 0){
+    size -= 1
+    for(const el of els) el.style.fontSize = size + 'px'
+  }
 }
 window.addEventListener('load', () => { fitKreator(); setTimeout(fitKreator,300) })
 window.addEventListener('resize', fitKreator)
