@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "c-verse-coming-soon",
+  "account_id": "0252b83dcbeac8879add5c278fbc342d",
+  "compatibility_date": "2026-09-05",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "c-verse.co", "custom_domain": true },
+    { "pattern": "www.c-verse.co", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "none"
+  }
+}

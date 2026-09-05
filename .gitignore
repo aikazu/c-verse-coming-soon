@@ -10,6 +10,7 @@ node_modules/
 
 # Build
 dist/
+.wrangler/
 
 # Zip drop (generated, not source)
 *.zip

@@ -1,0 +1,40 @@
+{
+  "name": "Coming Soon canonical redirect",
+  "description": "Preserve the existing public www-to-apex redirect after the Vercel migration.",
+  "kind": "zone",
+  "phase": "http_request_dynamic_redirect",
+  "rules": [
+    {
+      "action": "redirect",
+      "action_parameters": {
+        "from_value": {
+          "preserve_query_string": true,
+          "status_code": 307,
+          "target_url": {
+            "expression": "concat(\"https://c-verse.co\", http.request.uri.path)"
+          }
+        }
+      },
+      "description": "Redirect www.c-verse.co to the public Coming Soon apex.",
+      "enabled": true,
+      "expression": "http.host eq \"www.c-verse.co\"",
+      "ref": "coming_soon_www_to_apex"
+    },
+    {
+      "action": "redirect",
+      "action_parameters": {
+        "from_value": {
+          "preserve_query_string": true,
+          "status_code": 308,
+          "target_url": {
+            "expression": "concat(\"https://c-verse.co\", http.request.uri.path)"
+          }
+        }
+      },
+      "description": "Keep the public Coming Soon apex on HTTPS.",
+      "enabled": true,
+      "expression": "http.host eq \"c-verse.co\" and not ssl",
+      "ref": "coming_soon_apex_https"
+    }
+  ]
+}
