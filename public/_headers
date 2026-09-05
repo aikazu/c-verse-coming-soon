@@ -1,4 +1,4 @@
-# Preserve the public asset access and HTTPS policy from the previous host.
+# Public asset access and HTTPS policy.
 /*
   Access-Control-Allow-Origin: *
   Strict-Transport-Security: max-age=63072000

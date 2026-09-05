@@ -40,7 +40,7 @@ atas; integrasi auto-deploy Git Cloudflare belum dikonfigurasi.
 ### DNS dan redirect
 
 - `c-verse.co` dan `www.c-verse.co` memakai Custom Domain ke Worker yang sama.
-  Record DNS proxied dikelola Cloudflare; jangan tambahkan CNAME Vercel kembali.
+  Record DNS proxied dikelola Cloudflare.
 - Ruleset `7f4828f4b0ef427fa5e1a3249bb6a18d` di zone
   `63f1ca27663135365e0467619dac4ce5` mempertahankan redirect `www` ke apex
   (`307`) dan mengalihkan HTTP apex ke HTTPS (`308`), termasuk path dan query.
@@ -49,9 +49,6 @@ atas; integrasi auto-deploy Git Cloudflare belum dikonfigurasi.
   bukan membuat ruleset fase yang sama lagi.
 - Redirect `c-verse.id` dan `www.c-verse.id` ke `https://c-verse.co` (`301`)
   tetap memakai ruleset zone `.id` yang sudah ada.
-- Migrasi 2026-09-05 mengganti dua CNAME
-  `fe6e814331bfd416.vercel-dns-017.com`. DNS email dan subdomain aplikasi lain
-  tidak berubah. Proyek/deployment Vercel lama belum dihapus.
 
 ### Verifikasi setelah deploy
 

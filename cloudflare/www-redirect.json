@@ -1,6 +1,6 @@
 {
   "name": "Coming Soon canonical redirect",
-  "description": "Preserve the existing public www-to-apex redirect after the Vercel migration.",
+  "description": "Route the public Coming Soon site to its canonical HTTPS apex.",
   "kind": "zone",
   "phase": "http_request_dynamic_redirect",
   "rules": [
