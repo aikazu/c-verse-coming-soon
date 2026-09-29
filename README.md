@@ -5,7 +5,7 @@ Hero-only arcade coming soon untuk **C.Verse** — **CREATOR / VERSE — REVOLUT
 ## Run
 
 ```bash
-cd C:/Users/iqbal/Projects/01_Coming_Soon
+cd C:/Users/iqbal/Work/C-Verse/01_Coming_Soon
 npm ci
 npm run dev      # http://localhost:5173
 npm run build    # -> dist/
