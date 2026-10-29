@@ -39,12 +39,12 @@ p{margin:0}
   -webkit-mask-repeat:no-repeat;-webkit-mask-position:center;-webkit-mask-size:contain;
 }
 .brand-logo{
-  aspect-ratio:1200 / 202;
+  aspect-ratio:1200 / 267;
   mask-image:url("/brand/creatorverse-horizontal.png");
   -webkit-mask-image:url("/brand/creatorverse-horizontal.png");
 }
 .brand-symbol{
-  aspect-ratio:665 / 512;
+  aspect-ratio:800 / 485;
   mask-image:url("/brand/creatorverse-symbol.png");
   -webkit-mask-image:url("/brand/creatorverse-symbol.png");
 }
@@ -108,7 +108,7 @@ main{position:relative;z-index:2;height:100dvh;height:100vh}
   color:var(--lime);
   /* clear space 0.25 H on all sides */
   padding:calc(var(--brand-logo-h) * .25);
-  --brand-logo-h:clamp(44px, 9vw, 84px);
+  --brand-logo-h:clamp(52px, 10vw, 100px);
 }
 .hero__headline{
   margin-top:clamp(20px, 4vw, 36px);
@@ -148,7 +148,7 @@ main{position:relative;z-index:2;height:100dvh;height:100vh}
 
 @media(max-width:620px){
   .hero{padding-inline:16px}
-  .hero__lockup{--brand-logo-h:clamp(40px, 13vw, 56px)}
+  .hero__lockup{--brand-logo-h:clamp(44px, 14vw, 64px)}
 }
 
 /* intro: lockup first, then the copy */

@@ -19,7 +19,7 @@ npm run preview  # http://localhost:4173
   PNG di `public/brand/` (bentuk hitam pada alpha), dirender lewat CSS mask
   (`.brand-logo`, `.brand-symbol`) sehingga warnanya mengikuti `currentColor`.
   Wordmark tidak pernah diketik ulang; teks baca `CreatorVerse` ada di `.sr-only`.
-  Ruang bebas 0,25 H dijaga lewat padding; tinggi lockup minimum 40 px di 375 px.
+  Ruang bebas 0,25 H dijaga lewat padding; tinggi lockup minimum 44 px (52 px di 375 px).
 - **Warna**: hitam `#171717` sebagai bidang, lime `#CCFF66` satu-satunya aksen
   (logo, grid, bar EQ), abu-abu `#CCCCCC` untuk teks sekunder dan garis, putih
   untuk judul. Oranye `#FF6633` tidak dipakai di halaman ini.
@@ -48,7 +48,7 @@ Favicon (`favicon.ico` 16/32/48, `favicon-16x16.png`, `favicon-32x32.png`),
 `apple-touch-icon.png`, `android-chrome-192x192.png`, `android-chrome-512x512.png`,
 `og-image.png` (1200×630), dan `public/brand/*.png` dibuat dari master logo di
 Dream `40_operations/brand/` oleh `scripts/brand-assets.py` (pendekatan yang sama
-dengan `Platform/scripts/brand-assets.py`): simbol atau lockup hitam di atas lime.
+dengan `Platform/scripts/brand-assets.py`): simbol atau lockup tinta `#181818` di atas lime.
 Master hanya tersedia sebagai PNG, jadi `favicon.svg` dan `og-image.svg` lama
 dihapus. `site.webmanifest` memakai `#171717` untuk theme dan background.
 

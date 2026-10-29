@@ -18,11 +18,15 @@ from PIL import Image
 LIME = (204, 255, 102, 255)  # brand lime #CCFF66
 MASTERS = {
     "creatorverse-horizontal.png": ("combined/CreatorVerse-logo-horizontal.png", 1200, None),
-    "creatorverse-symbol.png": ("components/CreatorVerse-symbol-CV04-D.png", None, 512),
+    "creatorverse-symbol.png": ("components/CreatorVerse-symbol.png", 800, None),
 }
-# icon file -> (side, symbol fill). 60 % keeps >= 0.25 H clear space and the
-# maskable safe zone; the two small favicons use more so the symbol's inner cut
-# stays visible (guideline: enlarge the logo when the gap is not clearly visible).
+# icon file -> (side, symbol fill). The symbol is wider than tall (about 1.65:1,
+# two separate pieces), so fill is the share of the square that its LONGER side
+# (the width) takes; clear space is then even left and right and larger above and
+# below. 60 % keeps >= 0.25 H clear space and the maskable safe zone (the corners
+# stay inside the 80 % circle); the two small favicons use more so the gap between
+# the pieces stays visible (guideline: enlarge the logo when the gap is not clearly
+# visible).
 ICONS = {
     "favicon-16x16.png": (16, 0.84),
     "favicon-32x32.png": (32, 0.80),
@@ -56,9 +60,10 @@ def resize(image: Image.Image, width: int | None, height: int | None) -> Image.I
 
 
 def fit(image: Image.Image, limit: int) -> Image.Image:
-    """Scale so the longest side equals limit."""
-    scale = limit / max(image.size)
-    return resize(image, max(1, round(image.width * scale)), None)
+    """Scale so the longer side equals limit, whichever side that is."""
+    if image.width >= image.height:
+        return resize(image, limit, None)
+    return resize(image, None, limit)
 
 
 def on_lime(logo: Image.Image, size: tuple[int, int]) -> Image.Image:
