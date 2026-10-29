@@ -1,6 +1,7 @@
-# C.Verse — Coming Soon
+# CreatorVerse — Coming Soon
 
-Hero-only arcade coming soon untuk **C.Verse** — **CREATOR / VERSE — REVOLUTION**.
+Halaman coming soon satu layar untuk **CreatorVerse** di https://c-verse.co,
+mengikuti brand guideline Edisi 02 (2026-10-26).
 
 ## Run
 
@@ -12,12 +13,51 @@ npm run build    # -> dist/
 npm run preview  # http://localhost:4173
 ```
 
-## Apa yang ada
+## Tampilan
 
-- **Hero**: `CREATOR` / `VERSE` flip ke `クリエイター` / `の世界` (neon frame per huruf), `REVOLUTION`, `COMING SOON` typewriter + cursor. `ARCADE MODE · READY` pill, clock, `SOUND` toggle.
-- **Vapor horizon + EQ**: neon grid, low-poly mountains, 32 bar equalizer bumpy bottom→top beat-reactive (idle muted, play jadi blue fire), star dome, shooting stars, jet kecil, particles/bokeh, CRT+vignette.
-- **Motion**: mouse/touch X+Y + gyro full 2D parallax, camera Z breathing + lookAt, ring/light/particles reaktif ke `bass/kick`.
-- **Audio**: `public/audio/ambient.mp3` + `ambient.ogg` bundled ke `dist/audio/` (~3.6 MB drop). Bisa dipisah ke R2/S3 kalau mau.
+- **Identitas**: lockup horizontal dan simbol CreatorVerse dipakai dari master
+  PNG di `public/brand/` (bentuk hitam pada alpha), dirender lewat CSS mask
+  (`.brand-logo`, `.brand-symbol`) sehingga warnanya mengikuti `currentColor`.
+  Wordmark tidak pernah diketik ulang; teks baca `CreatorVerse` ada di `.sr-only`.
+  Ruang bebas 0,25 H dijaga lewat padding; tinggi lockup minimum 40 px di 375 px.
+- **Warna**: hitam `#171717` sebagai bidang, lime `#CCFF66` satu-satunya aksen
+  (logo, grid, bar EQ), abu-abu `#CCCCCC` untuk teks sekunder dan garis, putih
+  untuk judul. Oranye `#FF6633` tidak dipakai di halaman ini.
+- **Tipografi**: Inter (Google Fonts, `opsz,wght@14..32,400..800`) untuk semua
+  teks. Judul Bold, status SemiBold, isi Regular.
+- **Teks** (Bahasa Indonesia, suara brand jelas, percaya diri, menghargai):
+  topbar `Jakarta · jam WIB` dan status `Segera hadir`; hero lockup, judul
+  `Karya favoritmu. Jadi koleksimu.`, isi `C.Card fisik edisi terbatas dari
+  kreator di C.Verse. Situs kami segera hadir.`; footer `© 2026 CreatorVerse`
+  dan tombol `Suara: aktif / nonaktif`. Tidak ada klaim yang belum bisa
+  ditunjukkan produk.
+- **Scene Three.js**: grid horizon, 32 bar equalizer (reaktif ke audio saat
+  suara aktif), siluet gunung, kubah bintang, bintang jatuh, partikel, dan
+  parallax mouse/sentuh/gyro dipertahankan tetapi diwarnai ulang ke palet brand
+  (lime dan abu-abu di atas hitam; tanpa cyan, magenta, ungu). Jet, CRT
+  scanline, flip judul Jepang, efek glitch, dan typewriter dihapus. Intro fade
+  memakai animasi CSS. `prefers-reduced-motion: reduce` menampilkan satu frame
+  statis tanpa intro.
+- **Audio**: `public/audio/ambient.mp3` + `ambient.ogg` dibundel ke `dist/audio/`
+  (~3,6 MB). Tombol `Suara` menyimpan pilihan di `localStorage`
+  (`cverse_sound`, `cverse_music`).
+
+## Aset brand
+
+Favicon (`favicon.ico` 16/32/48, `favicon-16x16.png`, `favicon-32x32.png`),
+`apple-touch-icon.png`, `android-chrome-192x192.png`, `android-chrome-512x512.png`,
+`og-image.png` (1200×630), dan `public/brand/*.png` dibuat dari master logo di
+Dream `40_operations/brand/` oleh `scripts/brand-assets.py` (pendekatan yang sama
+dengan `Platform/scripts/brand-assets.py`): simbol atau lockup hitam di atas lime.
+Master hanya tersedia sebagai PNG, jadi `favicon.svg` dan `og-image.svg` lama
+dihapus. `site.webmanifest` memakai `#171717` untuk theme dan background.
+
+```bash
+python -I scripts/brand-assets.py C:/Users/iqbal/Work/C-Verse/00_Dream_Project/40_operations/brand
+```
+
+Membutuhkan Python 3 dan Pillow. Jalankan ulang hanya jika master berubah;
+hasilnya dikomit.
 
 ## Deploy (Cloudflare Workers)
 
@@ -54,7 +94,7 @@ atas; integrasi auto-deploy Git Cloudflare belum dikonfigurasi.
 
 Periksa root `200`, `www` redirect dengan path/query utuh, aset JS/CSS, favicon,
 OG image, dan kedua file audio. Path yang tidak ada tetap `404`.
-Buka situs di browser dan periksa animasi serta kontrol SOUND tanpa login.
+Buka situs di browser dan periksa animasi serta tombol Suara tanpa login.
 Cloudflare JavaScript Detection dapat menyisipkan script ke HTML pada domain
 utama, sehingga hash respons HTML dapat berbeda dari `dist/index.html`.
 Pada migrasi ini audio dilayani sebagai file lengkap (`200`), termasuk ketika
@@ -62,7 +102,7 @@ klien meminta byte range; kontrol play/pause sudah diverifikasi di browser.
 
 ## Stack
 
-Vite 5 · Three 0.160 · GSAP 3 · Noto Sans JP.
+Vite 5 · Three 0.160 · Inter (Google Fonts).
 
 ## Sumber
 

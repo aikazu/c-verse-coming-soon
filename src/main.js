@@ -1,148 +1,29 @@
 import './style.css'
 import * as THREE from 'three'
-import gsap from 'gsap'
+
+// Brand palette (brand guideline Edisi 02). Lime is the single accent; grey and
+// white are neutrals. Orange is not used in the scene.
+const BLACK=0x171717
+const LIME=0xCCFF66
+const GREY=0xCCCCCC
+const WHITE=0xFFFFFF
+const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 // ---------- CLOCK ----------
-const clockEl = document.getElementById('clock')
+const clockEl=document.getElementById('clock')
 function tickClock(){
-  const d = new Date()
-  const pad = n => String(n).padStart(2,'0')
-  if(clockEl) clockEl.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} WIB`
+  const d=new Date()
+  const pad=n=>String(n).padStart(2,'0')
+  if(clockEl){
+    clockEl.textContent=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} WIB`
+    clockEl.setAttribute('datetime', d.toISOString())
+  }
 }
 setInterval(tickClock, 1000)
 tickClock()
 
-// ---------- FIT TITLE (EN) ----------
-// Shrink BOTH title lines (CREATOR + VERSE) to one shared size so the wider word
-// (CREATOR) never ends up smaller than the shorter one (VERSE). JP frames self-size.
-function fitKreator(){
-  const els = [...document.querySelectorAll('.title__big')]
-  const wrap = document.querySelector('.hero__content')
-  if(!els.length || !wrap) return
-  // JP mode uses flex frame per char — don't touch fontSize (frames handle sizing)
-  if(document.querySelector('.title__flip.ja')) return
-  for(const el of els) el.style.fontSize = ''
-  // overflow test per-element: scrollWidth > clientWidth means the nowrap text
-  // genuinely spills. (Comparing to a container-derived maxW gave a phantom
-  // 4px overflow that shrank the title to its minimum on mobile.)
-  const overflow = () => els.some(el => el.scrollWidth > el.clientWidth + 1)
-  let size = parseFloat(getComputedStyle(els[0]).fontSize)
-  let guard = 60
-  while(overflow() && size > 24 && guard-- > 0){
-    size -= 1
-    for(const el of els) el.style.fontSize = size + 'px'
-  }
-}
-window.addEventListener('load', () => { fitKreator(); setTimeout(fitKreator,300) })
-window.addEventListener('resize', fitKreator)
-if(document.fonts?.ready) document.fonts.ready.then(()=>fitKreator())
-try{ const ro=new ResizeObserver(()=>fitKreator()); const hc=document.querySelector('.hero__content'); if(hc) ro.observe(hc) }catch{}
-
-// — flip CREATOR↔クリエイター / VERSE↔の世界 — neon frame per huruf (JP only)
-;(function(){
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if(prefersReduced) return
-  const els=[...document.querySelectorAll('.title__flip')]
-  const titleEl=document.querySelector('.title')
-  if(!els.length) return
-
-  function renderJP(el, toJP){
-    const en=el.dataset.en, jp=el.dataset.jp
-    if(!en||!jp) return
-    if(!toJP){
-      el.textContent=en
-      el.setAttribute('data-text', en)
-      el.style.fontSize='' // clear inline size so CSS clamp applies for EN
-      return
-    }
-    // JP: pecah per huruf jadi neon frame
-    const kind = el.classList.contains('title__big--verse') ? 'verse' : 'creator'
-    el.textContent=''
-    for(const ch of [...jp]){
-      const sp=document.createElement('span')
-      sp.className=`char-frame char-frame--${kind}`
-      sp.textContent=ch
-      sp.setAttribute('aria-hidden','false')
-      el.appendChild(sp)
-    }
-    // untuk shadow ::after, pakai full JP juga tapi hidden (frame yang tampil)
-    el.setAttribute('data-text', jp)
-    el.style.fontSize='' // JP size handled by CSS 0.70em
-  }
-
-  let jp=false
-  function glitchSwap(el, nextJp){
-    // RGB split + slice glitch — swap text di tengah durasi
-    el.classList.add('glitching')
-    // force reflow biar animation restart tiap cycle
-    void el.offsetWidth
-    setTimeout(()=>{
-      renderJP(el, nextJp)
-      el.classList.toggle('ja', nextJp)
-      if(!nextJp) fitKreator()
-    }, 265)
-    setTimeout(()=> el.classList.remove('glitching'), 600)
-  }
-  function stagger(nextJp){
-    if(nextJp) titleEl?.classList.add('title--jp')
-    const [a,b]=els
-    if(a) glitchSwap(a, nextJp)
-    setTimeout(()=>{
-      if(!b){
-        jp=nextJp
-        if(!nextJp) titleEl?.classList.remove('title--jp')
-        return
-      }
-      glitchSwap(b, nextJp)
-      setTimeout(()=>{
-        jp=nextJp
-        if(!nextJp) titleEl?.classList.remove('title--jp')
-      }, 600)
-    }, 140)
-    if(!b) jp=nextJp
-    else setTimeout(()=>{ jp=nextJp }, 740)
-  }
-  // asymmetric cadence — EN (brand) dwells longer than JP (decorative)
-  const DWELL_EN=5000, DWELL_JP=3000
-  let flipTimer=null
-  function scheduleFlip(){
-    clearTimeout(flipTimer)
-    const dwell = jp ? DWELL_JP : DWELL_EN
-    flipTimer=setTimeout(()=>{
-      stagger(!jp)
-      setTimeout(scheduleFlip, 820) // wait for stagger to settle `jp`
-    }, dwell)
-  }
-  scheduleFlip()
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden) clearTimeout(flipTimer)
-    else scheduleFlip()
-  })
-})()
-
-// ---------- COMING SOON typewriter ----------
-;(function(){
-  const el=document.querySelector('.coming-text')
-  if(!el) return
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ el.textContent='COMING SOON'; return }
-  const full='COMING SOON'
-  let i=0,dir=1,hold=0
-  const TYPE=95,DEL=48,HF=18,HE=8
-  function tick(){
-    if(hold>0){ hold--; setTimeout(tick,95); return }
-    if(dir===1){
-      i++; el.textContent=full.slice(0,i)
-      if(i>=full.length){ hold=HF; dir=-1; setTimeout(tick,95) } else setTimeout(tick, TYPE+(Math.random()*18-9))
-    }else{
-      i--; el.textContent=full.slice(0,i)
-      if(i<=0){ hold=HE; dir=1; setTimeout(tick,95) } else setTimeout(tick, DEL)
-    }
-  }
-  el.textContent=''; setTimeout(tick,500)
-})()
-
 // ---------- SOUND / MUSIC ----------
-let soundOn = localStorage.getItem('cverse_sound')!=='off'
+let soundOn=localStorage.getItem('cverse_sound')!=='off'
 let audioCtx=null
 function ensureCtx(){
   if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)()
@@ -188,30 +69,35 @@ async function tryPlayMusic(){
   }catch{}
 }
 const soundToggle=document.getElementById('soundToggle')
-function syncSoundLabel(){ if(soundToggle) soundToggle.textContent=`SOUND: ${soundOn && musicWanted ? 'ON':'OFF'}`}
+function syncSoundLabel(){
+  if(!soundToggle) return
+  const on=soundOn && musicWanted
+  soundToggle.textContent=`Suara: ${on ? 'aktif' : 'nonaktif'}`
+  soundToggle.setAttribute('aria-pressed', String(on))
+}
 syncSoundLabel()
-soundToggle?.addEventListener('click', async e=>{
-  e.preventDefault()
+soundToggle?.addEventListener('click', async ()=>{
   const next=!(soundOn && musicWanted)
   soundOn=next; musicWanted=next
   localStorage.setItem('cverse_sound', soundOn?'on':'off')
   localStorage.setItem('cverse_music', musicWanted?'on':'off')
   syncSoundLabel()
-  if(next){ beep(660,0.08); tryRequestGyroPermission(); if(musicReady&&musicGain) fadeMusic(0.58,500); else await tryPlayMusic() }
+  // tryPlayMusic also restarts a track paused by the off path, then fades in
+  if(next){ beep(660,0.08); tryRequestGyroPermission(); await tryPlayMusic() }
   else{ if(musicGain) fadeMusic(0,450); setTimeout(()=>{ if(bgm&&!musicWanted) bgm.pause()},500); if(!musicGain&&bgm) bgm.pause() }
 })
 tryPlayMusic()
 ;['click','touchend','keydown'].forEach(ev=> window.addEventListener(ev, function once(){ tryPlayMusic(); tryRequestGyroPermission(); window.removeEventListener(ev,once) }, {once:true, passive:true}))
-bgm?.addEventListener('error', ()=>{ console.warn('[C.Verse] audio missing'); if(soundToggle) soundToggle.style.opacity='0.5' })
+bgm?.addEventListener('error', ()=>{ console.warn('[C.Verse] audio missing'); soundToggle?.setAttribute('data-missing','') })
 bgm?.addEventListener('playing', ()=>{ setupAnalyser(); if(musicGain) fadeMusic(0.58,400) })
 
-// ---------- THREE: VAPOR HORIZON + EQ BARS + STARS + JET ----------
+// ---------- THREE: HORIZON GRID + EQ BARS + STARS ----------
 const canvas=document.getElementById('bg')
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'})
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))
-renderer.setClearColor(0x07080e,1)
+renderer.setClearColor(BLACK,1)
 const scene=new THREE.Scene()
-scene.fog=new THREE.FogExp2(0x07080e,0.024)
+scene.fog=new THREE.FogExp2(BLACK,0.024)
 const camera=new THREE.PerspectiveCamera(62, window.innerWidth/window.innerHeight, 0.1, 150)
 camera.position.set(0,7.6,17.2)
 camera.lookAt(0,1.2,-6)
@@ -255,12 +141,12 @@ async function tryRequestGyroPermission(){
 tryRequestGyroPermission()
 ;['click','touchend'].forEach(ev=> window.addEventListener(ev,function once(){ tryRequestGyroPermission(); window.removeEventListener(ev,once) }, {once:true,passive:true}))
 
-scene.add(new THREE.AmbientLight(0x9aa0ff,0.50))
-const p1=new THREE.PointLight(0x00F0FF,15,54,1.6); p1.position.set(-13,9,-10); scene.add(p1)
-const p2=new THREE.PointLight(0xFF0A6C,10,44,1.7); p2.position.set(13,7,-12); scene.add(p2)
-const p3=new THREE.PointLight(0x7B2BFF,13,60,1.7); p3.position.set(0,13,-34); scene.add(p3)
+scene.add(new THREE.AmbientLight(GREY,0.45))
+const p1=new THREE.PointLight(LIME,15,54,1.6); p1.position.set(-13,9,-10); scene.add(p1)
+const p2=new THREE.PointLight(GREY,8,44,1.7); p2.position.set(13,7,-12); scene.add(p2)
+const p3=new THREE.PointLight(LIME,12,60,1.7); p3.position.set(0,13,-34); scene.add(p3)
 
-// grid
+// grid — lime lines on black, lime horizon glow
 const gridGeo=new THREE.PlaneGeometry(96,96,1,1)
 const gridMat=new THREE.ShaderMaterial({
   transparent:true,
@@ -269,20 +155,22 @@ const gridMat=new THREE.ShaderMaterial({
   fragmentShader:`
     varying vec2 vUv;
     uniform float uTime,uBeat,uBass;
+    const vec3 LIME=vec3(0.80,1.00,0.40);
+    const vec3 GREY=vec3(0.80,0.80,0.80);
     float grid(vec2 uv,float s){ vec2 g=fract(uv*s); float l=min(g.x,g.y); return (1.0-step(0.011,l))*smoothstep(0.0,0.45,uv.y); }
     void main(){
       vec2 uv=vUv; uv.y+=uTime*0.034+uBass*0.016;
       float g1=grid(uv,16.0), g2=grid(uv,64.0)*0.33, g=max(g1,g2);
       float horizon=pow(1.0-uv.y,3.0)*0.9;
-      float glow=horizon*(0.38+0.22*sin(uTime*0.55+uv.x*5.0)+uBeat*0.42);
-      vec3 colGrid=vec3(0.0,0.94,1.0)+vec3(0.12,0.05,0.35)*uBeat*0.65;
-      vec3 colGlow=vec3(0.48,0.2,1.0);
-      vec3 col=vec3(0.015,0.025,0.07);
-      col+=g*colGrid*(0.9+uBeat*0.55);
+      float glow=horizon*(0.30+0.16*sin(uTime*0.55+uv.x*5.0)+uBeat*0.36);
+      vec3 colGrid=mix(LIME, GREY, 0.25)*(0.55+uBeat*0.35);
+      vec3 colGlow=LIME*0.45;
+      vec3 col=vec3(0.09);
+      col+=g*colGrid;
       col+=glow*colGlow*(0.5+uBeat*0.5);
       float d=smoothstep(0.0,1.0,uv.y); col*=d;
       float pulse=smoothstep(0.0,0.018, abs(fract(uv.y*2.0 - uTime*0.16 - uBass*0.45)-0.5));
-      col+=(1.0-pulse)*(0.11+uBeat*0.16)*vec3(0.0,0.94,1.0)*step(0.30,uv.y)*step(uv.y,0.67);
+      col+=(1.0-pulse)*(0.08+uBeat*0.12)*LIME*step(0.30,uv.y)*step(uv.y,0.67);
       gl_FragColor=vec4(col,0.92*d);
     }`
 })
@@ -290,7 +178,7 @@ const gridMesh=new THREE.Mesh(gridGeo,gridMat)
 gridMesh.rotation.x=-Math.PI/2; gridMesh.position.set(0,-1.68,-4)
 scene.add(gridMesh)
 
-// ===== EQUALIZER — bumpy bars bottom→top, beat-reactive =====
+// ===== EQUALIZER — bars bottom→top, beat-reactive =====
 const EQ_COUNT=32
 const EQ_W=1.5, EQ_GAP=1.06
 const EQ_TOTAL=EQ_COUNT*(EQ_W+EQ_GAP)-EQ_GAP
@@ -300,7 +188,8 @@ const eqTargets=new Float32Array(EQ_COUNT)
 const eqCurrent=new Float32Array(EQ_COUNT)
 for(let i=0;i<EQ_COUNT;i++) eqCurrent[i]=1.2
 
-// single shared shader for all bars — gradient bottom→top + tip glow
+// single shared shader for all bars — grey base rising to a lime tip; the
+// beat ("fire") brightens toward lime/white instead of changing hue
 const eqBarGeo=new THREE.BoxGeometry(EQ_W, 1, 0.34)
 eqBarGeo.translate(0,0.5,0)
 const eqMat=new THREE.ShaderMaterial({
@@ -310,28 +199,28 @@ const eqMat=new THREE.ShaderMaterial({
   uniforms:{ uBeat:{value:0} },
   vertexShader:`
     varying vec2 vUv;
-    varying float vH;
     void main(){
       vUv=uv;
-      vH=position.y;
       gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);
     }`,
   fragmentShader:`
-    varying vec2 vUv; varying float vH;
+    varying vec2 vUv;
     uniform float uBeat;
+    const vec3 LIME=vec3(0.80,1.00,0.40);
+    const vec3 GREY=vec3(0.80,0.80,0.80);
     void main(){
       float y = vUv.y;
       float tip = smoothstep(0.88,1.0,y);
-      // IDLE palette (keep muted) — PLAY adds blue fire via lerp
-      vec3 base0 = vec3(0.04,0.06,0.11);
-      vec3 mid10 = vec3(0.10,0.62,0.78);
-      vec3 mid20 = vec3(0.30,0.22,0.68);
-      vec3 topc0 = vec3(0.72,0.18,0.42);
-      // blue fire palette (when beat high)
-      vec3 base1 = vec3(0.02,0.08,0.22);
-      vec3 mid11 = vec3(0.06,0.78,1.0);
-      vec3 mid21 = vec3(0.16,0.42,1.0);
-      vec3 topc1 = vec3(0.55,0.78,1.0);
+      // idle palette: dark grey base, muted lime body
+      vec3 base0 = vec3(0.10);
+      vec3 mid10 = GREY*0.35;
+      vec3 mid20 = LIME*0.45;
+      vec3 topc0 = LIME*0.70;
+      // beat palette: brighter lime, pale tip
+      vec3 base1 = vec3(0.12,0.15,0.07);
+      vec3 mid11 = LIME*0.60;
+      vec3 mid21 = LIME*0.85;
+      vec3 topc1 = mix(LIME, vec3(1.0), 0.35);
       float fire = clamp(smoothstep(0.08, 0.42, uBeat), 0.0, 1.0);
       vec3 base = mix(base0, base1, fire*0.85);
       vec3 mid1 = mix(mid10, mid11, fire);
@@ -345,13 +234,9 @@ const eqMat=new THREE.ShaderMaterial({
       col=mix(col, topc, m3*0.52);
       float bevel = 1.0 - pow(abs(vUv.x-0.5)*2.0, 1.4)*0.18;
       col *= bevel;
-      // tip glow — stronger + cooler when fire
-      float tipGlow = pow(y, 2.4) * 0.55;
-      vec3 fireGlow = mix(vec3(0.85,0.90,1.0), vec3(0.55,0.88,1.0), fire);
-      col += fireGlow * tipGlow * (0.18 + uBeat*0.62*fire + uBeat*0.08);
-      // base fire core
-      col += vec3(0.10,0.55,1.0) * (1.0 - y) * 0.10 * fire * (0.6 + uBeat*0.9);
-      col *= 0.72 + fire*0.12;
+      float tipGlow = pow(y, 2.4) * 0.45;
+      col += LIME * tipGlow * (0.14 + uBeat*0.45*fire + uBeat*0.06);
+      col *= 0.56 + fire*0.10;
       float alpha = 0.58 + fire*0.12;
       alpha *= (0.82 + tip*0.18);
       alpha *= 1.0 - pow(abs(vUv.x-0.5)*1.9, 3.0)*0.18;
@@ -363,7 +248,7 @@ const eqMat=new THREE.ShaderMaterial({
 // glow behind each bar (slightly larger, more transparent)
 const glowGeo=new THREE.BoxGeometry(EQ_W*1.28, 1, 0.18)
 glowGeo.translate(0,0.5,0)
-const glowMat=new THREE.MeshBasicMaterial({ color:0x00F0FF, transparent:true, opacity:0.0, blending:THREE.AdditiveBlending, depthWrite:false })
+const glowMat=new THREE.MeshBasicMaterial({ color:LIME, transparent:true, opacity:0.0, blending:THREE.AdditiveBlending, depthWrite:false })
 
 const eqGroup=new THREE.Group()
 for(let i=0;i<EQ_COUNT;i++){
@@ -371,30 +256,27 @@ for(let i=0;i<EQ_COUNT;i++){
   const bar=new THREE.Mesh(eqBarGeo, eqMat)
   bar.position.set(x, EQ_BASEY, EQ_Z)
   bar.scale.y = 1.2
-  // subtle color shift per bar via hue not needed — shader handles, but we vary glow hue
   const glow=new THREE.Mesh(glowGeo, glowMat.clone())
   glow.position.set(x, EQ_BASEY, EQ_Z-0.18)
   glow.scale.y = 1.2
-  // hue per position: cyan at center, purple at edges — for glow
+  // lime at center, grey toward the edges — for glow only
   const t = Math.abs(i - EQ_COUNT/2) / (EQ_COUNT/2)
-  const hueCol = new THREE.Color().lerpColors(new THREE.Color(0x00F0FF), new THREE.Color(0x7B2BFF), t*0.55)
-  hueCol.lerp(new THREE.Color(0xFF0A6C), t*0.22)
-  glow.material.color.copy(hueCol)
+  glow.material.color.lerpColors(new THREE.Color(LIME), new THREE.Color(GREY), t*0.6)
   eqGroup.add(bar); eqGroup.add(glow)
-  eqBars.push({ bar, glow, x, hueCol })
+  eqBars.push({ bar, glow })
 }
 scene.add(eqGroup)
 
 // base beam under eq
 const baseGeo=new THREE.PlaneGeometry(EQ_TOTAL+6, 0.22)
-const baseMat=new THREE.MeshBasicMaterial({ color:0x00F0FF, transparent:true, opacity:0.55, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.DoubleSide })
+const baseMat=new THREE.MeshBasicMaterial({ color:LIME, transparent:true, opacity:0.45, blending:THREE.AdditiveBlending, depthWrite:false, side:THREE.DoubleSide })
 const baseBeam=new THREE.Mesh(baseGeo, baseMat)
 baseBeam.rotation.x=-Math.PI/2
 baseBeam.position.set(0, EQ_BASEY+0.02, EQ_Z)
 scene.add(baseBeam)
 
-// mountains — now static silhouette in front of EQ (subtle, not equalizer anymore)
-function makeMountain({width=120,height=13,seg=96,z=-31,y=-1.2,seed=0}){
+// mountains — static silhouette in front of the EQ
+function makeMountain({width=120,height=13,seg=96,z=-31,y=-1.2,seed=0,color=0x1c1c1c}){
   const pos=[],idx=[],uv=[]
   for(let i=0;i<=seg;i++){
     const x=-width/2+(width/seg)*i, t=i/seg
@@ -410,33 +292,31 @@ function makeMountain({width=120,height=13,seg=96,z=-31,y=-1.2,seed=0}){
   geo.setAttribute('position', new THREE.Float32BufferAttribute(pos,3))
   geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv,2))
   geo.setIndex(idx); geo.computeVertexNormals()
-  const mat=new THREE.MeshBasicMaterial({ color:0x0a0f1e, transparent:true, opacity:0.96 })
+  const mat=new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.97 })
   const m=new THREE.Mesh(geo,mat)
   m.position.set(0,y,z)
   return m
 }
-const mFar=makeMountain({width:158,height:9.2,seg:88,z:-30.8,y:-0.52,seed:2.1})
-const mNear=makeMountain({width:142,height:11.5,seg:108,z:-27.2,y:-1.45,seed:6.4})
-mNear.material.opacity=0.98
+const mFar=makeMountain({width:158,height:9.2,seg:88,z:-30.8,y:-0.52,seed:2.1,color:0x202020})
+const mNear=makeMountain({width:142,height:11.5,seg:108,z:-27.2,y:-1.45,seed:6.4,color:0x151515})
 scene.add(mFar); scene.add(mNear)
-mFar.material.color.setRGB(0.07,0.09,0.16); mNear.material.color.setRGB(0.04,0.06,0.12)
-// tip line for mountains
-function addRidgeLine(m, color){
+// ridge line on each mountain
+function addRidgeLine(m, color, opacity){
   const pos=m.geometry.attributes.position.array
   const seg=m.geometry.attributes.position.count/2 -1
   const pts=[]
   for(let i=0;i<=seg;i++){ const idx=(i*2+1)*3; pts.push(new THREE.Vector3(pos[idx-3+0], pos[idx+1], pos[idx+2])) }
   const g=new THREE.BufferGeometry().setFromPoints(pts)
-  const mat=new THREE.LineBasicMaterial({ color, transparent:true, opacity:0.32 })
+  const mat=new THREE.LineBasicMaterial({ color, transparent:true, opacity })
   const line=new THREE.Line(g, mat)
   m.add(line)
   return line
 }
-const ridgeNear=addRidgeLine(mNear, 0x00F0FF)
-const ridgeFar=addRidgeLine(mFar, 0x7B2BFF)
+const ridgeNear=addRidgeLine(mNear, LIME, 0.32)
+const ridgeFar=addRidgeLine(mFar, GREY, 0.18)
 
 const ringGeo=new THREE.TorusGeometry(1.2,0.038,12,64)
-const ringMat=new THREE.MeshBasicMaterial({ color:0x00F0FF, transparent:true, opacity:0.42 })
+const ringMat=new THREE.MeshBasicMaterial({ color:LIME, transparent:true, opacity:0.42 })
 const ring=new THREE.Mesh(ringGeo, ringMat)
 ring.position.set(0,-0.18,-13); ring.rotation.x=Math.PI/2; scene.add(ring)
 
@@ -464,7 +344,7 @@ const starMat=new THREE.ShaderMaterial({
     void main(){ vPhase=phase; vec4 mv=modelViewMatrix*vec4(position,1.0); gl_PointSize=(1.7+sin(phase*2.0)*0.6)*(275.0/-mv.z); gl_PointSize=clamp(gl_PointSize,0.7,3.0); gl_Position=projectionMatrix*mv; }`,
   fragmentShader:`
     uniform float uTime,uBeat; varying float vPhase;
-    void main(){ vec2 c=gl_PointCoord*2.0-1.0; float d=dot(c,c); if(d>1.0) discard; float tw=0.70+0.30*sin(uTime*1.1+vPhase*2.3)+uBeat*0.20; float core=1.0-smoothstep(0.0,1.0,d); float halo=1.0-smoothstep(0.0,1.0,d*0.55); float a=core*0.82+halo*0.20; gl_FragColor=vec4(vec3(1.0), a*tw*0.88); }`
+    void main(){ vec2 c=gl_PointCoord*2.0-1.0; float d=dot(c,c); if(d>1.0) discard; float tw=0.70+0.30*sin(uTime*1.1+vPhase*2.3)+uBeat*0.20; float core=1.0-smoothstep(0.0,1.0,d); float halo=1.0-smoothstep(0.0,1.0,d*0.55); float a=core*0.82+halo*0.20; gl_FragColor=vec4(vec3(0.80), a*tw*0.88); }`
 })
 const stars=new THREE.Points(starGeo, starMat)
 scene.add(stars)
@@ -475,15 +355,20 @@ const pGeo=new THREE.BufferGeometry()
 const pPos=new Float32Array(PCOUNT*3), pSpeed=new Float32Array(PCOUNT)
 for(let i=0;i<PCOUNT;i++){ pPos[i*3]=(Math.random()-0.5)*78; pPos[i*3+1]=Math.random()*17-0.3; pPos[i*3+2]=(Math.random()-0.5)*80-6; pSpeed[i]=0.016+Math.random()*0.060 }
 pGeo.setAttribute('position', new THREE.BufferAttribute(pPos,3))
-const pMat=new THREE.PointsMaterial({ color:0xffffff, size:0.042, sizeAttenuation:true, transparent:true, opacity:0.40, blending:THREE.AdditiveBlending, depthWrite:false })
+const pMat=new THREE.PointsMaterial({ color:GREY, size:0.042, sizeAttenuation:true, transparent:true, opacity:0.40, blending:THREE.AdditiveBlending, depthWrite:false })
 const points=new THREE.Points(pGeo,pMat); scene.add(points)
 const BCOUNT=80
 const bGeo=new THREE.BufferGeometry()
 const bPos=new Float32Array(BCOUNT*3), bCol=new Float32Array(BCOUNT*3)
-for(let i=0;i<BCOUNT;i++){ bPos[i*3]=(Math.random()-0.5)*38; bPos[i*3+1]=Math.random()*11+0.8; bPos[i*3+2]=(Math.random()-0.5)*34-4; const c=Math.random()<0.46?[0,0.94,1]:Math.random()<0.72?[0.48,0.18,1]:[1,0.06,0.42]; bCol[i*3]=c[0]; bCol[i*3+1]=c[1]; bCol[i*3+2]=c[2] }
+const bokehLime=new THREE.Color(LIME), bokehGrey=new THREE.Color(GREY)
+for(let i=0;i<BCOUNT;i++){
+  bPos[i*3]=(Math.random()-0.5)*38; bPos[i*3+1]=Math.random()*11+0.8; bPos[i*3+2]=(Math.random()-0.5)*34-4
+  const c=Math.random()<0.6?bokehLime:bokehGrey
+  bCol[i*3]=c.r; bCol[i*3+1]=c.g; bCol[i*3+2]=c.b
+}
 bGeo.setAttribute('position', new THREE.BufferAttribute(bPos,3))
 bGeo.setAttribute('color', new THREE.BufferAttribute(bCol,3))
-const bMat=new THREE.PointsMaterial({ size:0.15, vertexColors:true, transparent:true, opacity:0.55, blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true })
+const bMat=new THREE.PointsMaterial({ size:0.15, vertexColors:true, transparent:true, opacity:0.5, blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true })
 const bokeh=new THREE.Points(bGeo,bMat); scene.add(bokeh)
 
 // shooting stars
@@ -491,12 +376,12 @@ const shootingStars=[]
 class ShootingStar{
   constructor(){
     const g=new THREE.Group()
-    const head=new THREE.Mesh(new THREE.SphereGeometry(0.085,10,10), new THREE.MeshBasicMaterial({ color:0xffffff, transparent:true, opacity:1 }))
-    const halo=new THREE.Mesh(new THREE.SphereGeometry(0.22,10,10), new THREE.MeshBasicMaterial({ color:0x8af6ff, transparent:true, opacity:0.32, blending:THREE.AdditiveBlending, depthWrite:false }))
+    const head=new THREE.Mesh(new THREE.SphereGeometry(0.085,10,10), new THREE.MeshBasicMaterial({ color:WHITE, transparent:true, opacity:1 }))
+    const halo=new THREE.Mesh(new THREE.SphereGeometry(0.22,10,10), new THREE.MeshBasicMaterial({ color:LIME, transparent:true, opacity:0.32, blending:THREE.AdditiveBlending, depthWrite:false }))
     const trailGeo=new THREE.BufferGeometry()
     const trailPos=new Float32Array(18*3)
     trailGeo.setAttribute('position', new THREE.BufferAttribute(trailPos,3))
-    const trail=new THREE.Line(trailGeo, new THREE.LineBasicMaterial({ color:0x7af0ff, transparent:true, opacity:0.0, blending:THREE.AdditiveBlending }))
+    const trail=new THREE.Line(trailGeo, new THREE.LineBasicMaterial({ color:LIME, transparent:true, opacity:0.0, blending:THREE.AdditiveBlending }))
     g.add(trail); g.add(halo); g.add(head); g.visible=false; scene.add(g)
     this.g=g; this.head=head; this.halo=halo; this.trail=trail; this.trailPos=trailPos; this.active=false; this.vel=new THREE.Vector3(); this.life=0; this.queue=[]
   }
@@ -527,55 +412,14 @@ function updateShootingStars(dt){
   for(const s of shootingStars) s.update(dt)
 }
 
-// tiny jet
-let jet=null, jetActive=false, jetTimer=8+Math.random()*5
-function makeJet(){
-  const g=new THREE.Group()
-  const bodyGeo=new THREE.CylinderGeometry(0.055,0.095,1.35,8); bodyGeo.rotateZ(Math.PI/2)
-  const body=new THREE.Mesh(bodyGeo, new THREE.MeshBasicMaterial({ color:0x0f1420 }))
-  const noseGeo=new THREE.ConeGeometry(0.055,0.38,8); noseGeo.rotateZ(-Math.PI/2)
-  const nose=new THREE.Mesh(noseGeo, new THREE.MeshBasicMaterial({color:0xd8ecff})); nose.position.x=0.86
-  const wing=new THREE.Mesh(new THREE.BoxGeometry(0.62,0.018,0.62), new THREE.MeshBasicMaterial({ color:0x1a243a })); wing.position.set(-0.08,0,0)
-  const tail=new THREE.Mesh(new THREE.BoxGeometry(0.28,0.32,0.02), new THREE.MeshBasicMaterial({color:0x1a243a})); tail.position.set(-0.58,0.16,0)
-  const eng=new THREE.Mesh(new THREE.SphereGeometry(0.075,8,8), new THREE.MeshBasicMaterial({ color:0xff6a2a, transparent:true, opacity:0.95, blending:THREE.AdditiveBlending })); eng.position.set(-0.70,0,0); eng.scale.set(1.6,1,1)
-  const strobe=new THREE.Mesh(new THREE.SphereGeometry(0.035,6,6), new THREE.MeshBasicMaterial({ color:0xff2a4a, transparent:true, opacity:1 })); strobe.position.set(-0.02,0.07,0)
-  const ctGeo=new THREE.BufferGeometry(); const ctPos=new Float32Array(14*3); ctGeo.setAttribute('position', new THREE.BufferAttribute(ctPos,3))
-  const ct=new THREE.Line(ctGeo, new THREE.LineBasicMaterial({ color:0x8ad6ff, transparent:true, opacity:0.0, blending:THREE.AdditiveBlending }))
-  g.add(ct,body,nose,wing,tail,eng,strobe); g._eng=eng; g._strobe=strobe; g._ct=ct; g._ctPos=ctPos; g._ctQueue=[]; g.visible=false; scene.add(g); return g
-}
-function spawnJet(){
-  if(!jet) jet=makeJet()
-  const dir=Math.random()<0.5?1:-1, y=8.5+Math.random()*6, z=-26-Math.random()*10, x=-dir*38
-  jet.position.set(x,y,z); jet.rotation.set(0, dir===1?0:Math.PI, 0); jet.userData={ dir, speed:22+Math.random()*10, life:0 }; jet.visible=true; jetActive=true; jet._ctQueue=[]; jet._ct.material.opacity=0.55
-}
-function updateJet(dt){
-  if(!jetActive||!jet) return
-  const d=jet.userData; d.life+=dt
-  jet.position.x += d.dir*d.speed*dt
-  jet.position.y += Math.sin(d.life*1.8)*0.012 + Math.sin(d.life*0.45)*0.008
-  const flick=0.85+Math.sin(d.life*18)*0.10+beat.bass*0.3+beat.kick*0.4
-  jet._eng.scale.set(1.6*flick,1*flick,1*flick); jet._eng.material.opacity=0.75+Math.sin(d.life*22)*0.18+beat.kick*0.22
-  jet._strobe.material.opacity=(Math.floor(d.life*3.2)%2===0)?1:0.15
-  jet._ctQueue.unshift(jet.position.clone()); if(jet._ctQueue.length>14) jet._ctQueue.pop()
-  for(let i=0;i<14;i++){ const p=jet._ctQueue[i]||jet._ctQueue[jet._ctQueue.length-1]||jet.position; jet._ctPos[i*3]=p.x-jet.position.x; jet._ctPos[i*3+1]=p.y-jet.position.y; jet._ctPos[i*3+2]=p.z-jet.position.z }
-  jet._ct.geometry.attributes.position.needsUpdate=true; jet._ct.position.copy(jet.position)
-  jet.rotation.z=Math.sin(d.life*0.6)*0.06 + d.dir*0.06
-  if(Math.abs(jet.position.x)>42){ jetActive=false; jet.visible=false; jetTimer=7+Math.random()*9; jet._ct.material.opacity=0 }
-}
-
-const beatFlash=document.createElement('div')
-beatFlash.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0;background:radial-gradient(680px 420px at 50% 34%, rgba(0,240,255,0.10), transparent 72%);mix-blend-mode:screen;transition:opacity 110ms linear'
-document.body.appendChild(beatFlash)
-
 function onResize(){
   const w=window.innerWidth,h=window.innerHeight
   camera.aspect=w/h; camera.updateProjectionMatrix()
   renderer.setSize(w,h); renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))
-  fitKreator()
+  if(prefersReduced) renderStaticFrame()
 }
 window.addEventListener('resize', onResize)
-window.addEventListener('orientationchange', ()=> setTimeout(()=>{ onResize(); fitKreator() },260))
-onResize()
+window.addEventListener('orientationchange', ()=> setTimeout(onResize,260))
 
 function updateBeat(){
   if(!analyser||!freqData||!bgm||bgm.paused){
@@ -611,7 +455,7 @@ function updateEQ(){
     // kick adds punch to all
     level += beat.kick * 0.55
     level += beat.bass * 0.18
-    // target physical height — clamp biar tidak nutup CREATOR
+    // target physical height — clamped so bars stay below the lockup
     const h = 0.9 + level*6.8 + Math.pow(level,1.55)*2.2
     eqTargets[i]= Math.max(0.45, Math.min(9.5, h))
   }
@@ -624,17 +468,15 @@ function updateEQ(){
     const { bar, glow }=eqBars[i]
     bar.scale.y = h
     glow.scale.y = h*1.04
-    glow.material.opacity = 0.08 + (h/22)*0.22 + beat.kick*0.10
-    // baseBeam local bright spot under tall bars — handled via overall beam opacity
+    glow.material.opacity = 0.06 + (h/22)*0.18 + beat.kick*0.08
   }
-  baseBeam.material.opacity = 0.18 + beat.bass*0.16 + beat.kick*0.10
-  // bar shader beat for tip glow
+  baseBeam.material.opacity = 0.16 + beat.bass*0.14 + beat.kick*0.08
   eqMat.uniforms.uBeat.value = beat.bass*0.9 + beat.kick*0.7
   ridgeNear.material.opacity = 0.32 + beat.bass*0.18
-  ridgeFar.material.opacity = 0.22 + beat.bass*0.14
+  ridgeFar.material.opacity = 0.18 + beat.bass*0.10
 }
 
-// canvas fades in on first painted frame — no hard pop of EQ/stars/jet
+// canvas fades in on first painted frame — no hard pop of EQ/stars
 let firstFrame=true
 function revealCanvas(){ if(firstFrame){ firstFrame=false; requestAnimationFrame(()=>{ canvas.style.opacity='1' }) } }
 
@@ -650,9 +492,9 @@ function renderStaticFrame(){
     const h=1.1 + c*2.4 + Math.sin(i*0.7)*0.35 + 0.6
     eqCurrent[i]=h
     const { bar, glow }=eqBars[i]
-    bar.scale.y=h; glow.scale.y=h*1.04; glow.material.opacity=0.08+(h/22)*0.22
+    bar.scale.y=h; glow.scale.y=h*1.04; glow.material.opacity=0.06+(h/22)*0.18
   }
-  baseBeam.material.opacity=0.20
+  baseBeam.material.opacity=0.18
   camera.position.set(0,7.8,17.2); camera.rotation.set(0,0,0); camera.lookAt(0,1.0,-7.5)
   renderer.render(scene,camera)
   canvas.style.opacity='1'
@@ -669,9 +511,6 @@ function animate(){
   gridMat.uniforms.uTime.value=t; gridMat.uniforms.uBeat.value=b*0.9+k*0.6; gridMat.uniforms.uBass.value=b
   starMat.uniforms.uTime.value=t; starMat.uniforms.uBeat.value=b*0.55+k*0.35
   updateShootingStars(dt)
-  jetTimer-=dt
-  if(!jetActive && jetTimer<=0){ if(Math.random()<0.82) spawnJet(); jetTimer=9+Math.random()*10 }
-  updateJet(dt)
   const idleX=Math.sin(t*0.10)*0.85 + Math.sin(t*0.06+1.2)*0.32 + Math.sin(t*0.18+2.4)*0.14
   const idleY=Math.cos(t*0.08)*0.52 + Math.sin(t*0.12+0.7)*0.28 + Math.cos(t*0.04+1.8)*0.16
   const jx=(Math.random()-0.5)*k*0.28, jy=(Math.random()-0.5)*k*0.16
@@ -686,24 +525,20 @@ function animate(){
   camera.rotation.x+=((-ty*0.022) - camera.rotation.x)*0.048
   camera.lookAt(tx*1.10, 1.0 + ty*1.45, -7.5)
   const sb= 1 + b*0.18 + k*0.14; ring.scale.set(sb,sb,sb); ring.material.opacity=0.36 + b*0.30 + k*0.24; ring.rotation.z+=dt*(0.22 + b*0.38); ring.rotation.y=Math.sin(t*0.4)*0.08 + tx*0.04
-  p1.intensity=13 + b*18 + k*11 + Math.sin(t*0.9)*1.1; p2.intensity=9 + beat.mid*15 + k*9; p3.intensity=11 + lvl*13 + k*8
+  p1.intensity=13 + b*18 + k*11 + Math.sin(t*0.9)*1.1; p2.intensity=7 + beat.mid*10 + k*6; p3.intensity=11 + lvl*13 + k*8
   const ppos=pGeo.attributes.position
   for(let i=0;i<PCOUNT;i++){ let z=ppos.array[i*3+2]; z+=pSpeed[i]*(1 + b*1.0 + k*0.7); if(z>13){ z=-44-Math.random()*14; ppos.array[i*3]=(Math.random()-0.5)*78; ppos.array[i*3+1]=Math.random()*17-0.3 } ppos.array[i*3+2]=z }
   ppos.needsUpdate=true
-  bMat.opacity=0.50 + lvl*0.22 + k*0.13; bokeh.rotation.y+=dt*(0.012 + b*0.022); bokeh.scale.setScalar(1 + b*0.07)
+  bMat.opacity=0.45 + lvl*0.20 + k*0.12; bokeh.rotation.y+=dt*(0.012 + b*0.022); bokeh.scale.setScalar(1 + b*0.07)
   stars.rotation.y+=dt*0.008; stars.rotation.x=Math.sin(t*0.04)*0.01
-  // beat pump lives on .hero__content, never on .title__big (which owns the flip transform)
-  if(k>0.42){ beatFlash.style.opacity=String(0.10 + k*0.13); const hc=document.querySelector('.hero__content'); if(hc&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches) hc.style.transform=`scale(${1+k*0.012})` }
-  else{ beatFlash.style.opacity='0'; const hc=document.querySelector('.hero__content'); if(hc) hc.style.transform='' }
   renderer.render(scene,camera)
   revealCanvas()
 }
-if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+onResize()
+if(prefersReduced){
   renderStaticFrame()
 } else {
   animate()
 }
-gsap.from('.title__big', { y:28, opacity:0, duration:0.9, ease:'power3.out', delay:0.15 })
-gsap.from('.title__small, .title__coming', { y:14, opacity:0, duration:0.7, stagger:0.08, ease:'power2.out', delay:0.35 })
-gsap.from('.eyebrow', { y:10, opacity:0, duration:0.6, ease:'power2.out', delay:0.45 })
+// intro fade runs in CSS (.hero__content > *), so it completes even when the WebGL loop is slow
 if(import.meta.hot) import.meta.hot.dispose(()=>cancelAnimationFrame(raf))
