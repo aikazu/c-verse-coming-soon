@@ -14,9 +14,11 @@ test('resale royalty ceils to whole C.Gems', () => {
   assert.equal(royalty(50, true), 3);
 });
 
-test('Seed sale fee is 15% ceiled', () => {
+test('Seed sale fee is 15% ceiled, or two ceiled 7,5% parts with a collaborator', () => {
   assert.equal(seedFee(100), 15);
   assert.equal(seedFee(55), 9);
+  assert.equal(seedFee(100, true), 16);
+  assert.equal(seedFee(30, true), 6);
 });
 
 test('rupiah uses Indonesian grouping', () => {

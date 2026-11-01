@@ -114,7 +114,7 @@ npm run cf:check:join  # build ke dist-join/ + dry-run Worker c-verse-join
 npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 ```
 
-- **Isi**: 10 slide layar penuh (snap per slide di layar >= 960 x 660 px,
+- **Isi**: 10 slide layar penuh (snap per slide di layar >= 960 x 680 px,
   gulir bebas di layar kecil). Navigasi tombol, panah kiri/kanan, titik slide,
   dan hash URL (`#s5`) agar slide dapat dibagikan langsung.
 - **Interaksi**: kartu sampul miring mengikuti pointer, kartu slide 2 dapat

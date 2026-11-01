@@ -174,11 +174,14 @@ function setupCalc(root, render) {
   update();
 }
 
-setupCalc(document.querySelector('[data-calc="seed"]'), function ({ price, ranges }) {
-  const fee = seedFee(price);
+setupCalc(document.querySelector('[data-calc="seed"]'), function ({ price, collab, ranges }) {
+  const fee = seedFee(price, collab);
   write(this, 'price', `${num(price)} C.Coin`);
   write(this, 'fee', `${num(fee)} C.Coin`);
-  write(this, 'net', coins(price - fee));
+  write(this, 'net', gems(price - fee));
+  write(this, 'note', collab
+    ? 'Fee dibagi 7,5% untuk C.Verse dan 7,5% untuk ilustrator, masing-masing dibulatkan ke atas. Harga di sini contoh. Sebelum diserahkan ke pembeli, kartu dikirim ke Vault C.Verse untuk verifikasi chip dan kondisi.'
+    : 'Fee dibulatkan ke atas ke C.Coin utuh. Harga di sini contoh. Sebelum diserahkan ke pembeli, kartu dikirim ke Vault C.Verse untuk verifikasi chip dan kondisi.');
   ranges[0].setAttribute('aria-valuetext', `${price} C.Coin`);
 });
 

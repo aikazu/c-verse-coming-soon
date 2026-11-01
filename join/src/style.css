@@ -22,7 +22,7 @@ html{
 }
 /* Mandatory snap only where every slide fits one screen; smaller screens
    scroll freely so long slides never trap content between snap points. */
-@media (min-width:960px) and (min-height:660px){
+@media (min-width:960px) and (min-height:680px){
   html{scroll-snap-type:y mandatory}
 }
 body{
@@ -39,6 +39,7 @@ img{display:block;max-width:100%;height:auto}
 .nowrap{white-space:nowrap}
 button,input{font:inherit;color:inherit}
 ::selection{background:var(--lime);color:var(--black)}
+[data-theme="orange"] ::selection{background:var(--black);color:var(--orange)}
 
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .skip{
@@ -66,8 +67,10 @@ body{
   display:flex;
   :focus-visible{outline:2px solid var(--fg);outline-offset:3px}
 }
-@media (min-width:960px) and (min-height:660px){
-  .slide{height:100dvh;min-height:0;overflow:hidden}
+@media (min-width:960px) and (min-height:680px){
+  /* overflow:auto is a safety net: a slide that outgrows a short screen scrolls inside instead of clipping. */
+  .slide{height:100dvh;min-height:0;overflow-y:auto}
+  .steps{grid-template-columns:1fr 1fr;column-gap:24px}
 }
 .slide__inner{
   width:100%;
@@ -236,7 +239,7 @@ kbd{
 .seed__card{width:min(60%, 26vh, 220px);rotate:-4deg;margin:12px 0 8px 6px}
 .seed__lead{font-size:16px;line-height:1.4;max-width:28ch}
 .seed__body{
-  padding:clamp(40px, 8vh, 80px) var(--gutter) calc(var(--chrome-h) + 28px) clamp(28px, 4vw, 56px);
+  padding:clamp(40px, 8vh, 80px) var(--gutter) calc(var(--chrome-h) + 16px) clamp(28px, 4vw, 56px);
   display:flex;flex-direction:column;
   max-width:820px;
 }
@@ -255,6 +258,10 @@ kbd{
 .calc--inline{margin-top:clamp(16px, 3vh, 28px);border-top:1.5px solid var(--line);padding-top:clamp(14px, 2.4vh, 22px)}
 .calc__claim{font-size:15px;font-weight:700;max-width:56ch}
 .calc--inline .note{margin-top:0;padding-top:10px}
+.calc__row{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);gap:8px 28px;align-items:start;margin-top:8px}
+.calc__row .readout{border-top:0}
+.calc__row .readout > div{flex-direction:column;align-items:flex-start;gap:0;padding:6px 0}
+.calc__row .readout dd{text-align:left}
 
 /* ---------------------------------------------------------- 04 fan track */
 .track{
@@ -345,9 +352,6 @@ input[type="range"]::-moz-range-thumb{
 .readout dt{font-size:14px}
 .readout dd{font-size:clamp(16px, 1.5vw, 19px);font-weight:700;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 .readout__total dd{font-size:clamp(20px, 2vw, 26px);color:var(--accent)}
-.readout--row{grid-template-columns:1fr 1fr;column-gap:24px;border-top:0}
-.readout--row > div{flex-direction:column;align-items:flex-start;gap:2px}
-.readout--row dd{text-align:left}
 .calc .note{margin-top:0;padding-top:0}
 .readout dd.is-bump{animation:bump .35s var(--ease)}
 @keyframes bump{from{opacity:.35;translate:0 4px}to{opacity:1;translate:0 0}}
@@ -500,6 +504,6 @@ body[data-theme="lime"] .chrome{--bg:var(--black);--fg:var(--silver);--line:var(
 }
 @media (max-width:560px){
   .track{grid-template-columns:1fr}
-  .readout--row{grid-template-columns:1fr}
+  .calc__row{grid-template-columns:1fr}
   .chrome__sub{display:none}
 }

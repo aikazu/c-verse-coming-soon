@@ -121,16 +121,21 @@
           </ol>
           <div class="calc calc--inline" data-calc="seed" data-reveal>
             <p class="calc__claim">Bila dijual, Anda menerima sisa harga jual setelah fee 15% yang dibulatkan ke atas, sekitar 85%.</p>
+            <div class="calc__row">
+            <div class="calc__inputs">
             <div class="field">
               <label for="seed-price">Contoh harga jual</label>
               <output for="seed-price" data-out="price">100 C.Coin</output>
               <input id="seed-price" type="range" min="10" max="300" step="5" value="100" />
             </div>
-            <dl class="readout readout--row" aria-live="polite">
+            <label class="switch"><input type="checkbox" role="switch" data-collab /><span class="switch__ui" aria-hidden="true"></span>Dengan ilustrator sebagai kolaborator</label>
+            </div>
+            <dl class="readout" aria-live="polite">
               <div><dt>Fee 15%</dt><dd data-out="fee">15 C.Coin</dd></div>
-              <div><dt>Anda menerima senilai</dt><dd data-out="net">85 C.Coin · Rp850.000</dd></div>
+              <div><dt>Anda menerima</dt><dd data-out="net">85 C.Gems · Rp850.000</dd></div>
             </dl>
-            <p class="note">Sebelum diserahkan ke pembeli, kartu dikirim ke Vault C.Verse untuk verifikasi chip dan kondisi.</p>
+            </div>
+            <p class="note" data-out="note">Fee dibulatkan ke atas ke C.Coin utuh. Harga di sini contoh. Sebelum diserahkan ke pembeli, kartu dikirim ke Vault C.Verse untuk verifikasi chip dan kondisi.</p>
           </div>
         </div>
       </div>
