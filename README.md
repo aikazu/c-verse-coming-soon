@@ -139,6 +139,17 @@ npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 Verifikasi setelah deploy: root `200` dengan `X-Robots-Tag`, aset hash
 `immutable`, favicon, OG image, `robots.txt`, dan path tidak dikenal `404`.
 
+Deploy pertama 2026-11-01 (Worker `c-verse-join`, Custom Domain
+`join.c-verse.co`): semua cek di atas lulus, deep link `#s6` dan kalkulator
+diperiksa di browser. Dua catatan zone yang tidak diubah:
+
+- Managed robots.txt Cloudflare pada zone menambahkan blok `User-agent: *` /
+  `Allow: /` sebelum `Disallow: /` milik situs ini, jadi `robots.txt` tidak
+  efektif menutup crawl. `noindex` di HTML dan `X-Robots-Tag` tetap berlaku
+  dan itulah yang mencegah indeks.
+- `http://join.c-verse.co/` dijawab `200` tanpa redirect; ruleset redirect
+  HTTPS yang ada hanya untuk apex. HSTS berlaku setelah kunjungan HTTPS pertama.
+
 ## Stack
 
 Vite 5 · Three 0.160 · Inter (Google Fonts).
