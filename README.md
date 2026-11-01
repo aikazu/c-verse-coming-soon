@@ -105,7 +105,8 @@ klien meminta byte range; kontrol play/pause sudah diverifikasi di browser.
 Versi web interaktif dari deck kolaborasi kreator (Dream
 `40_operations/decks/creator-20261031/`). Naskah dan angka mengikuti
 `build_deck.py` deck tersebut; perubahan isi dilakukan di kedua tempat.
-Kode ada di `join/` dan dibangun terpisah dari halaman Coming Soon.
+Kode ada di `join/` dan dibangun terpisah dari halaman Coming Soon; Worker
+`join/worker.js` hanya mengalihkan HTTP ke HTTPS lalu melayani aset.
 
 ```bash
 npm run dev:join       # http://localhost:5175
@@ -147,8 +148,11 @@ diperiksa di browser. Dua catatan zone yang tidak diubah:
   `Allow: /` sebelum `Disallow: /` milik situs ini, jadi `robots.txt` tidak
   efektif menutup crawl. `noindex` di HTML dan `X-Robots-Tag` tetap berlaku
   dan itulah yang mencegah indeks.
-- `http://join.c-verse.co/` dijawab `200` tanpa redirect; ruleset redirect
-  HTTPS yang ada hanya untuk apex. HSTS berlaku setelah kunjungan HTTPS pertama.
+- HTTP ke HTTPS (`308`, path dan query utuh) dilakukan `join/worker.js`, yang
+  berjalan sebelum aset (`run_worker_first`). Ruleset redirect zone hanya
+  mencakup apex, dan token OAuth Wrangler tidak punya izin mengubah ruleset
+  zone. Pengecualian: `http://join.c-verse.co/robots.txt` tetap `200` karena
+  Managed robots.txt Cloudflare menimpa respons itu di edge.
 
 ## Stack
 
