@@ -100,6 +100,45 @@ utama, sehingga hash respons HTML dapat berbeda dari `dist/index.html`.
 Pada migrasi ini audio dilayani sebagai file lengkap (`200`), termasuk ketika
 klien meminta byte range; kontrol play/pause sudah diverifikasi di browser.
 
+## Deck kreator: join.c-verse.co
+
+Versi web interaktif dari deck kolaborasi kreator (Dream
+`40_operations/decks/creator-20261031/`). Naskah dan angka mengikuti
+`build_deck.py` deck tersebut; perubahan isi dilakukan di kedua tempat.
+Kode ada di `join/` dan dibangun terpisah dari halaman Coming Soon.
+
+```bash
+npm run dev:join       # http://localhost:5175
+npm run test:join      # aturan angka: 30%/15% dibulatkan ke bawah, 7,5%/5% dan fee Seed 15% ke atas
+npm run cf:check:join  # build ke dist-join/ + dry-run Worker c-verse-join
+npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
+```
+
+- **Isi**: 10 slide layar penuh (snap per slide di layar >= 960 x 660 px,
+  gulir bebas di layar kecil). Navigasi tombol, panah kiri/kanan, titik slide,
+  dan hash URL (`#s5`) agar slide dapat dibagikan langsung.
+- **Interaksi**: kartu sampul miring mengikuti pointer, kartu slide 2 dapat
+  dibalik, kalkulator contoh Seed (fee 15%), rilis perdana (30%, atau 15% + 15%
+  bersama ilustrator), dan royalti (7,5%, atau 5% + 5%), serta tombol salin
+  contoh balasan. Rumus ada di `join/src/economy.js`, sama dengan
+  `Platform/packages/shared/src/economy.ts`. Harga, jumlah kartu, dan jumlah
+  penjualan pada kalkulator diberi label contoh.
+- **Brand**: empat warna guideline saja, satu aksen per slide (lime dan oranye
+  tidak bersama), teks pada hitam memakai abu-abu `#CCCCCC` seperti deck PDF,
+  logo dari master alpha lewat CSS mask. Muka kartu hanya diperkecil ke WebP;
+  sudut 3 mm dan bayangan dibuat di CSS. `prefers-reduced-motion: reduce`
+  mematikan reveal, hitungan angka, tilt, dan demo balik kartu.
+- **Aset**: `scripts/brand-assets.py` juga menulis `join/src/assets/` (logo dan
+  kartu contoh dari Dream `20_product/assets/drops/`) dan menyalin ikon serta
+  OG image ke `join/public/`.
+- **Indeks mesin pencari**: ditutup (`noindex` di HTML, `X-Robots-Tag` di
+  `join/public/_headers`, dan `robots.txt` disallow) karena ketentuan kreator
+  masih menunggu review legal dan kartu contoh memerlukan izin pemiliknya.
+  Buka hanya atas keputusan owner.
+
+Verifikasi setelah deploy: root `200` dengan `X-Robots-Tag`, aset hash
+`immutable`, favicon, OG image, `robots.txt`, dan path tidak dikenal `404`.
+
 ## Stack
 
 Vite 5 · Three 0.160 · Inter (Google Fonts).

@@ -35,6 +35,18 @@ ICONS = {
     "android-chrome-512x512.png": (512, 0.6),
 }
 ICO_SIZES = [(16, 16), (32, 32), (48, 48)]
+# Creator deck (join/): extra logo masks and the example card faces.
+JOIN_LOGOS = {
+    "creatorverse-horizontal.png": ("combined/CreatorVerse-logo-horizontal.png", 1200, None),
+    "cverse-horizontal.png": ("combined/C.Verse-logo-horizontal.png", 900, None),
+    "ccard-symbol.png": ("components/C.Card-symbol.png", 800, None),
+}
+JOIN_CARDS = {
+    "nekonoi-front.webp": "nekonoi_katsu/print/nekonoi_katsu_front_print_v4.png",
+    "nekonoi-back.webp": "nekonoi_katsu/nekonoi_katsu_back_v2.png",
+    "clarissa-front.webp": "clarissa_punipun/print/clarissa_punipun_front_print_v4.png",
+}
+CARD_WIDTH = 720
 VISIBLE_ALPHA = 8  # alpha below this is export noise, not logo
 OG_SIZE = (1200, 630)
 OG_LOGO_WIDTH = 660
@@ -104,9 +116,37 @@ def main() -> None:
     og_logo = resize(logos["creatorverse-horizontal.png"], OG_LOGO_WIDTH, None)
     save(on_lime(og_logo, OG_SIZE), public / "og-image.png", written)
 
+    written += join_assets(source, public)
+
+    root = public.parent
     for path in written:
         with Image.open(path) as image:
-            print(f"{path.relative_to(public.parent)}  {image.width}x{image.height}  {path.stat().st_size} bytes")
+            print(f"{path.relative_to(root)}  {image.width}x{image.height}  {path.stat().st_size} bytes")
+
+
+def join_assets(source: Path, public: Path) -> list[Path]:
+    """Assets for the creator deck at join.c-verse.co (join/).
+
+    Logo masks and card faces go to join/src/assets/ so Vite fingerprints them;
+    the icon set and OG image are copied from the Coming Soon output above.
+    Card artwork is only resized to WebP, never recolored; the 3 mm corners and
+    shadow are drawn in CSS.
+    """
+    root = public.parent / "join"
+    written: list[Path] = []
+    for name, (relative, width, height) in JOIN_LOGOS.items():
+        save(resize(trim(source / relative), width, height), root / "src/assets/brand" / name, written)
+    drops = source.parents[1] / "20_product/assets/drops"
+    for name, relative in JOIN_CARDS.items():
+        card = Image.open(drops / relative).convert("RGB")
+        card = card.resize((CARD_WIDTH, round(CARD_WIDTH * 88 / 63)), Image.Resampling.LANCZOS)
+        save(card, root / "src/assets/cards" / name, written, quality=86, method=6)
+    for name in [*ICONS, "favicon.ico", "og-image.png"]:
+        target = root / "public" / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((public / name).read_bytes())
+        written.append(target)
+    return written
 
 
 if __name__ == "__main__":

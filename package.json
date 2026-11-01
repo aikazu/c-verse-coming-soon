@@ -9,7 +9,13 @@
     "preview": "vite preview --port 4173",
     "cf:check": "npm run build && wrangler deploy --dry-run",
     "cf:types": "wrangler types .wrangler/worker-configuration.d.ts",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && wrangler deploy",
+    "dev:join": "vite --config vite.join.config.js",
+    "build:join": "vite build --config vite.join.config.js",
+    "preview:join": "vite preview --config vite.join.config.js",
+    "test:join": "node --test join/src/economy.test.js",
+    "cf:check:join": "npm run build:join && wrangler deploy --dry-run -c wrangler.join.jsonc",
+    "deploy:join": "npm run build:join && wrangler deploy -c wrangler.join.jsonc"
   },
   "dependencies": {
     "three": "^0.160.0"

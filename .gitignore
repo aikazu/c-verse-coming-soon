@@ -10,6 +10,7 @@ node_modules/
 
 # Build
 dist/
+dist-join/
 .wrangler/
 
 # Generated archives
