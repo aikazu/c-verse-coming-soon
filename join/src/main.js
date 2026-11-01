@@ -32,6 +32,11 @@ function go(index) {
   target.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
 }
 
+// Honour a deep link (#s5) before the observers start: their first callback
+// would otherwise report the cover and replace the hash before the browser
+// scrolls to it.
+document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'instant', block: 'start' });
+
 // The slide covering the middle of the viewport is the active one. Scroll snap
 // events would settle later and are Chromium-only, so IntersectionObserver
 // drives both the chrome and the one-time reveal.
