@@ -1,5 +1,6 @@
 import './style.css';
 import { num, primaryShare, royalty, rp, seedFee } from './economy.js';
+import { roleFromLocation } from './role.js';
 
 document.documentElement.classList.add('js');
 
@@ -9,10 +10,16 @@ const dots = [...document.querySelectorAll('.dots a')];
 const counter = document.querySelector('[data-current]');
 const progress = document.querySelector('.progress');
 const [prevBtn, nextBtn] = document.querySelectorAll('[data-go]');
+const chooser = document.querySelector('#role-choice');
+const creatorView = document.querySelector('#creator-view');
+const illustratorView = document.querySelector('#illustrator-view');
+const creatorChrome = [...document.querySelectorAll('.dots, .progress, .chrome, .skip')];
 let current = 0;
+let displayedRole = null;
 
 // ---------------------------------------------------------------- navigation
 function setActive(index) {
+  if (creatorView.hidden) return;
   current = index;
   const slide = slides[index];
   document.body.dataset.theme = slide.dataset.theme;
@@ -24,18 +31,13 @@ function setActive(index) {
   });
   prevBtn.disabled = index === 0;
   nextBtn.disabled = index === slides.length - 1;
-  if (location.hash !== `#${slide.id}`) history.replaceState(null, '', index === 0 ? location.pathname : `#${slide.id}`);
+  if (location.hash !== `#${slide.id}`) history.replaceState(null, '', `${location.pathname}${location.search}${index === 0 ? '' : `#${slide.id}`}`);
 }
 
 function go(index) {
   const target = slides[Math.max(0, Math.min(slides.length - 1, index))];
   target.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
 }
-
-// Honour a deep link (#s5) before the observers start: their first callback
-// would otherwise report the cover and replace the hash before the browser
-// scrolls to it.
-document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'instant', block: 'start' });
 
 // The slide covering the middle of the viewport is the active one. Scroll snap
 // events would settle later and are Chromium-only, so IntersectionObserver
@@ -68,6 +70,7 @@ prevBtn.addEventListener('click', () => go(current - 1));
 nextBtn.addEventListener('click', () => go(current + 1));
 
 document.addEventListener('keydown', (event) => {
+  if (creatorView.hidden) return;
   if (event.altKey || event.ctrlKey || event.metaKey) return;
   const field = event.target.closest('input, textarea, select, [contenteditable]');
   if (field) return;
@@ -233,3 +236,69 @@ for (const button of document.querySelectorAll('[data-copy]')) {
     }
   });
 }
+
+// A query parameter keeps both paths shareable while preserving existing #sN links.
+function showRole(role, focus = false) {
+  const selected = role === 'creator' || role === 'illustrator' ? role : null;
+  const previousRole = displayedRole;
+  displayedRole = selected;
+  chooser.hidden = Boolean(selected);
+  creatorView.hidden = selected !== 'creator';
+  illustratorView.hidden = selected !== 'illustrator';
+  creatorChrome.forEach((element) => { element.hidden = selected !== 'creator'; });
+  document.body.dataset.role = selected ?? 'choice';
+  document.documentElement.classList.toggle('role-deck', selected === 'creator');
+  document.body.dataset.theme = selected === 'creator' ? 'lime' : 'black';
+  if (selected === 'creator') {
+    const slide = /^#s(?:10|[1-9])$/.test(location.hash) ? document.querySelector(location.hash) : slides[0];
+    slide?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    if (focus) {
+      const heading = slide?.querySelector('h1, h2');
+      if (heading) {
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+      }
+    }
+  } else {
+    const anchor = selected === 'illustrator' ? document.getElementById(location.hash.slice(1)) : null;
+    if (anchor && illustratorView.contains(anchor)) anchor.scrollIntoView({ behavior: 'instant', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'instant' });
+    if (focus) {
+      const target = selected ? document.querySelector('#illustrator-title') : document.querySelector(`[data-role-choice="${previousRole ?? 'creator'}"]`);
+      target?.focus({ preventScroll: true });
+    }
+  }
+}
+
+document.querySelectorAll('[data-role-choice]').forEach((button) => button.addEventListener('click', () => {
+  const role = button.dataset.roleChoice;
+  const url = new URL(location.href);
+  url.searchParams.set('role', role);
+  url.hash = '';
+  history.pushState(null, '', url);
+  showRole(role, true);
+}));
+document.querySelectorAll('[data-change-role]').forEach((button) => button.addEventListener('click', () => {
+  const url = new URL(location.href);
+  url.searchParams.delete('role');
+  url.hash = '';
+  history.pushState(null, '', url);
+  showRole(null, true);
+}));
+window.addEventListener('popstate', () => {
+  const role = roleFromLocation(location);
+  if (role !== displayedRole) showRole(role, true);
+});
+showRole(roleFromLocation(location));
+
+const illustratorPrice = document.querySelector('#illustrator-price');
+illustratorPrice.addEventListener('input', () => {
+  const price = Number(illustratorPrice.value);
+  const fee = seedFee(price, true) / 2;
+  document.querySelector('[data-illustrator-price]').textContent = `${num(price)} C.Coin`;
+  document.querySelector('[data-illustrator-royalty]').textContent = `${num(royalty(price, true))} C.Gems`;
+  document.querySelector('[data-illustrator-platform]').textContent = `${num(fee)} C.Coin`;
+  document.querySelector('[data-illustrator-seed]').textContent = `${num(fee)} C.Gems`;
+  document.querySelector('[data-illustrator-owner]').textContent = `${num(price - 2 * fee)} C.Gems`;
+  illustratorPrice.setAttribute('aria-valuetext', `${price} C.Coin`);
+});

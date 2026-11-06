@@ -45,6 +45,7 @@ JOIN_CARDS = {
     "nekonoi-front.webp": "nekonoi_katsu/print/nekonoi_katsu_front_print_v4.png",
     "nekonoi-back.webp": "nekonoi_katsu/nekonoi_katsu_back_v2.png",
     "clarissa-front.webp": "clarissa_punipun/print/clarissa_punipun_front_print_v4.png",
+    "hezky-front.webp": "hezky_joe/print/hezky_joe_front_print_v4.png",
 }
 CARD_WIDTH = 720
 VISIBLE_ALPHA = 8  # alpha below this is export noise, not logo

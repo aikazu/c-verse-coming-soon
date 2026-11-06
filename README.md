@@ -115,9 +115,13 @@ npm run cf:check:join  # build ke dist-join/ + dry-run Worker c-verse-join
 npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 ```
 
-- **Isi**: 10 slide layar penuh (snap per slide di layar >= 960 x 680 px,
-  gulir bebas di layar kecil). Navigasi tombol, panah kiri/kanan, titik slide,
-  dan hash URL (`#s5`) agar slide dapat dibagikan langsung.
+- **Isi**: layar pertama memilih jalur kreator atau ilustrator, dengan tombol
+  ganti peran dan navigasi kembali browser. Jalur kreator mempertahankan 10 slide
+  layar penuh (snap pada layar >= 960 x 680 px, gulir bebas pada layar kecil),
+  tombol, panah, titik slide, dan tautan lama seperti `#s5`. Jalur ilustrator
+  menjelaskan peran dan perhitungan kolaborasi. Kedua jalur menampilkan contoh
+  Nekonoi Katsu dan Clarissa Punipun (ilustrasi Riryeee) serta Hezky Joe
+  (ilustrasi Kang Cilok’s); contoh tidak menyatakan izin publikasi atau rilis.
 - **Interaksi**: kartu sampul miring mengikuti pointer, kartu slide 2 dapat
   dibalik, kalkulator contoh Seed (fee 15%), rilis perdana (30%, atau 15% + 15%
   bersama ilustrator), dan royalti (7,5%, atau 5% + 5%), serta tombol salin

@@ -13,7 +13,7 @@
     "dev:join": "vite --config vite.join.config.js",
     "build:join": "vite build --config vite.join.config.js",
     "preview:join": "vite preview --config vite.join.config.js",
-    "test:join": "node --test join/src/economy.test.js",
+    "test:join": "node --test join/src/*.test.js",
     "cf:check:join": "npm run build:join && wrangler deploy --dry-run -c wrangler.join.jsonc",
     "deploy:join": "npm run build:join && wrangler deploy -c wrangler.join.jsonc"
   },
