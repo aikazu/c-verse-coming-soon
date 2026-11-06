@@ -144,6 +144,19 @@ npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 Verifikasi setelah deploy: root `200` dengan `X-Robots-Tag`, aset hash
 `immutable`, favicon, OG image, `robots.txt`, dan path tidak dikenal `404`.
 
+Deploy join 2026-11-07 dari commit `8208a21` menghasilkan Worker
+`c-verse-join` versi `25555125-e8e9-470b-a930-73cf1424dc65`. Browser live
+desktop memeriksa pilihan kedua peran, tiga contoh kartu beserta kredit ilustrator,
+dan batas royalti penjualan kembali di C.Verse tanpa overflow. Pemeriksaan
+lokal pada lebar 390 px mencakup kedua jalur dan ganti peran; kalkulator dari
+100 ke 105 C.Coin menghasilkan royalti 6 C.Gems serta pembagian Seed 8 C.Coin
+untuk C.Verse, 8 C.Gems untuk ilustrator, dan sisa pemilik 89 C.Gems. Deep link
+lama `#s5` dan navigasi kembali juga diperiksa setelah perbaikan. Root HTTP
+`200`, `noindex` HTML dan
+`X-Robots-Tag` tersedia, keenam aset hash `200` dengan cache immutable,
+favicon, OG image, dan robots `200`, serta path tidak dikenal `404`.
+Override managed robots Cloudflare yang dicatat di bawah tetap berlaku.
+
 Percobaan deploy join 2026-11-06 untuk revisi harga dan tanda tangan: build
 berhasil, tetapi dua percobaan `npm run deploy:join` gagal sebelum deploy
 karena API Cloudflare mengembalikan `503 no healthy upstream` saat membaca
