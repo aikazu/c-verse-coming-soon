@@ -140,6 +140,14 @@ npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 Verifikasi setelah deploy: root `200` dengan `X-Robots-Tag`, aset hash
 `immutable`, favicon, OG image, `robots.txt`, dan path tidak dikenal `404`.
 
+Percobaan deploy join 2026-11-06 untuk revisi harga dan tanda tangan: build
+berhasil, tetapi dua percobaan `npm run deploy:join` gagal sebelum deploy
+karena API Cloudflare mengembalikan `503 no healthy upstream` saat membaca
+Worker `c-verse-join`. Tidak ada versi deployment baru yang dikonfirmasi;
+verifikasi lokal dan dry-run terpisah dari hasil deploy ini. [Insiden jaringan
+Singapura Cloudflare](https://www.cloudflarestatus.com/incidents/3ehw20ozwlkr) aktif saat percobaan;
+korelasinya dengan galat API ini belum terbukti.
+
 Deploy pertama 2026-11-01 (Worker `c-verse-join`, Custom Domain
 `join.c-verse.co`): semua cek di atas lulus, deep link `#s6` dan kalkulator
 diperiksa di browser. Dua catatan zone yang tidak diubah:
