@@ -148,6 +148,15 @@ verifikasi lokal dan dry-run terpisah dari hasil deploy ini. [Insiden jaringan
 Singapura Cloudflare](https://www.cloudflarestatus.com/incidents/3ehw20ozwlkr) aktif saat percobaan;
 korelasinya dengan galat API ini belum terbukti.
 
+Deploy ulang yang diotorisasi berhasil pada 2026-11-06 14:41:14 UTC dari
+commit `ecba286`, Worker `c-verse-join` versi
+`6e249b2d-94aa-437e-a87b-e3d75a3aa13d` (100% traffic). Smoke test live
+memeriksa harga 30 C.Coin dan tanda tangan setiap kartu, kalkulator rilis
+perdana, Seed dan royalti, serta root, aset, favicon, OG image, robots,
+`noindex`, dan 404. Aset hash memakai cache immutable. Tampilan desktop
+1280 × 800 tidak menunjukkan overflow atau field terpotong. Override robots
+Cloudflare yang dicatat di bawah tetap berlaku.
+
 Deploy pertama 2026-11-01 (Worker `c-verse-join`, Custom Domain
 `join.c-verse.co`): semua cek di atas lulus, deep link `#s6` dan kalkulator
 diperiksa di browser. Dua catatan zone yang tidak diubah:
