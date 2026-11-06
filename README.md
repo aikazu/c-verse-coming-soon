@@ -122,8 +122,8 @@ npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
   dibalik, kalkulator contoh Seed (fee 15%), rilis perdana (30%, atau 15% + 15%
   bersama ilustrator), dan royalti (7,5%, atau 5% + 5%), serta tombol salin
   contoh balasan. Rumus ada di `join/src/economy.js`, sama dengan
-  `Platform/packages/shared/src/economy.ts`. Harga, jumlah kartu, dan jumlah
-  penjualan pada kalkulator diberi label contoh.
+  `Platform/packages/shared/src/economy.ts`. Harga rilis perdana tetap 30 C.Coin per kartu. Jumlah kartu, harga jual
+  kembali, dan jumlah penjualan pada kalkulator diberi label contoh.
 - **Brand**: empat warna guideline saja, satu aksen per slide (lime dan oranye
   tidak bersama), teks pada hitam memakai abu-abu `#CCCCCC` seperti deck PDF,
   logo dari master alpha lewat CSS mask. Muka kartu hanya diperkecil ke WebP;

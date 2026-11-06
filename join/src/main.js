@@ -160,13 +160,14 @@ function setupCalc(root, render) {
   const collab = root.querySelector('[data-collab]');
   const update = () => {
     ranges.forEach(syncRange);
-    const price = Number(ranges[0].value);
+    const fixedPrice = root.dataset.calc === 'primary';
+    const price = fixedPrice ? 30 : Number(ranges[0].value);
     presets.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.price) === price)));
     const isCollab = Boolean(collab?.checked);
     root.querySelectorAll('[data-collab-only]').forEach((el) => {
       el.hidden = !isCollab;
     });
-    render.call(root, { price, count: Number(ranges[1]?.value ?? 1), collab: isCollab, ranges });
+    render.call(root, { price, count: Number(ranges[fixedPrice ? 0 : 1]?.value ?? 1), collab: isCollab, ranges });
   };
   ranges.forEach((r) => r.addEventListener('input', update));
   collab?.addEventListener('change', update);
@@ -192,17 +193,15 @@ setupCalc(document.querySelector('[data-calc="seed"]'), function ({ price, colla
 
 setupCalc(document.querySelector('[data-calc="primary"]'), function ({ price, count, collab, ranges }) {
   const share = primaryShare(price, collab);
-  write(this, 'price', coins(price));
   write(this, 'count', `${num(count)} kartu`);
   write(this, 'share', gems(share));
   write(this, 'partner', gems(primaryShare(price, true)));
   write(this, 'total-label', `Total untuk ${num(count)} kartu`);
   write(this, 'total', gems(share * count));
   write(this, 'note', collab
-    ? '30% dibagi 15% untuk Anda dan 15% untuk ilustrator. Dibulatkan ke bawah ke C.Gems utuh, sebelum biaya pencairan dan pajak. Harga dan jumlah kartu di sini contoh.'
-    : 'Dibulatkan ke bawah ke C.Gems utuh, sebelum biaya pencairan dan pajak. Harga dan jumlah kartu di sini contoh; harga final disepakati untuk setiap rilis.');
-  ranges[0].setAttribute('aria-valuetext', `${price} C.Coin`);
-  ranges[1].setAttribute('aria-valuetext', `${count} kartu`);
+    ? '30% dibagi 15% untuk Anda dan 15% untuk ilustrator. Dibulatkan ke bawah ke C.Gems utuh, sebelum biaya pencairan dan pajak. Jumlah kartu di sini contoh; harga rilis perdana adalah 30 C.Coin per kartu.'
+    : 'Dibulatkan ke bawah ke C.Gems utuh, sebelum biaya pencairan dan pajak. Jumlah kartu di sini contoh; harga rilis perdana adalah 30 C.Coin per kartu.');
+  ranges[0].setAttribute('aria-valuetext', `${count} kartu`);
 });
 
 setupCalc(document.querySelector('[data-calc="royalty"]'), function ({ price, count, collab, ranges }) {
