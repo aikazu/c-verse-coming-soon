@@ -154,6 +154,21 @@ npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 Verifikasi setelah deploy: root `200` dengan `X-Robots-Tag`, aset hash
 `immutable`, favicon, OG image, `robots.txt`, dan path tidak dikenal `404`.
 
+Deploy join dari source `f633c36fbc26a71a4f5a9bb4f0227ca520ae00e1` menghasilkan
+Worker versi `1f742198-f8d3-4672-b31d-798b53f191a5` (100% traffic). Perbaikan
+pilihan peran mengecilkan fan desktop agar kartu tidak menutup tombol. Pemeriksaan browser lokal
+pada 11 ukuran dari 320 × 568 hingga 2560 × 1440 tidak menemukan overflow
+horizontal; sembilan titik pada setiap tombol menerima hit setelah menggulir bila
+perlu. Seluruh kartu desktop berada di atas pilihan peran, termasuk empat sudut
+tilt pada lima ukuran desktop. Tampilan mobile tidak diubah; pada 320 px batas kotak
+kredit masih melewati bagian atas aksi sekitar 4,5 px, tanpa menghalangi titik
+tombol yang diuji. Lima tes join dan build serta dry-run Worker lulus. Browser
+hosted pada 1918 × 982 dan 390 × 844 memeriksa tiga gambar, kedua tombol, serta
+overflow; aktivasi tombol ilustrator membuka jalurnya. Root, favicon, OG image,
+robots, CSS `index-0WCr7D_v.css`, JS `index-Bq1dSkIc.js`, dan tiga muka kartu
+merespons `200`; aset hash memakai cache immutable dan `noindex` tetap ada di
+HTML serta header.
+
 Deploy join dari source `18d2b23565d33e8a62f35442d58efb6e5a6d68e5`
 menghasilkan Worker versi `d0b4e78b-6459-45c3-8b95-58ae265fad23`
 (100% traffic). Browser lokal memeriksa seluruh 20 slide pada 1280 × 800
