@@ -147,6 +147,27 @@ npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 Verifikasi setelah deploy: root `200` dengan `X-Robots-Tag`, aset hash
 `immutable`, favicon, OG image, `robots.txt`, dan path tidak dikenal `404`.
 
+Deploy join dari source `18d2b23565d33e8a62f35442d58efb6e5a6d68e5`
+menghasilkan Worker versi `d0b4e78b-6459-45c3-8b95-58ae265fad23`
+(100% traffic). Browser lokal memeriksa seluruh 20 slide pada 1280 × 800
+dan 390 × 844 tanpa overflow horizontal; cover, kalkulator, dan footer juga
+diperiksa pada 320 px, serta chooser pada 768 px. Kelima kalkulator diperiksa
+dengan keyboard, batas dan preset; navigasi peran, riwayat, deep link, balik
+kartu, dan penyalinan pada kedua jalur diperiksa, termasuk fallback penyalinan
+dengan penolakan yang disimulasikan. Animasi foil diperiksa pada puncaknya;
+contrast teks pada state diam tidak menunjukkan kegagalan pada 142 node kreator
+dan 123 node ilustrator yang diperiksa. Preferensi reduced motion OS dan screen
+reader tidak diuji.
+
+Smoke hosted menemukan kedua jalur: 100 kartu kolaborasi menghasilkan
+500 C.Gems per pihak, atau 5 C.Gems (Rp50.000) per kartu; pembulatan
+primary baru berlaku untuk transaksi berikutnya. CSS `index-C464nCH7.css`,
+JS `index-Nv3I9RqS.js`, sembilan aset hash immutable, favicon, OG, dan robots
+merespons 200; `noindex` tetap ada dan path tidak dikenal mengembalikan 404.
+Catatan 4 + 4 pada deployment lama di bawah adalah bukti historis aturan lama,
+bukan perhitungan saat ini. Ini bukan bukti kesiapan pembayaran atau persetujuan
+legal.
+
 Deploy join 2026-11-07 05:03:03 UTC dari commit `2278b54f631ab99ee79eb171c92dbe9ecfc8e92b`
 menghasilkan Worker `c-verse-join` versi `1800b062-acc2-4abe-b352-1d610c412bf4`
 (100% traffic). Lima tes lokal dan `npm run cf:check:join` lulus. Browser lokal
