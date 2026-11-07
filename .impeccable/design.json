@@ -155,7 +155,7 @@
     ],
     "rules": [
       { "name": "The One Accent Rule", "body": "Give each section one accent context. Never place lime and orange together; use ink for controls on lime, silver, and orange planes.", "section": "colors" },
-      { "name": "The Four-Color Rule", "body": "Do not introduce additional brand hues, gradients, or tinted panels. Existing card artwork is the only exception and must remain unrecolored.", "section": "colors" },
+      { "name": "The Four-Color Rule", "body": "Do not introduce additional brand hues, background gradients, or tinted panels. Existing card artwork is the only exception and must remain unrecolored; the restrained foil highlight is a lighting effect on that artwork, not a background treatment.", "section": "colors" },
       { "name": "The One Voice Rule", "body": "Use Inter for every textual role. Differentiate through size, weight, tracking, case, and numeric features, not another font.", "section": "typography" },
       { "name": "The Quiet Detail Rule", "body": "Keep supporting copy compact and line length controlled; reserve heavy weight and negative tracking for headings, role names, and key figures.", "section": "typography" },
       { "name": "The Object-Only Lift Rule", "body": "Shadows describe cards, never ordinary copy, calculators, buttons, or content sections.", "section": "elevation" }
@@ -169,7 +169,7 @@
       "Do preserve visible focus and reduced-motion behavior."
     ],
     "donts": [
-      "Don't add extra brand colors, recolor artwork, or introduce decorative gradients.",
+      "Don't add extra brand colors, recolor artwork, or introduce decorative background gradients.",
       "Don't wrap sections, calculators, or reply templates in rounded floating panels.",
       "Don't apply card shadows to text, navigation, or ordinary containers.",
       "Don't redraw, retype, or replace the supplied master logos.",

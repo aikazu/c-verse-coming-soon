@@ -18,6 +18,17 @@
         ],
         "createdAt": "2026-11-01T03:29:14.051Z",
         "reason": "false positive: style.css sizes are clamp() values; display 36-72px, title 28-46px, lead 16-20px, body 14.5-16px, mega 96-200px, each step above 1.25x"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "arial",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html",
+          ".impeccable/mocks/decision/canon.html",
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-07T10:48:00.950Z",
+        "reason": "Agent: discarded code-led decision sketches use Arial only for temporary geometry; shipped join uses documented Inter"
       }
     ]
   }
