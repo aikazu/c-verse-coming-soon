@@ -440,7 +440,7 @@ input[type="range"]::-moz-range-thumb{
   .js .timeline li{opacity:0;translate:0 12px;transition:opacity .5s var(--ease), translate .5s var(--ease);transition-delay:calc(.25s + var(--i) * .12s)}
   .js .is-seen .timeline li{opacity:1;translate:0 0}
 }
-@keyframes deal{from{opacity:0;translate:40px 30px}to{opacity:1;translate:0 0}}
+@keyframes deal{from{opacity:0;translate:0 30px}to{opacity:1;translate:0 0}}
 
 /* ---------------------------------------------------------- fixed chrome */
 .progress{
@@ -509,9 +509,13 @@ body[data-theme="lime"] .chrome{--bg:var(--black);--fg:var(--silver);--line:var(
   .readout > div{flex-wrap:wrap;gap:4px 16px}
 }
 @media (max-width:560px){
+  .readout > .readout__total{flex-direction:column;align-items:flex-start;gap:6px}
+  .readout__total dd{text-align:left}
   .track{grid-template-columns:1fr}
   .calc__row{grid-template-columns:1fr}
-  .chrome__sub{display:none}
+  .chrome__brand,.chrome__sub{display:none}
+  .chrome__label{display:flex;align-items:center}
+  .chrome__label .chrome__switch{margin-left:0}
 }
 
 /* Role choice and illustrator path share the deck's type, artwork and palette. */
@@ -524,14 +528,15 @@ body[data-theme="lime"] .chrome{--bg:var(--black);--fg:var(--silver);--line:var(
 .role-choice__body p{font-size:clamp(17px,1.5vw,21px);line-height:1.55;max-width:34ch;margin-top:28px}
 .role-choice__art{position:relative;min-width:0;height:clamp(280px,42vw,500px);perspective:1100px;--rx:0deg;--ry:0deg}
 .role-choice__fan{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .45s var(--ease)}
-.role-choice__fan .role-card{position:absolute;width:52%;height:auto;top:16%;box-shadow:0 8px 18px #0005}
+.role-choice__fan .role-card{position:absolute;width:52%;height:auto;top:16%;overflow:hidden;isolation:isolate;box-shadow:0 8px 18px #0005}
+.role-card img{display:block;width:100%;height:100%;box-shadow:none}
 .role-card--left{left:0;transform:rotate(-10deg)}
 .role-choice__fan .role-card--middle{left:25%;top:9%;transform:rotate(0deg) translateZ(22px)}
 .role-card--right{right:0;transform:rotate(10deg) translateZ(44px)}
-.role-choice__fan::after{content:"";position:absolute;inset:15% 20% 20%;pointer-events:none;background:linear-gradient(112deg,transparent 35%,#fff9 49%,transparent 61%) 0 0 / 200% 100%;mix-blend-mode:overlay;opacity:.14}
+.role-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(112deg,transparent 35%,#fff9 49%,transparent 61%) 0 0 / 200% 100%;mix-blend-mode:overlay;opacity:.14}
 @media (prefers-reduced-motion:no-preference){
   .role-choice__art{animation:choice-enter .8s var(--ease) both}
-  .role-choice__fan::after{animation:choice-foil 3.5s var(--ease) .3s 1 both}
+  .role-card::after{animation:choice-foil 3.5s var(--ease) .3s 1 both}
 }
 @keyframes choice-enter{from{opacity:.3;translate:0 18px}to{opacity:1;translate:0 0}}
 @keyframes choice-foil{from{opacity:0;background-position:0 0}45%{opacity:.3}to{opacity:.12;background-position:100% 0}}
@@ -542,10 +547,12 @@ body[data-theme="lime"] .chrome{--bg:var(--black);--fg:var(--silver);--line:var(
 .role-choice__actions button small{font-size:15px;color:var(--silver);margin-top:10px}
 .role-choice__actions button>span:last-child{font-size:30px;color:var(--lime)}
 .role-choice__actions button:hover strong,.role-choice__actions button:focus-visible strong{color:var(--lime)}
-.role-choice__actions button:focus-visible,.chrome__switch:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
+.role-choice__actions button:focus-visible,.chrome__switch:focus-visible{outline:2px solid currentColor}
+.role-choice__actions button:focus-visible{outline-offset:4px}
+.chrome__switch:focus-visible{outline-offset:1px}
 .role-choice__foot{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #777;padding-top:18px;font-size:11px;font-weight:600;letter-spacing:.08em}
 .chrome__switch{background:transparent;color:inherit;border:0;text-decoration:underline;text-underline-offset:4px;cursor:pointer;min-height:44px}
-.chrome__switch{margin-left:16px;font-size:11px;color:var(--lime);letter-spacing:normal;text-transform:none}
+.chrome__switch{margin-left:16px;font-size:11px;color:var(--fg);letter-spacing:normal;text-transform:none}
 @media (min-width:761px) and (max-width:1050px){
   .role-choice__body{grid-template-columns:1fr 1fr;gap:32px}
   .role-choice__art{height:300px}

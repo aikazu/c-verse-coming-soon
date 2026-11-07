@@ -1,7 +1,6 @@
-// Figures for the creator deck. Same rules as Platform
-// packages/shared/src/economy.ts and the PDF deck build (creator-20261031):
+// Figures for the creator deck:
 // 1 C.Coin = Rp10.000; first-sale creator share 30% (15% each with an
-// illustrator) floored to whole C.Gems; resale royalty 7,5% (5% each) ceiled;
+// illustrator) ceiled to whole C.Gems; resale royalty 7,5% (5% each) ceiled;
 // a Seed C.Card sale keeps a 15% fee, ceiled, and pays no separate royalty;
 // with an illustrator collaborator the fee is two 7,5% parts, each ceiled
 // (splitSeedFeeCcoin, 90_research/30_creator_seed_card.md).
@@ -9,7 +8,7 @@
 
 export const RATE_IDR = 10_000;
 
-export const primaryShare = (price, collab = false) => Math.floor((price * (collab ? 15 : 30)) / 100);
+export const primaryShare = (price, collab = false) => Math.ceil((price * (collab ? 15 : 30)) / 100);
 
 export const royalty = (price, collab = false) => Math.ceil((price * (collab ? 50 : 75)) / 1000);
 

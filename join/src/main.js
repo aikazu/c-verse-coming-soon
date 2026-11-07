@@ -75,7 +75,7 @@ const revealObserver = new IntersectionObserver(
       revealObserver.unobserve(entry.target);
     }
   },
-  { threshold: 0.25 },
+  { threshold: 0 },
 );
 for (const slide of [...decks.creator, ...decks.illustrator]) {
   activeObserver.observe(slide);
@@ -137,11 +137,18 @@ for (const flip of document.querySelectorAll('.flip')) {
     flip.setAttribute('aria-pressed', String(back));
     flipLabel.textContent = back ? 'Belakang: identitas kolaborasi' : 'Depan: artwork';
   };
-  flip.addEventListener('click', () => setFlip(flip.getAttribute('aria-pressed') !== 'true'));
+  let demoTimers = [];
+  flip.addEventListener('click', () => {
+    demoTimers.forEach(clearTimeout);
+    demoTimers = [];
+    setFlip(flip.getAttribute('aria-pressed') !== 'true');
+  });
   flip.closest('.slide').addEventListener('seen', () => {
     if (reduceMotion.matches) return;
-    setTimeout(() => setFlip(true), 900);
-    setTimeout(() => setFlip(false), 2600);
+    const demoFlip = (back) => {
+      if (!flip.closest('main').hidden) setFlip(back);
+    };
+    demoTimers = [setTimeout(() => demoFlip(true), 900), setTimeout(() => demoFlip(false), 2600)];
   });
 }
 
@@ -217,6 +224,10 @@ setupCalc(document.querySelector('[data-calc="seed"]'), function ({ price, colla
   const fee = seedFee(price, collab);
   write(this, 'price', `${num(price)} C.Coin`);
   write(this, 'fee', `${num(fee)} C.Coin`);
+  write(this, 'fee-label', collab ? 'Total fee 2 × 7,5%' : 'Fee 15%');
+  write(this, 'claim', collab
+    ? 'Bila dijual, Anda menerima sisa harga setelah fee C.Verse dan ilustrator, masing-masing 7,5% dibulatkan ke atas.'
+    : 'Bila dijual, Anda menerima sisa harga jual setelah fee 15% yang dibulatkan ke atas.');
   write(this, 'net', gems(price - fee));
   write(this, 'note', collab
     ? 'Fee dibagi 7,5% untuk C.Verse dan 7,5% untuk ilustrator, masing-masing dibulatkan ke atas. Harga di sini contoh. Sebelum diserahkan ke pembeli, kartu dikirim ke Vault C.Verse untuk verifikasi chip dan kondisi.'
@@ -226,19 +237,21 @@ setupCalc(document.querySelector('[data-calc="seed"]'), function ({ price, colla
 
 setupCalc(document.querySelector('[data-calc="primary"]'), function ({ price, count, collab, ranges }) {
   const share = primaryShare(price, collab);
+  document.querySelector('[data-creator-primary-rate]').textContent = collab ? '15' : '30';
   write(this, 'count', `${num(count)} kartu`);
   write(this, 'share', gems(share));
   write(this, 'partner', gems(primaryShare(price, true)));
   write(this, 'total-label', `Total untuk ${num(count)} kartu`);
   write(this, 'total', gems(share * count));
   write(this, 'note', collab
-    ? '30% dibagi 15% untuk Anda dan 15% untuk ilustrator. Dibulatkan ke bawah ke C.Gems utuh, sebelum biaya pencairan dan pajak. Jumlah kartu di sini contoh; harga rilis perdana adalah 30 C.Coin per kartu.'
-    : 'Dibulatkan ke bawah ke C.Gems utuh, sebelum biaya pencairan dan pajak. Jumlah kartu di sini contoh; harga rilis perdana adalah 30 C.Coin per kartu.');
+    ? '30% dibagi 15% untuk Anda dan 15% untuk ilustrator. Dibulatkan ke atas ke C.Gems utuh, sebelum biaya pencairan dan pajak. Jumlah kartu di sini contoh; contoh harga rilis adalah 30 C.Coin per kartu.'
+    : 'Dibulatkan ke atas ke C.Gems utuh, sebelum biaya pencairan dan pajak. Jumlah kartu di sini contoh; contoh harga rilis adalah 30 C.Coin per kartu.');
   ranges[0].setAttribute('aria-valuetext', `${count} kartu`);
 });
 
 setupCalc(document.querySelector('[data-calc="royalty"]'), function ({ price, count, collab, ranges }) {
   const share = royalty(price, collab);
+  document.querySelector('[data-creator-royalty-rate]').textContent = collab ? '5' : '7,5';
   write(this, 'price', coins(price));
   write(this, 'count', `${num(count)} kali`);
   write(this, 'share', gems(share));
@@ -260,8 +273,8 @@ setupCalc(document.querySelector('[data-calc="artist-primary"]'), function ({ pr
   write(this, 'total-label', `Total untuk ${num(count)} kartu`);
   write(this, 'total', gems(share * count));
   write(this, 'note', collab
-    ? 'Contoh C.Card reguler: 15% untuk Anda dan 15% untuk kreator, masing-masing dibulatkan ke bawah per kartu. Sebelum biaya pencairan dan pajak.'
-    : 'Contoh C.Card reguler karya Anda sendiri: 30% dibulatkan ke bawah per kartu. Sebelum biaya pencairan dan pajak.');
+    ? 'Contoh C.Card reguler: 15% untuk Anda dan 15% untuk kreator, masing-masing dibulatkan ke atas per kartu. Sebelum biaya pencairan dan pajak.'
+    : 'Contoh C.Card reguler karya Anda sendiri: 30% dibulatkan ke atas per kartu. Sebelum biaya pencairan dan pajak.');
   document.querySelector('[data-artist-primary-rate]').textContent = collab ? '15' : '30';
   ranges[0].setAttribute('aria-valuetext', `${count} kartu`);
 });
@@ -275,8 +288,8 @@ setupCalc(document.querySelector('[data-calc="artist-royalty"]'), function ({ pr
   write(this, 'total-label', `Total dari ${num(count)} penjualan`);
   write(this, 'total', gems(share * count));
   write(this, 'note', collab
-    ? 'Contoh C.Card reguler di C.Verse: 5% untuk Anda dan 5% untuk kreator, masing-masing dibulatkan ke atas. Fee C.Verse 5% terpisah. Sebelum biaya pencairan dan pajak.'
-    : 'Contoh C.Card reguler karya Anda sendiri di C.Verse: 7,5% dibulatkan ke atas. Seed memakai aturan berbeda.');
+    ? 'Contoh C.Card reguler di C.Verse: 5% untuk Anda dan 5% untuk kreator, masing-masing dibulatkan ke atas. Fee C.Verse 5% terpisah. Jika disepakati ada Seed, fee 7,5% untuk C.Verse dan 7,5% untuk ilustrator masing-masing dibulatkan ke atas; pemilik menerima sisanya. Sebelum biaya pencairan dan pajak.'
+    : 'Contoh C.Card reguler karya Anda sendiri di C.Verse: 7,5% dibulatkan ke atas, sebelum biaya pencairan dan pajak. Seed memakai aturan berbeda.');
   document.querySelector('[data-artist-royalty-rate]').textContent = collab ? '5' : '7,5';
   ranges[0].setAttribute('aria-valuetext', `${price} C.Coin`);
   ranges[1].setAttribute('aria-valuetext', `${count} kali`);

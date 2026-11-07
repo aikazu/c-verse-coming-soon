@@ -1,12 +1,12 @@
-// Run: npm run test:join. Expected values match the asserts in the PDF deck build.
+// Run: npm run test:join.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { primaryShare, royalty, rp, seedFee } from './economy.js';
 
-test('first-sale share floors to whole C.Gems', () => {
-  assert.deepEqual([30, 50].map((p) => primaryShare(p)), [9, 15]);
-  assert.equal(primaryShare(30, true), 4);
+test('first-sale share ceils to whole C.Gems for solo and each collaborator', () => {
+  assert.deepEqual([30, 31, 50].map((p) => primaryShare(p)), [9, 10, 15]);
+  assert.deepEqual([30, 40, 41].map((p) => primaryShare(p, true)), [5, 6, 7]);
 });
 
 test('resale royalty ceils to whole C.Gems', () => {

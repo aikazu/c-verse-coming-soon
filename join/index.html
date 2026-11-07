@@ -60,9 +60,9 @@
         <div><h1 id="choice-title">Karya Anda.<br /><em>Cerita Anda.</em></h1>
           <p>Bawa karya Anda ke dunia C.Card. Pilih peran untuk melihat panduan yang sesuai.</p></div>
         <div class="role-choice__art" data-choice-tilt aria-hidden="true"><div class="role-choice__fan">
-          <img class="card role-card role-card--left" src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" alt="" />
-          <img class="card role-card role-card--middle" src="./src/assets/cards/hezky-front.webp" width="720" height="1006" alt="" />
-          <img class="card role-card role-card--right" src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" alt="" />
+          <span class="card role-card role-card--left"><img class="card" src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" alt="" /></span>
+          <span class="card role-card role-card--middle"><img class="card" src="./src/assets/cards/hezky-front.webp" width="720" height="1006" alt="" /></span>
+          <span class="card role-card role-card--right"><img class="card" src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" alt="" /></span>
         </div></div>
         <div class="role-choice__actions" aria-label="Pilih peran">
           <button type="button" data-role-choice="creator"><span><strong>Saya kreator</strong><small>Hadirkan karya atau persona Anda dalam C.Card.</small></span><span aria-hidden="true">↗</span></button>
@@ -142,7 +142,7 @@
             <li data-reveal><b>Simpan atau terima tawaran</b><span>Kolektor dapat mengajukan tawaran; keputusan menjual ada pada Anda.</span></li>
           </ol>
           <div class="calc calc--inline" data-calc="seed" data-reveal>
-            <p class="calc__claim">Bila dijual, Anda menerima sisa harga jual setelah fee 15% yang dibulatkan ke atas, sekitar 85%.</p>
+            <p class="calc__claim" data-out="claim">Bila dijual, Anda menerima sisa harga jual setelah fee 15% yang dibulatkan ke atas.</p>
             <div class="calc__row">
             <div class="calc__inputs">
             <div class="field">
@@ -153,7 +153,7 @@
             <label class="switch"><input type="checkbox" role="switch" data-collab /><span class="switch__ui" aria-hidden="true"></span>Dengan ilustrator sebagai kolaborator</label>
             </div>
             <dl class="readout" aria-live="polite">
-              <div><dt>Fee 15%</dt><dd data-out="fee">15 C.Coin</dd></div>
+              <div><dt data-out="fee-label">Fee 15%</dt><dd data-out="fee">15 C.Coin</dd></div>
               <div><dt>Anda menerima</dt><dd data-out="net">85 C.Gems · Rp850.000</dd></div>
             </dl>
             </div>
@@ -182,13 +182,13 @@
       <div class="slide__inner split split--calc">
         <div>
           <h2 id="t5" class="title" data-reveal>Penghasilan dari rilis perdana</h2>
-          <p class="mega" data-reveal><span data-count="30">30</span>%</p>
-          <p class="lead" data-reveal>dari harga jual kotor setiap kartu yang terjual. C.Verse menanggung biaya produksi.</p>
+          <p class="mega" data-reveal><span data-creator-primary-rate>30</span>%</p>
+          <p class="lead" data-reveal>contoh bagian dari harga jual kotor setiap kartu yang terjual. Rincian rilis disepakati dalam deal memo.</p>
         </div>
         <div class="calc" data-calc="primary" data-reveal>
           <p class="calc__head">Hitung contoh per kartu</p>
           <div class="field">
-            <span>Harga setiap kartu</span>
+            <span>Contoh harga kartu bertanda tangan</span>
             <output>30 C.Coin · Rp300.000</output>
           </div>
           <div class="field">
@@ -199,10 +199,10 @@
           <label class="switch"><input type="checkbox" role="switch" data-collab /><span class="switch__ui" aria-hidden="true"></span>Rilis bersama ilustrator</label>
           <dl class="readout" aria-live="polite">
             <div><dt>Bagian Anda per kartu</dt><dd data-out="share">9 C.Gems · Rp90.000</dd></div>
-            <div data-collab-only hidden><dt>Bagian ilustrator per kartu</dt><dd data-out="partner">4 C.Gems · Rp40.000</dd></div>
+            <div data-collab-only hidden><dt>Bagian ilustrator per kartu</dt><dd data-out="partner">5 C.Gems · Rp50.000</dd></div>
             <div class="readout__total"><dt data-out="total-label">Total untuk 1 kartu</dt><dd data-out="total">9 C.Gems · Rp90.000</dd></div>
           </dl>
-          <p class="note" data-out="note">Dibulatkan ke bawah ke C.Gems utuh, sebelum biaya pencairan dan pajak. Jumlah kartu di sini contoh; harga rilis perdana adalah 30 C.Coin per kartu.</p>
+          <p class="note" data-out="note">Dibulatkan ke atas ke C.Gems utuh, sebelum biaya pencairan dan pajak. Jumlah kartu di sini contoh; contoh harga rilis adalah 30 C.Coin per kartu.</p>
         </div>
       </div>
     </section>
@@ -212,7 +212,7 @@
       <div class="slide__inner split split--calc">
         <div>
           <h2 id="t6" class="title" data-reveal>Royalti setiap kali kartu dijual kembali</h2>
-          <p class="mega" data-reveal><span data-count="7.5">7,5</span>%</p>
+          <p class="mega" data-reveal><span data-creator-royalty-rate>7,5</span>%</p>
           <p class="lead" data-reveal>dari setiap penjualan kembali di C.Verse, seumur hidup kartu. Tetap mengalir setelah kerja sama berakhir.</p>
         </div>
         <div class="calc" data-calc="royalty" data-reveal>
@@ -295,8 +295,8 @@
         <h2 id="t9" class="title" data-reveal>Hak Anda tetap terjaga</h2>
         <div class="rights">
           <div data-reveal><h3>Hak cipta tetap milik Anda</h3><p>Lisensi non-eksklusif dan berlaku global untuk mencetak, menjual, dan menampilkan C.Card, serta memakai nama, foto, dan branding Anda untuk promosi rilis. Berlaku selama kartu diperdagangkan; tanpa sub-lisensi atau penggunaan di luar C.Card.</p></div>
-          <div data-reveal><h3>Penghasilan dalam C.Gems</h3><p>Bagian penjualan dan royalti masuk sebagai C.Gems, lalu dapat dicairkan ke rekening atas nama Anda setelah verifikasi identitas.</p></div>
-          <div data-reveal><h3>Pencairan terjadwal</h3><p>Diproses mingguan dengan minimum 10 C.Gems dan biaya transfer Rp2.000 per pencairan, berapa pun jumlahnya. Pajak dipotong sesuai ketentuan, disertai bukti potong.</p></div>
+          <div data-reveal><h3>Penghasilan dalam C.Gems</h3><p>Bagian penjualan dan royalti masuk sebagai C.Gems, dan direncanakan dapat dicairkan ke rekening atas nama Anda setelah fasilitas tersedia dan identitas diverifikasi.</p></div>
+          <div data-reveal><h3>Pencairan terjadwal</h3><p>Saat fasilitas pencairan tersedia, contoh ketentuannya mingguan dengan minimum 10 C.Gems dan biaya transfer Rp2.000 per pencairan. Pajak dipotong sesuai ketentuan, disertai bukti potong.</p></div>
           <div data-reveal><h3>Bila kerja sama berakhir</h3><p>Kartu yang sudah terjual tetap beredar dan royalti tetap mengalir. Tidak ada kartu baru dengan karya Anda.</p></div>
         </div>
         <p class="note" data-reveal>Ketentuan lengkap tertulis dalam perjanjian kolaborasi yang Anda tanda tangani.</p>
@@ -373,8 +373,8 @@ Foto atau artwork: [tautan, bila sudah ada]</pre>
       <div class="calc" data-calc="artist-primary" data-reveal><p class="calc__head">Hitung contoh per kartu</p><div class="field"><span>Harga kartu bertanda tangan</span><output>30 C.Coin · Rp300.000</output></div>
         <div class="field"><label for="ap-count">Kartu terjual</label><output for="ap-count" data-out="count">1 kartu</output><input id="ap-count" type="range" min="1" max="100" step="1" value="1" /></div>
         <label class="switch"><input type="checkbox" role="switch" data-collab /><span class="switch__ui" aria-hidden="true"></span>Rilis bersama kreator</label>
-        <dl class="readout" aria-live="polite"><div><dt>Bagian Anda per kartu</dt><dd data-out="share">9 C.Gems · Rp90.000</dd></div><div data-collab-only hidden><dt>Bagian kreator per kartu</dt><dd data-out="partner">4 C.Gems · Rp40.000</dd></div><div class="readout__total"><dt data-out="total-label">Total untuk 1 kartu</dt><dd data-out="total">9 C.Gems · Rp90.000</dd></div></dl>
-        <p class="note" data-out="note">Dibulatkan ke bawah per kartu, sebelum biaya pencairan dan pajak. Jumlah kartu adalah contoh.</p>
+        <dl class="readout" aria-live="polite"><div><dt>Bagian Anda per kartu</dt><dd data-out="share">9 C.Gems · Rp90.000</dd></div><div data-collab-only hidden><dt>Bagian kreator per kartu</dt><dd data-out="partner">5 C.Gems · Rp50.000</dd></div><div class="readout__total"><dt data-out="total-label">Total untuk 1 kartu</dt><dd data-out="total">9 C.Gems · Rp90.000</dd></div></dl>
+        <p class="note" data-out="note">Dibulatkan ke atas per kartu, sebelum biaya pencairan dan pajak. Jumlah kartu adalah contoh.</p>
       </div>
     </div></section>
     <section class="slide" id="i6" data-theme="orange" aria-labelledby="it6"><div class="slide__inner split split--calc">
@@ -394,7 +394,7 @@ Foto atau artwork: [tautan, bila sudah ada]</pre>
       <li style="--i:0"><b>H-30</b><span>Brief dan deal memo</span><em>Bersama</em></li><li style="--i:1"><b>H-21</b><span>Artwork final</span><em>Bersama</em></li><li style="--i:2"><b>H-14</b><span>Produksi kartu dan chip</span><em>C.Verse</em></li><li style="--i:3"><b>H-7</b><span>Teaser bersama</span><em>Bersama</em></li><li style="--i:4"><b>H-0</b><span>Rilis</span><em>C.Verse</em></li><li style="--i:5"><b>H+7</b><span>Laporan penjualan</span><em>C.Verse</em></li><li style="--i:6"><b>H+14</b><span>Pencairan pertama</span><em>C.Verse</em></li>
     </ol><p class="note" data-reveal>Contoh target C.Card reguler; tanggal pasti dan promosi disepakati dalam deal memo.</p></div></section>
     <section class="slide" id="i9" data-theme="silver" aria-labelledby="it9"><div class="slide__inner"><h2 id="it9" class="title" data-reveal>Hak dan kesepakatan</h2><div class="rights">
-      <div data-reveal><h3>Hak cipta tetap milik Anda</h3><p>Contoh lisensi C.Card bersifat non-eksklusif untuk mencetak, menjual, dan menampilkan kartu serta promosi rilis; tidak untuk penggunaan di luar C.Card.</p></div><div data-reveal><h3>Penghasilan dalam C.Gems</h3><p>Bagian penjualan dan royalti masuk sebagai C.Gems, lalu dapat dicairkan ke rekening atas nama Anda setelah verifikasi identitas.</p></div><div data-reveal><h3>Pencairan terjadwal</h3><p>Diproses mingguan, minimum 10 C.Gems dan biaya transfer Rp2.000 per pencairan. Pajak dipotong sesuai ketentuan, disertai bukti potong.</p></div><div data-reveal><h3>Bila kerja sama berakhir</h3><p>Kartu yang sudah terjual tetap beredar dan royalti tetap mengalir. Tidak ada kartu baru dengan karya Anda.</p></div>
+      <div data-reveal><h3>Hak cipta tetap milik Anda</h3><p>Contoh lisensi C.Card bersifat non-eksklusif untuk mencetak, menjual, dan menampilkan kartu serta promosi rilis; tidak untuk penggunaan di luar C.Card.</p></div><div data-reveal><h3>Penghasilan dalam C.Gems</h3><p>Bagian penjualan dan royalti masuk sebagai C.Gems, dan direncanakan dapat dicairkan ke rekening atas nama Anda setelah fasilitas tersedia dan identitas diverifikasi.</p></div><div data-reveal><h3>Pencairan terjadwal</h3><p>Saat fasilitas pencairan tersedia, contoh ketentuannya mingguan dengan minimum 10 C.Gems dan biaya transfer Rp2.000 per pencairan. Pajak dipotong sesuai ketentuan, disertai bukti potong.</p></div><div data-reveal><h3>Bila kerja sama berakhir</h3><p>Kartu yang sudah terjual tetap beredar dan royalti tetap mengalir. Tidak ada kartu baru dengan karya Anda.</p></div>
     </div><p class="note" data-reveal>Contoh ketentuan C.Card reguler; perjanjian kolaborasi menjadi acuan untuk rilis yang disepakati.</p></div></section>
     <section class="slide slide--close" id="i10" data-theme="lime" aria-labelledby="it10"><div class="slide__inner close"><div class="close__copy">
       <span class="brand-logo brand-logo--cvs" role="img" aria-label="C.Verse" data-reveal></span><h2 id="it10" class="display" data-reveal>Karya apa yang ingin Anda hadirkan?</h2><p class="lead" data-reveal>Ceritakan karya sendiri yang ingin Anda rilis, atau ide kolaborasi yang ingin dibicarakan.</p><p class="next" data-reveal>Balas pesan tim C.Verse yang mengirimkan tautan ini. Sertakan portofolio atau contoh karya bila ada.</p>
@@ -404,7 +404,7 @@ Portofolio: [tautan, bila ada]</pre><button class="btn btn--solid" type="button"
   </main>
 
   <footer class="chrome" hidden>
-    <span class="chrome__label">C.Verse<span class="chrome__sub"> <span aria-hidden="true">/</span> Kolaborasi kreator</span> <button type="button" class="chrome__switch" data-change-role>Ganti peran</button></span>
+    <span class="chrome__label"><span class="chrome__brand">C.Verse</span><span class="chrome__sub"> <span aria-hidden="true">/</span> Kolaborasi kreator</span> <button type="button" class="chrome__switch" data-change-role>Ganti peran</button></span>
     <div class="chrome__nav">
       <button type="button" class="chrome__btn" data-go="-1" aria-label="Slide sebelumnya"><span aria-hidden="true">←</span></button>
       <span class="chrome__count" aria-live="polite"><span data-current>01</span> / 10</span>
