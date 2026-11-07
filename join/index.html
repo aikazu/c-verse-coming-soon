@@ -35,6 +35,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet" />
 </head>
 <body data-theme="lime">
+  <svg class="icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14" /></symbol>
+    <symbol id="icon-next" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" /></symbol>
+    <symbol id="icon-prev" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7" /></symbol>
+  </svg>
   <a class="skip" href="#s2" hidden>Lewati sampul</a>
   <div class="progress" aria-hidden="true" hidden><span></span></div>
 
@@ -55,21 +60,30 @@
 
   <main class="role-choice" id="role-choice" aria-labelledby="choice-title">
     <div class="role-choice__inner">
-      <span class="brand-logo brand-logo--cv" role="img" aria-label="CreatorVerse"></span>
+      <header class="role-choice__header">
+        <span class="brand-logo brand-logo--cv" role="img" aria-label="CreatorVerse"></span>
+        <span class="role-choice__edition">C.CARD / C.VERSE</span>
+      </header>
       <div class="role-choice__body">
-        <div><h1 id="choice-title">Karya Anda.<br /><em>Cerita Anda.</em></h1>
-          <p>Bawa karya Anda ke dunia C.Card. Pilih peran untuk melihat panduan yang sesuai.</p></div>
-        <div class="role-choice__art" data-choice-tilt aria-hidden="true"><div class="role-choice__fan">
-          <span class="card role-card role-card--left"><img class="card" src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" alt="" /></span>
-          <span class="card role-card role-card--middle"><img class="card" src="./src/assets/cards/hezky-front.webp" width="720" height="1006" alt="" /></span>
-          <span class="card role-card role-card--right"><img class="card" src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" alt="" /></span>
-        </div></div>
+        <div class="role-choice__copy">
+          <h1 id="choice-title">Karya Anda.<br /><em>Cerita Anda.</em></h1>
+          <p>Bawa karya Anda ke dunia C.Card. Pilih peran untuk melihat panduan yang sesuai.</p>
+          <span class="role-choice__object"><span aria-hidden="true"></span> Kartu fisik. Karya yang hidup.</span>
+        </div>
+        <div class="role-choice__art" data-choice-tilt aria-hidden="true">
+          <div class="role-choice__fan">
+            <figure class="role-card role-card--left"><span class="role-card__image"><img src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" alt="" /></span><figcaption>Clarissa Punipun</figcaption></figure>
+            <figure class="role-card role-card--middle"><span class="role-card__image"><img src="./src/assets/cards/hezky-front.webp" width="720" height="1006" alt="" /></span><figcaption>Hezky Joe</figcaption></figure>
+            <figure class="role-card role-card--right"><span class="role-card__image"><img src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" alt="" fetchpriority="high" /></span><figcaption>Nekonoi Katsu</figcaption></figure>
+          </div>
+          <span class="role-choice__spec">63 × 88 MM <span>/</span> NFC <span>/</span> SIGNED</span>
+        </div>
         <div class="role-choice__actions" aria-label="Pilih peran">
-          <button type="button" data-role-choice="creator"><span><strong>Saya kreator</strong><small>Hadirkan karya atau persona Anda dalam C.Card.</small></span><span aria-hidden="true">↗</span></button>
-          <button type="button" data-role-choice="illustrator"><span><strong>Saya ilustrator</strong><small>Hadirkan karya sendiri atau berkolaborasi.</small></span><span aria-hidden="true">↗</span></button>
+          <button type="button" data-role-choice="creator"><span class="role-choice__label"><strong>Saya kreator</strong><small>Hadirkan karya atau persona Anda dalam C.Card.</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg></button>
+          <button type="button" data-role-choice="illustrator"><span class="role-choice__label"><strong>Saya ilustrator</strong><small>Hadirkan karya sendiri atau berkolaborasi.</small></span><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg></button>
         </div>
       </div>
-      <p class="role-choice__foot"><span>Contoh desain kolaborasi: Riryeee &amp; Kang Cilok’s.</span><span>C.CARD / C.VERSE</span></p>
+      <p class="role-choice__foot"><span>Contoh desain kolaborasi: Riryeee &amp; Kang Cilok’s.</span><span>Bukan pengumuman rilis.</span></p>
       <noscript><p>Aktifkan JavaScript untuk memilih peran dan membuka panduan kolaborasi.</p></noscript>
     </div>
   </main>
@@ -84,7 +98,7 @@
           <p class="lead" data-reveal>Dari foto atau artwork Anda, atau kita produksi bersama. Setiap C.Card dilengkapi chip NFC.</p>
           <div class="cover__actions" data-reveal>
             <a class="btn btn--solid" href="#s2">Lihat cara kerjanya</a>
-            <span class="hint"><kbd>→</kbd> atau gulir untuk lanjut</span>
+            <span class="hint"><svg class="icon" aria-hidden="true"><use href="#icon-next" /></svg> atau gulir untuk lanjut</span>
           </div>
         </div>
         <div class="cover__cards" data-tilt aria-hidden="true">
@@ -333,7 +347,7 @@ Foto atau artwork: [tautan, bila sudah ada]</pre>
         <div class="cover__copy"><span class="brand-logo brand-logo--cv" role="img" aria-label="CreatorVerse" data-reveal></span>
           <h1 id="it1" class="display" tabindex="-1" data-reveal>Ilustrasi Anda, jadi karya yang bisa dikoleksi.</h1>
           <p class="lead" data-reveal>Diskusikan rilis C.Card dari karya orisinal Anda bersama tim kami, atau buat karya bersama kreator. Pilihan kolaborasi ada di tangan Anda.</p>
-          <div class="cover__actions" data-reveal><a class="btn btn--solid" href="#i2">Lihat cara kerjanya</a><span class="hint"><kbd>→</kbd> atau gulir untuk lanjut</span></div>
+          <div class="cover__actions" data-reveal><a class="btn btn--solid" href="#i2">Lihat cara kerjanya</a><span class="hint"><svg class="icon" aria-hidden="true"><use href="#icon-next" /></svg> atau gulir untuk lanjut</span></div>
         </div>
         <div class="cover__cards" data-tilt aria-hidden="true"><img class="card card--back" src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" alt="" /><img class="card card--third" src="./src/assets/cards/hezky-front.webp" width="720" height="1006" alt="" /><img class="card card--front" src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" alt="" /></div>
         <p class="credit" data-reveal>Contoh desain kolaborasi: Nekonoi Katsu dan Clarissa Punipun oleh Riryeee; Hezky Joe oleh Kang Cilok’s.</p>
@@ -406,9 +420,9 @@ Portofolio: [tautan, bila ada]</pre><button class="btn btn--solid" type="button"
   <footer class="chrome" hidden>
     <span class="chrome__label"><span class="chrome__brand">C.Verse</span><span class="chrome__sub"> <span aria-hidden="true">/</span> Kolaborasi kreator</span> <button type="button" class="chrome__switch" data-change-role>Ganti peran</button></span>
     <div class="chrome__nav">
-      <button type="button" class="chrome__btn" data-go="-1" aria-label="Slide sebelumnya"><span aria-hidden="true">←</span></button>
+      <button type="button" class="chrome__btn" data-go="-1" aria-label="Slide sebelumnya"><svg class="icon" aria-hidden="true"><use href="#icon-prev" /></svg></button>
       <span class="chrome__count" aria-live="polite"><span data-current>01</span> / 10</span>
-      <button type="button" class="chrome__btn" data-go="1" aria-label="Slide berikutnya"><span aria-hidden="true">→</span></button>
+      <button type="button" class="chrome__btn" data-go="1" aria-label="Slide berikutnya"><svg class="icon" aria-hidden="true"><use href="#icon-next" /></svg></button>
     </div>
   </footer>
 

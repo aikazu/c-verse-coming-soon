@@ -12,6 +12,13 @@ node_modules/
 dist/
 dist-join/
 .wrangler/
+.tmp/
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/hook.cache.json
+.impeccable/decision-join.json
+.impeccable/join-brief.md
+.impeccable/questions/
 
 # Generated archives
 *.zip

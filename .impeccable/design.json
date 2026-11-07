@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-07T00:00:00.000Z",
+  "title": "Design System: C.Verse Join",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "CreatorVerse Ink",
+        "canonical": "#171717",
+        "tonalRamp": ["oklch(15% 0 0)", "oklch(20% 0 0)", "oklch(27% 0 0)", "oklch(38% 0 0)", "oklch(52% 0 0)", "oklch(66% 0 0)", "oklch(81% 0 0)", "oklch(95% 0 0)"]
+      },
+      "lime": {
+        "role": "primary",
+        "displayName": "CreatorVerse Lime",
+        "canonical": "#CCFF66",
+        "tonalRamp": ["oklch(15% 0.04 125)", "oklch(26% 0.08 125)", "oklch(39% 0.12 125)", "oklch(53% 0.16 125)", "oklch(67% 0.20 125)", "oklch(79% 0.22 125)", "oklch(88% 0.22 125)", "oklch(95% 0.10 125)"]
+      },
+      "orange": {
+        "role": "secondary",
+        "displayName": "CreatorVerse Orange",
+        "canonical": "#FF6633",
+        "tonalRamp": ["oklch(15% 0.04 40)", "oklch(26% 0.08 40)", "oklch(38% 0.12 40)", "oklch(49% 0.17 40)", "oklch(60% 0.21 40)", "oklch(72% 0.19 40)", "oklch(83% 0.14 40)", "oklch(95% 0.05 40)"]
+      },
+      "silver": {
+        "role": "neutral",
+        "displayName": "CreatorVerse Silver",
+        "canonical": "#CCCCCC",
+        "tonalRamp": ["oklch(15% 0 0)", "oklch(26% 0 0)", "oklch(38% 0 0)", "oklch(50% 0 0)", "oklch(62% 0 0)", "oklch(73% 0 0)", "oklch(83% 0 0)", "oklch(95% 0 0)"]
+      }
+    },
+    "typographyMeta": {
+      "choice-display": { "displayName": "Role Display", "purpose": "The two-line promise on the role chooser." },
+      "display": { "displayName": "Display", "purpose": "Cover and closing questions." },
+      "title": { "displayName": "Title", "purpose": "Guided section headings." },
+      "lead": { "displayName": "Lead", "purpose": "Short proposal copy beneath major headings." },
+      "body": { "displayName": "Body", "purpose": "Feature, responsibility, rights, and process copy." },
+      "note": { "displayName": "Note", "purpose": "Example labels, qualifications, and calculation notes." },
+      "label": { "displayName": "Label", "purpose": "Compact specifications and navigation metadata." },
+      "numeric": { "displayName": "Numeric", "purpose": "Large percentage examples and stable financial figures." }
+    },
+    "shadows": [
+      {
+        "name": "card-object",
+        "value": "0 24px 40px -16px rgb(23 23 23 / .6), 0 5px 12px rgb(23 23 23 / .2)",
+        "purpose": "Soft physical lift for card artwork."
+      },
+      {
+        "name": "chooser-card",
+        "value": "0 26px 34px -14px rgb(23 23 23 / .55), 0 5px 12px rgb(23 23 23 / .2)",
+        "purpose": "Tighter physical lift for the opening card fan."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Shared easing for card, reveal, and control transitions."
+      },
+      {
+        "name": "reveal",
+        "value": "opacity and 24px upward translation over .8s; 60ms stagger increments",
+        "purpose": "One-time section content entrance."
+      },
+      {
+        "name": "card-flip",
+        "value": "rotateY(180deg) over .8s",
+        "purpose": "Inspect front and back of the physical card."
+      },
+      {
+        "name": "bounded-cover-tilt",
+        "value": "rotateY ±7deg; rotateX ±5deg",
+        "purpose": "Optional fine-pointer response on cover cards."
+      }
+    ],
+    "breakpoints": [
+      { "name": "narrow", "value": "380px" },
+      { "name": "mobile", "value": "760px" },
+      { "name": "compact-desktop", "value": "1050px" },
+      { "name": "wide", "value": "1600px" },
+      { "name": "deck-snap", "value": "min-width: 960px and min-height: 680px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Square ink and lime action for cover and reply tasks.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Salin contoh balasan</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 52px; padding: 0 22px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--lime); border-radius: 0; font: 600 14px/1.5 Inter, system-ui, sans-serif; cursor: pointer; transition: background-color .2s, color .2s, translate .2s var(--ease); } .ds-btn-primary:hover { background: transparent; color: var(--ink); } .ds-btn-primary:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; } .ds-btn-primary:active { translate: 0 2px; }"
+    },
+    {
+      "name": "Role Action",
+      "kind": "button",
+      "refersTo": "role-action",
+      "description": "Full-width role selector with a diagonal arrow and whole-surface inversion.",
+      "html": "<button class=\"ds-role-action\" type=\"button\"><span><strong>Saya kreator</strong><small>Hadirkan karya atau persona Anda dalam C.Card.</small></span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 19 19 5M5 5h14v14\" /></svg></button>",
+      "css": ".ds-role-action { display: flex; width: 100%; min-height: 112px; align-items: center; justify-content: space-between; gap: 20px; padding: 22px var(--gutter); border: 0; border-top: 1px solid rgb(204 204 204 / .4); border-radius: 0; background: var(--ink); color: var(--silver); text-align: left; cursor: pointer; transition: background-color .25s, color .25s; } .ds-role-action strong { display: block; font: 600 30px/1.2 Inter, system-ui, sans-serif; letter-spacing: -.025em; } .ds-role-action small { display: block; max-width: 33ch; margin-top: 6px; font: 400 13px/1.5 Inter, system-ui, sans-serif; } .ds-role-action svg { width: 34px; height: 34px; flex: none; fill: none; stroke: var(--lime); stroke-width: 1.5; transition: translate .3s var(--ease); } .ds-role-action:hover, .ds-role-action:focus-visible { background: var(--lime); color: var(--ink); } .ds-role-action:hover svg, .ds-role-action:focus-visible svg { stroke: var(--ink); translate: 4px -4px; } .ds-role-action:focus-visible { outline: 2px solid currentColor; outline-offset: -5px; }"
+    },
+    {
+      "name": "Price Preset",
+      "kind": "chip",
+      "refersTo": "preset",
+      "description": "Square calculator preset with a solid selected state.",
+      "html": "<div class=\"ds-presets\" role=\"group\" aria-label=\"Contoh harga jual kembali\"><button type=\"button\" aria-pressed=\"true\">50 C.Coin</button><button type=\"button\" aria-pressed=\"false\">80 C.Coin</button><button type=\"button\" aria-pressed=\"false\">150 C.Coin</button></div>",
+      "css": ".ds-presets { display: flex; flex-wrap: wrap; gap: 8px; --ds-fg: var(--ink); --ds-accent: var(--ink); --ds-on-accent: var(--orange); } .ds-presets button { min-height: 44px; padding: 8px 14px; border: 1px solid var(--ds-fg); border-radius: 0; background: transparent; color: var(--ds-fg); font: 600 13px/1.5 Inter, system-ui, sans-serif; cursor: pointer; } .ds-presets button[aria-pressed=\"true\"] { border-color: var(--ds-accent); background: var(--ds-accent); color: var(--ds-on-accent); } .ds-presets button:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }"
+    },
+    {
+      "name": "Physical Card",
+      "kind": "card",
+      "refersTo": "physical-card",
+      "description": "Unrecolored 63:88 artwork with a proportional radius and soft object shadow.",
+      "html": "<div class=\"ds-card\" role=\"img\" aria-label=\"Contoh desain C.Card\"><span>C.CARD<br>63 × 88 MM</span></div>",
+      "css": ".ds-card { display: flex; align-items: flex-end; width: min(100%, 240px); aspect-ratio: 63 / 88; padding: 18px; overflow: hidden; border-radius: 4.76% / 3.41%; background: var(--ink); color: var(--silver); box-shadow: 0 24px 40px -16px rgb(23 23 23 / .6), 0 5px 12px rgb(23 23 23 / .2); } .ds-card span { font: 600 12px/1.6 Inter, system-ui, sans-serif; letter-spacing: .06em; }"
+    },
+    {
+      "name": "Card Flip",
+      "kind": "custom",
+      "description": "Pressable front/back card inspection with a 180-degree turn.",
+      "html": "<button class=\"ds-flip\" type=\"button\" aria-pressed=\"false\" aria-label=\"Balik kartu contoh\"><span class=\"ds-flip-inner\"><span class=\"ds-flip-face\">Depan: artwork</span><span class=\"ds-flip-face ds-flip-back\">Belakang: identitas kolaborasi</span></span></button>",
+      "css": ".ds-flip { width: min(100%, 240px); padding: 0; border: 0; background: none; color: var(--silver); perspective: 1400px; cursor: pointer; } .ds-flip-inner { display: grid; aspect-ratio: 63 / 88; transform-style: preserve-3d; transition: transform .8s var(--ease); } .ds-flip[aria-pressed=\"true\"] .ds-flip-inner { transform: rotateY(180deg); } .ds-flip-face { display: grid; grid-area: 1 / 1; place-items: center; padding: 18px; border-radius: 4.76% / 3.41%; background: var(--ink); box-shadow: 0 24px 40px -16px rgb(23 23 23 / .6), 0 5px 12px rgb(23 23 23 / .2); backface-visibility: hidden; font: 600 13px/1.5 Inter, system-ui, sans-serif; } .ds-flip-back { transform: rotateY(180deg); } .ds-flip:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }"
+    },
+    {
+      "name": "Calculator Readout",
+      "kind": "custom",
+      "description": "Ruled financial rows with tabular figures and a solid accent total.",
+      "html": "<dl class=\"ds-readout\"><div><dt>Bagian Anda per kartu</dt><dd>9 C.Gems · Rp90.000</dd></div><div class=\"ds-readout-total\"><dt>Total untuk 1 kartu</dt><dd>9 C.Gems · Rp90.000</dd></div></dl>",
+      "css": ".ds-readout { display: grid; margin: 0; border-top: 1px solid var(--silver); color: var(--silver); font: 400 13px/1.5 Inter, system-ui, sans-serif; } .ds-readout > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--silver); } .ds-readout dd { margin: 0; font-size: 19px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; } .ds-readout > .ds-readout-total { margin-top: 8px; padding: 16px; border: 0; background: var(--lime); color: var(--ink); } .ds-readout-total dd { font-size: 27px; }"
+    },
+    {
+      "name": "Collaboration Switch",
+      "kind": "input",
+      "description": "Square switch whose block translates 18px when collaboration is enabled.",
+      "html": "<label class=\"ds-switch\"><input type=\"checkbox\" role=\"switch\"><span class=\"ds-switch-ui\" aria-hidden=\"true\"></span>Rilis bersama ilustrator</label>",
+      "css": ".ds-switch { display: inline-flex; align-items: center; gap: 12px; width: fit-content; min-height: 44px; color: var(--silver); font: 500 13px/1.5 Inter, system-ui, sans-serif; cursor: pointer; } .ds-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; } .ds-switch-ui { display: flex; width: 42px; height: 24px; flex: none; padding: 3px; border: 1px solid currentColor; } .ds-switch-ui::after { content: \"\"; width: 16px; height: 16px; background: currentColor; transition: translate .25s var(--ease); } .ds-switch input:checked + .ds-switch-ui { background: var(--lime); color: var(--ink); } .ds-switch input:checked + .ds-switch-ui::after { translate: 18px 0; } .ds-switch input:focus-visible + .ds-switch-ui { outline: 2px solid currentColor; outline-offset: 4px; }"
+    },
+    {
+      "name": "Deck Navigation",
+      "kind": "nav",
+      "description": "Fixed ink chrome with role switching, tabular count, and square arrows.",
+      "html": "<nav class=\"ds-chrome\" aria-label=\"Navigasi panduan\"><button class=\"ds-change\" type=\"button\">Ganti peran</button><div class=\"ds-chrome-nav\"><button class=\"ds-arrow\" type=\"button\" aria-label=\"Slide sebelumnya\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m15 5-7 7 7 7\" /></svg></button><span class=\"ds-count\">05 / 10</span><button class=\"ds-arrow\" type=\"button\" aria-label=\"Slide berikutnya\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m9 5 7 7-7 7\" /></svg></button></div></nav>",
+      "css": ".ds-chrome { display: flex; min-height: 64px; padding: 0 var(--gutter); align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid rgb(204 204 204 / .35); background: var(--ink); color: var(--silver); font-family: Inter, system-ui, sans-serif; } .ds-change { min-height: 44px; padding: 0; border: 0; background: transparent; color: inherit; font-size: 11px; text-decoration: underline; text-underline-offset: 5px; cursor: pointer; } .ds-chrome-nav { display: flex; align-items: center; gap: 8px; } .ds-count { min-width: 64px; font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; text-align: center; } .ds-arrow { display: grid; width: 44px; height: 44px; padding: 0; place-items: center; border: 1px solid currentColor; border-radius: 0; background: transparent; color: inherit; cursor: pointer; } .ds-arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; } .ds-arrow:hover { background: var(--silver); color: var(--ink); } .ds-chrome button:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Creator's Working Table",
+    "overview": "The join surface treats artwork as a physical collectible on a bold working plane, not as decoration inside a slide template. Large ink fields, diagonal lime planes, tightly tracked Inter headlines, and fine registration rules give the twenty guided sections a direct editorial rhythm. The role chooser makes three real card examples and the two role actions the immediate visual decision.\n\nDepth belongs to the physical cards. Information stays flat and exposed on black, silver, lime, or orange planes; rules and spacing replace nested panels. Existing artwork remains unrecolored and credited. Master brand marks retain their original silhouettes through masks, while all supporting text uses Inter.",
+    "keyCharacteristics": [
+      "Physical 63 × 88 mm card art, uneven fanning, and soft object shadows carry desire.",
+      "Flat color fields and diagonal clipping establish structure without rounded content panels.",
+      "One accent governs each section; black and silver also serve as full planes.",
+      "Dense process, rights, and calculator content reads through aligned rules and tabular numerals.",
+      "Short reveals, bounded pointer tilt, and card flips respect reduced-motion preferences."
+    ],
+    "rules": [
+      { "name": "The One Accent Rule", "body": "Give each section one accent context. Never place lime and orange together; use ink for controls on lime, silver, and orange planes.", "section": "colors" },
+      { "name": "The Four-Color Rule", "body": "Do not introduce additional brand hues, gradients, or tinted panels. Existing card artwork is the only exception and must remain unrecolored.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Use Inter for every textual role. Differentiate through size, weight, tracking, case, and numeric features, not another font.", "section": "typography" },
+      { "name": "The Quiet Detail Rule", "body": "Keep supporting copy compact and line length controlled; reserve heavy weight and negative tracking for headings, role names, and key figures.", "section": "typography" },
+      { "name": "The Object-Only Lift Rule", "body": "Shadows describe cards, never ordinary copy, calculators, buttons, or content sections.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep one accent per section and never combine lime with orange.",
+      "Do use existing card artwork intact, with visible creator/illustrator credits and example context.",
+      "Do preserve the master logo silhouettes and use Inter for supporting text.",
+      "Do expose structure through full planes, square controls, fine rules, and generous gutters.",
+      "Do keep calculator numerals tabular and all custom control targets at least 44px high.",
+      "Do preserve visible focus and reduced-motion behavior."
+    ],
+    "donts": [
+      "Don't add extra brand colors, recolor artwork, or introduce decorative gradients.",
+      "Don't wrap sections, calculators, or reply templates in rounded floating panels.",
+      "Don't apply card shadows to text, navigation, or ordinary containers.",
+      "Don't redraw, retype, or replace the supplied master logos.",
+      "Don't hide artwork credits, example labels, or commercial qualifications for visual simplicity."
+    ]
+  }
+}

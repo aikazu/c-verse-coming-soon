@@ -1,0 +1,24 @@
+{
+  "buildPath": "code",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-11-01T03:29:13.869Z",
+        "reason": "brand guideline CreatorVerse 2026-10-26 (Dream 40_operations/decks/brand-guideline-20261026) sets Inter as the only supporting typeface"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "join/index.html"
+        ],
+        "createdAt": "2026-11-01T03:29:14.051Z",
+        "reason": "false positive: style.css sizes are clamp() values; display 36-72px, title 28-46px, lead 16-20px, body 14.5-16px, mega 96-200px, each step above 1.25x"
+      }
+    ]
+  }
+}

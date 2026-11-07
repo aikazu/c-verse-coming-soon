@@ -121,10 +121,12 @@ if (choiceTilt && matchMedia('(hover: hover) and (pointer: fine)').matches) {
   choiceTilt.addEventListener('pointermove', (event) => {
     if (reduceMotion.matches) return;
     const box = choiceTilt.getBoundingClientRect();
-    choiceTilt.style.setProperty('--ry', `${((event.clientX - box.left) / box.width - 0.5) * 12}deg`);
-    choiceTilt.style.setProperty('--rx', `${((event.clientY - box.top) / box.height - 0.5) * -8}deg`);
+    choiceTilt.classList.add('is-tilting');
+    choiceTilt.style.setProperty('--ry', `${((event.clientX - box.left) / box.width - 0.5) * 10}deg`);
+    choiceTilt.style.setProperty('--rx', `${((event.clientY - box.top) / box.height - 0.5) * -7}deg`);
   });
   choiceTilt.addEventListener('pointerleave', () => {
+    choiceTilt.classList.remove('is-tilting');
     choiceTilt.style.setProperty('--ry', '0deg');
     choiceTilt.style.setProperty('--rx', '0deg');
   });

@@ -136,6 +136,13 @@ npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
   logo dari master alpha lewat CSS mask. Muka kartu hanya diperkecil ke WebP;
   sudut 3 mm dan bayangan dibuat di CSS. `prefers-reduced-motion: reduce`
   mematikan reveal, hitungan angka, tilt, dan demo balik kartu.
+- **Rework 2026-11-07 (lokal)**: chooser memakai bidang hitam/lime diagonal,
+  fan tiga kartu lebih besar, label kredit, dan dua pilihan peran selebar layar.
+  Kedua jalur memakai bidang warna penuh, garis registrasi, dan kontrol persegi
+  alih-alih panel kartu berulang. Isi, sepuluh slide per peran, kalkulator,
+  tautan lama, serta penutupan indeks tetap dipertahankan. Sistem visualnya
+  didokumentasikan di `DESIGN.md`; `PRODUCT.md` mencatat konteks produk.
+  Riwayat deploy di bawah tetap menjadi bukti versi sebelum rework ini.
 - **Aset**: `scripts/brand-assets.py` juga menulis `join/src/assets/` (logo dan
   kartu contoh dari Dream `20_product/assets/drops/`) dan menyalin ikon serta
   OG image ke `join/public/`.
