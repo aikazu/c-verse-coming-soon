@@ -407,10 +407,20 @@ body[data-theme="silver"] .dots, body[data-theme="orange"] .dots, body[data-them
   .seed { min-height: 100dvh; }
 }
 @media (min-width: 761px) {
+  .role-choice__inner { grid-template-rows: auto minmax(min-content, 1fr) auto; }
+  .role-choice__body { grid-template-rows: minmax(min-content, 1fr) auto; }
+  .role-choice__art {
+    width: min(100%, 680px, max(300px, 100svh - 300px)); height: auto; min-height: 0;
+    aspect-ratio: 1; justify-self: center; padding-right: 0;
+  }
+  .role-choice__fan { inset: 8% 5%; }
   .role-choice__spec { display: none; }
 }
 @media (min-width: 1600px) {
   .role-choice__body { grid-template-columns: .9fr 1.1fr; }
+}
+@media (min-width: 761px) and (max-height: 700px) {
+  .role-choice__fan { inset-inline: 14%; }
 }
 @media (max-width: 1050px) {
   .role-choice::before { left: 42%; }
