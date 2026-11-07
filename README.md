@@ -146,6 +146,22 @@ npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 Verifikasi setelah deploy: root `200` dengan `X-Robots-Tag`, aset hash
 `immutable`, favicon, OG image, `robots.txt`, dan path tidak dikenal `404`.
 
+Deploy join 2026-11-07 05:03:03 UTC dari commit `2278b54f631ab99ee79eb171c92dbe9ecfc8e92b`
+menghasilkan Worker `c-verse-join` versi `1800b062-acc2-4abe-b352-1d610c412bf4`
+(100% traffic). Lima tes lokal dan `npm run cf:check:join` lulus. Browser lokal
+memeriksa pilihan peran pada 320, 390, 768, dan 1280 px; sepuluh slide ilustrator
+muat pada 1280 × 800 dan tidak meluap horizontal pada 320 px. Smoke HTTP live
+mengonfirmasi root `200`, CSS `index-4Gu2sbIu.css` dan JS `index-BXQA3NeP.js`,
+enam aset hash `200` dengan cache immutable, favicon, OG image, dan robots `200`,
+serta path tidak dikenal `404`. `noindex` HTML dan `X-Robots-Tag` tetap ada.
+Browser live desktop memeriksa tiga kartu, tilt dan foil, navigasi ilustrator
+dengan panah dan titik, balik kartu, fokus saat ganti peran, serta kembali
+melalui riwayat browser. Kalkulator ilustrator menunjukkan 9 C.Gems untuk solo
+dan 4 + 4 C.Gems untuk kolaborasi. Pada 390 px, tiga kartu termuat dan pilihan
+peran tidak meluap horizontal; tautan lama `#s5` membuka slide kreator 05.
+Satu `404` di console berasal dari path tidak dikenal yang sengaja diuji.
+Reduced motion diperiksa pada source, belum diuji dengan preferensi OS browser.
+
 Deploy join 2026-11-07 dari commit `8208a21` menghasilkan Worker
 `c-verse-join` versi `25555125-e8e9-470b-a930-73cf1424dc65`. Browser live
 desktop memeriksa pilihan kedua peran, tiga contoh kartu beserta kredit ilustrator,
