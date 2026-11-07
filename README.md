@@ -110,19 +110,21 @@ Kode ada di `join/` dan dibangun terpisah dari halaman Coming Soon; Worker
 
 ```bash
 npm run dev:join       # http://localhost:5175
-npm run test:join      # aturan angka: 30%/15% dibulatkan ke bawah, 7,5%/5% dan fee Seed 15% ke atas
+npm run test:join      # aturan angka dan pemilihan peran/tautan slide
 npm run cf:check:join  # build ke dist-join/ + dry-run Worker c-verse-join
 npm run deploy:join    # build ulang + deploy ke Custom Domain join.c-verse.co
 ```
 
 - **Isi**: layar pertama memilih jalur kreator atau ilustrator, dengan tombol
-  ganti peran dan navigasi kembali browser. Jalur kreator mempertahankan 10 slide
-  layar penuh (snap pada layar >= 960 x 680 px, gulir bebas pada layar kecil),
-  tombol, panah, titik slide, dan tautan lama seperti `#s5`. Jalur ilustrator
-  menjelaskan peran dan perhitungan kolaborasi. Kedua jalur menampilkan contoh
+  ganti peran dan navigasi kembali browser. Kedua jalur memiliki 10 slide layar
+  penuh (snap pada layar >= 960 x 680 px, gulir bebas pada layar kecil), tombol,
+  panah, titik slide, dan tautan langsung (`#s5` untuk kreator, `#i5` untuk
+  ilustrator). Jalur ilustrator dimulai dari karya sendiri; kolaborasi kreator
+  adalah pilihan. Perhitungan memakai contoh C.Card reguler dan tidak menetapkan
+  harga atau format produk C.Verse Art yang terpisah. Kedua jalur menampilkan contoh
   Nekonoi Katsu dan Clarissa Punipun (ilustrasi Riryeee) serta Hezky Joe
   (ilustrasi Kang Cilok’s); contoh tidak menyatakan izin publikasi atau rilis.
-- **Interaksi**: kartu sampul miring mengikuti pointer, kartu slide 2 dapat
+- **Interaksi**: kartu pilihan peran dan sampul miring mengikuti pointer, kartu slide 2 pada kedua jalur dapat
   dibalik, kalkulator contoh Seed (fee 15%), rilis perdana (30%, atau 15% + 15%
   bersama ilustrator), dan royalti (7,5%, atau 5% + 5%), serta tombol salin
   contoh balasan. Rumus ada di `join/src/economy.js`, sama dengan

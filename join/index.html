@@ -53,21 +53,26 @@
     </ol>
   </nav>
 
-  <section class="role-choice" id="role-choice" aria-labelledby="choice-title">
+  <main class="role-choice" id="role-choice" aria-labelledby="choice-title">
     <div class="role-choice__inner">
       <span class="brand-logo brand-logo--cv" role="img" aria-label="CreatorVerse"></span>
       <div class="role-choice__body">
-        <div><h1 id="choice-title">Karya bertemu<br /><em>koleksi.</em></h1>
-          <p>Setiap C.Card lahir dari karya dan orang di baliknya. Pilih peran Anda untuk melihat cara berkolaborasi.</p></div>
+        <div><h1 id="choice-title">Karya Anda.<br /><em>Cerita Anda.</em></h1>
+          <p>Bawa karya Anda ke dunia C.Card. Pilih peran untuk melihat panduan yang sesuai.</p></div>
+        <div class="role-choice__art" data-choice-tilt aria-hidden="true"><div class="role-choice__fan">
+          <img class="card role-card role-card--left" src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" alt="" />
+          <img class="card role-card role-card--middle" src="./src/assets/cards/hezky-front.webp" width="720" height="1006" alt="" />
+          <img class="card role-card role-card--right" src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" alt="" />
+        </div></div>
         <div class="role-choice__actions" aria-label="Pilih peran">
           <button type="button" data-role-choice="creator"><span><strong>Saya kreator</strong><small>Hadirkan karya atau persona Anda dalam C.Card.</small></span><span aria-hidden="true">↗</span></button>
-          <button type="button" data-role-choice="illustrator"><span><strong>Saya ilustrator</strong><small>Ciptakan artwork untuk kolaborasi C.Card.</small></span><span aria-hidden="true">↗</span></button>
+          <button type="button" data-role-choice="illustrator"><span><strong>Saya ilustrator</strong><small>Hadirkan karya sendiri atau berkolaborasi.</small></span><span aria-hidden="true">↗</span></button>
         </div>
       </div>
-      <p class="role-choice__foot">KREATIVITAS PUNYA BENTUK BARU <span>C.CARD / C.VERSE</span></p>
+      <p class="role-choice__foot"><span>Contoh desain kolaborasi: Riryeee &amp; Kang Cilok’s.</span><span>C.CARD / C.VERSE</span></p>
       <noscript><p>Aktifkan JavaScript untuk memilih peran dan membuka panduan kolaborasi.</p></noscript>
     </div>
-  </section>
+  </main>
 
   <main id="creator-view" hidden>
     <!-- 01 Cover -->
@@ -322,31 +327,80 @@ Foto atau artwork: [tautan, bila sudah ada]</pre>
     </section>
   </main>
 
-  <main id="illustrator-view" class="illustrator" hidden>
-    <header class="illustrator__header"><span class="brand-logo brand-logo--cv" role="img" aria-label="CreatorVerse"></span><button type="button" class="role-back" data-change-role>Ganti peran</button></header>
-    <section class="illustrator__hero" aria-labelledby="illustrator-title">
-      <div class="illustrator__intro"><h1 id="illustrator-title" tabindex="-1">Artwork Anda.<br /><em>Jadi C.Card.</em></h1>
-        <p>Kolaborasikan ilustrasi Anda dengan kreator. Karya hadir sebagai kartu fisik edisi terbatas, dengan kredit untuk ilustrator di sisi belakang.</p>
-        <a href="#illustrator-cards" class="illustrator__link">Lihat contoh kolaborasi <span aria-hidden="true">↓</span></a></div>
-      <div class="illustrator__hero-art" aria-hidden="true"><img src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" alt="" /></div>
-    </section>
-    <section class="illustrator__gallery" id="illustrator-cards" aria-labelledby="gallery-title">
-      <div class="illustrator__heading"><h2 id="gallery-title">Tiga contoh.<br /><em>Beragam cerita.</em></h2><p>Contoh desain, bukan pengumuman rilis. Izin penggunaan karya tetap perlu disepakati bersama pemiliknya.</p></div>
-      <div class="illustrator__cards">
-        <figure><img src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" loading="lazy" alt="Contoh desain C.Card Nekonoi Katsu" /><figcaption><strong>Nekonoi Katsu</strong><span>Ilustrasi Riryeee</span></figcaption></figure>
-        <figure><img src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" loading="lazy" alt="Contoh desain C.Card Clarissa Punipun" /><figcaption><strong>Clarissa Punipun</strong><span>Ilustrasi Riryeee</span></figcaption></figure>
-        <figure><img src="./src/assets/cards/hezky-front.webp" width="720" height="1006" loading="lazy" alt="Contoh desain C.Card Hezky Joe" /><figcaption><strong>Hezky Joe</strong><span>Ilustrasi Kang Cilok’s</span></figcaption></figure>
+  <main id="illustrator-view" hidden>
+    <section class="slide slide--cover" id="i1" data-theme="lime" aria-labelledby="it1">
+      <div class="slide__inner cover">
+        <div class="cover__copy"><span class="brand-logo brand-logo--cv" role="img" aria-label="CreatorVerse" data-reveal></span>
+          <h1 id="it1" class="display" tabindex="-1" data-reveal>Ilustrasi Anda, jadi karya yang bisa dikoleksi.</h1>
+          <p class="lead" data-reveal>Diskusikan rilis C.Card dari karya orisinal Anda bersama tim kami, atau buat karya bersama kreator. Pilihan kolaborasi ada di tangan Anda.</p>
+          <div class="cover__actions" data-reveal><a class="btn btn--solid" href="#i2">Lihat cara kerjanya</a><span class="hint"><kbd>→</kbd> atau gulir untuk lanjut</span></div>
+        </div>
+        <div class="cover__cards" data-tilt aria-hidden="true"><img class="card card--back" src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" alt="" /><img class="card card--third" src="./src/assets/cards/hezky-front.webp" width="720" height="1006" alt="" /><img class="card card--front" src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" alt="" /></div>
+        <p class="credit" data-reveal>Contoh desain kolaborasi: Nekonoi Katsu dan Clarissa Punipun oleh Riryeee; Hezky Joe oleh Kang Cilok’s.</p>
       </div>
     </section>
-    <section class="illustrator__process" aria-labelledby="process-title">
-      <div><h2 id="process-title">Dari brief<br /><em>ke kartu.</em></h2><p>Peran dan penggunaan karya disepakati bersama untuk setiap kolaborasi.</p></div>
-      <ol><li><strong>Diskusikan idenya</strong><span>Bahas kreator, konsep, dan kebutuhan artwork bersama tim C.Verse.</span></li><li><strong>Buat ilustrasinya</strong><span>Siapkan artwork sesuai brief dan spesifikasi yang disepakati.</span></li><li><strong>Tinjau hasilnya</strong><span>Lihat tata letak kartu dan penempatan kredit sebelum rilis.</span></li></ol>
-    </section>
-    <section class="illustrator__terms" aria-labelledby="terms-title"><div><h2 id="terms-title">Bagian karya Anda.</h2><p>Untuk rilis bersama kreator, bagian ilustrator dihitung per kartu atau transaksi. Angka di bawah adalah contoh sebelum biaya pencairan dan pajak.</p></div>
-      <div class="illustrator__facts"><div><strong>15%</strong><p>Bagian ilustrator dari rilis perdana. Harga kartu bertanda tangan 30 C.Coin; 15% dibulatkan ke bawah menjadi 4 C.Gems per kartu terjual.</p></div><div><strong>5%</strong><p>Royalti ilustrator per penjualan kembali di C.Verse, dibulatkan ke atas. Kreator juga mendapat 5%; fee C.Verse 5% terpisah.</p></div><div><strong>7,5%</strong><p>Jika Seed dijual, bagian ilustrator 7,5% dan fee C.Verse 7,5%, masing-masing dibulatkan ke atas. Pemilik menerima sisanya.</p></div></div>
-      <div class="illustrator__calculator"><label for="illustrator-price">Contoh harga jual kembali <output for="illustrator-price" data-illustrator-price>100 C.Coin</output></label><input id="illustrator-price" type="range" min="10" max="300" step="5" value="100" /><p aria-live="polite">Royalti ilustrator untuk rilis bersama: <strong data-illustrator-royalty>5 C.Gems</strong>. Jika Seed dijual: fee C.Verse <strong data-illustrator-platform>8 C.Coin</strong> dan bagian ilustrator <strong data-illustrator-seed>8 C.Gems</strong>; pemilik menerima <strong data-illustrator-owner>84 C.Gems</strong>.</p></div>
-    </section>
-    <section class="illustrator__close"><h2>Punya karya untuk<br /><em>dibicarakan?</em></h2><p>Balas pesan tim C.Verse yang mengirimkan tautan ini. Ceritakan pendekatan ilustrasi Anda dan sertakan tautan portofolio jika ada.</p><button type="button" class="role-back" data-change-role>Lihat panduan kreator atau ganti peran</button></section>
+    <section class="slide" id="i2" data-theme="black" aria-labelledby="it2"><div class="slide__inner split">
+      <div><h2 id="it2" class="title" data-reveal>Mulai dari karya Anda</h2><dl class="features">
+        <div data-reveal><dt>Karya sendiri</dt><dd>Hadirkan ilustrasi dan dunia visual yang Anda buat, dengan nama Anda sebagai pembuat karya.</dd></div>
+        <div data-reveal><dt>Contoh C.Card reguler</dt><dd>Kartu fisik 63 × 88 mm, ditandatangani penerbit karya dalam contoh rilis ini.</dd></div>
+        <div data-reveal><dt>Chip NFC</dt><dd>Setiap C.Card dilengkapi chip untuk membuka halaman identitas dan verifikasi kartu.</dd></div>
+        <div data-reveal><dt>Kolaborasi, jika Anda mau</dt><dd>Anda juga dapat membuat karya bersama kreator dengan peran dan kredit yang disepakati.</dd></div>
+      </dl></div><figure class="flip-wrap" data-reveal>
+        <button class="flip" type="button" aria-pressed="false" aria-label="Balik kartu contoh ilustrator"><span class="flip__inner">
+          <img class="card flip__face" src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" loading="lazy" alt="Sisi depan contoh C.Card Nekonoi Katsu" />
+          <img class="card flip__face flip__face--back" src="./src/assets/cards/nekonoi-back.webp" width="720" height="1006" loading="lazy" alt="Sisi belakang contoh C.Card Nekonoi Katsu" />
+        </span></button><figcaption><span class="flip__label" aria-live="polite">Depan: artwork</span><span class="flip__cue">Ketuk kartu untuk membalik</span><small>Contoh kolaborasi Nekonoi Katsu, ilustrasi Riryeee. Belum diproduksi.</small></figcaption>
+      </figure>
+    </div></section>
+    <section class="slide" id="i3" data-theme="silver" aria-labelledby="it3"><div class="slide__inner">
+      <h2 id="it3" class="title" data-reveal>Tiga contoh kolaborasi</h2><p class="body" data-reveal>Contoh desain, bukan pengumuman rilis. Penggunaan karya dan identitas memerlukan izin pemiliknya.</p>
+      <div class="artist-gallery" data-reveal>
+        <figure><img class="card" src="./src/assets/cards/nekonoi-front.webp" width="720" height="1006" loading="lazy" alt="Contoh desain Nekonoi Katsu" /><figcaption><strong>Nekonoi Katsu</strong><span>Ilustrasi Riryeee</span></figcaption></figure>
+        <figure><img class="card" src="./src/assets/cards/clarissa-front.webp" width="720" height="1006" loading="lazy" alt="Contoh desain Clarissa Punipun" /><figcaption><strong>Clarissa Punipun</strong><span>Ilustrasi Riryeee</span></figcaption></figure>
+        <figure><img class="card" src="./src/assets/cards/hezky-front.webp" width="720" height="1006" loading="lazy" alt="Contoh desain Hezky Joe" /><figcaption><strong>Hezky Joe</strong><span>Ilustrasi Kang Cilok’s</span></figcaption></figure>
+      </div>
+    </div></section>
+    <section class="slide" id="i4" data-theme="silver" aria-labelledby="it4"><div class="slide__inner">
+      <h2 id="it4" class="title" data-reveal>Dari karya ke kolektor</h2><ol class="track">
+        <li data-reveal><b>Pilih karya</b><span>Kolektor melihat artwork, pembuatnya, dan rincian rilis.</span></li>
+        <li data-reveal><b>Beli dengan C.Coin</b><span>Kepemilikan tercatat; kartu disimpan di Vault C.Verse.</span></li>
+        <li data-reveal><b>Simpan atau kirim</b><span>Pemilik dapat meminta pengiriman dan memeriksa chip NFC kartu.</span></li>
+        <li data-reveal><b>Jual kembali</b><span>Pemilik dapat menerima tawaran atau memasang harga di C.Verse.</span></li>
+      </ol><p class="note" data-reveal>Contoh alur C.Card reguler. Ongkos kirim dibayar terpisah.</p>
+    </div></section>
+    <section class="slide" id="i5" data-theme="black" aria-labelledby="it5"><div class="slide__inner split split--calc">
+      <div><h2 id="it5" class="title" data-reveal>Bagian dari rilis perdana</h2><p class="mega" data-reveal><span data-artist-primary-rate>30</span>%</p><p class="lead" data-reveal>Contoh C.Card reguler untuk karya Anda sendiri. Rincian tiap rilis tertulis dalam deal memo.</p></div>
+      <div class="calc" data-calc="artist-primary" data-reveal><p class="calc__head">Hitung contoh per kartu</p><div class="field"><span>Harga kartu bertanda tangan</span><output>30 C.Coin · Rp300.000</output></div>
+        <div class="field"><label for="ap-count">Kartu terjual</label><output for="ap-count" data-out="count">1 kartu</output><input id="ap-count" type="range" min="1" max="100" step="1" value="1" /></div>
+        <label class="switch"><input type="checkbox" role="switch" data-collab /><span class="switch__ui" aria-hidden="true"></span>Rilis bersama kreator</label>
+        <dl class="readout" aria-live="polite"><div><dt>Bagian Anda per kartu</dt><dd data-out="share">9 C.Gems · Rp90.000</dd></div><div data-collab-only hidden><dt>Bagian kreator per kartu</dt><dd data-out="partner">4 C.Gems · Rp40.000</dd></div><div class="readout__total"><dt data-out="total-label">Total untuk 1 kartu</dt><dd data-out="total">9 C.Gems · Rp90.000</dd></div></dl>
+        <p class="note" data-out="note">Dibulatkan ke bawah per kartu, sebelum biaya pencairan dan pajak. Jumlah kartu adalah contoh.</p>
+      </div>
+    </div></section>
+    <section class="slide" id="i6" data-theme="orange" aria-labelledby="it6"><div class="slide__inner split split--calc">
+      <div><h2 id="it6" class="title" data-reveal>Ketika karya dijual kembali</h2><p class="mega" data-reveal><span data-artist-royalty-rate>7,5</span>%</p><p class="lead" data-reveal>Contoh royalti C.Card reguler atas penjualan kembali di C.Verse.</p></div>
+      <div class="calc" data-calc="artist-royalty" data-reveal><p class="calc__head">Hitung contoh per transaksi</p><div class="field"><label for="ar-price">Harga jual kembali</label><output for="ar-price" data-out="price">100 C.Coin · Rp1.000.000</output><input id="ar-price" type="range" min="10" max="300" step="5" value="100" /></div>
+        <div class="field"><label for="ar-count">Penjualan kembali</label><output for="ar-count" data-out="count">1 kali</output><input id="ar-count" type="range" min="1" max="20" step="1" value="1" /></div>
+        <label class="switch"><input type="checkbox" role="switch" data-collab /><span class="switch__ui" aria-hidden="true"></span>Rilis bersama kreator</label>
+        <dl class="readout" aria-live="polite"><div><dt>Royalti Anda per transaksi</dt><dd data-out="share">8 C.Gems · Rp80.000</dd></div><div data-collab-only hidden><dt>Royalti kreator per transaksi</dt><dd data-out="partner">5 C.Gems · Rp50.000</dd></div><div class="readout__total"><dt data-out="total-label">Total dari 1 penjualan</dt><dd data-out="total">8 C.Gems · Rp80.000</dd></div></dl>
+        <p class="note" data-out="note">Dibulatkan ke atas, sebelum biaya pencairan dan pajak. Seed memakai aturan berbeda.</p>
+      </div>
+    </div></section>
+    <section class="slide" id="i7" data-theme="silver" aria-labelledby="it7"><div class="slide__inner"><h2 id="it7" class="title" data-reveal>Peran Anda dan C.Verse</h2><div class="roles">
+      <div class="role" data-reveal><h3 class="role__who role__who--lime">Anda</h3><ul><li>Membawa konsep dan menyiapkan ilustrasi sesuai kesepakatan.</li><li>Memastikan izin atas materi yang Anda gunakan.</li><li>Meninjau karya dan kredit; menandatangani kartu bila Anda adalah kreator penerbit.</li><li>Ikut mempromosikan rilis sesuai deal memo.</li></ul></div>
+      <div class="role" data-reveal><h3 class="role__who role__who--black">C.Verse</h3><ul><li>Menata dan memproduksi C.Card, termasuk chip NFC dan pemeriksaan kualitas.</li><li>Menjalankan penjualan, penyimpanan di Vault, dan pengiriman.</li><li>Mencatat bagian penjualan, royalti, dan pencairan Anda.</li><li>Berkoordinasi dengan kreator bila Anda memilih berkolaborasi.</li></ul></div>
+    </div><p class="note" data-reveal>Contoh peran C.Card reguler. Rincian peran ditulis dalam kesepakatan setiap rilis.</p></div></section>
+    <section class="slide" id="i8" data-theme="black" aria-labelledby="it8"><div class="slide__inner"><h2 id="it8" class="title" data-reveal>Dari ide ke hari rilis</h2><ol class="timeline">
+      <li style="--i:0"><b>H-30</b><span>Brief dan deal memo</span><em>Bersama</em></li><li style="--i:1"><b>H-21</b><span>Artwork final</span><em>Bersama</em></li><li style="--i:2"><b>H-14</b><span>Produksi kartu dan chip</span><em>C.Verse</em></li><li style="--i:3"><b>H-7</b><span>Teaser bersama</span><em>Bersama</em></li><li style="--i:4"><b>H-0</b><span>Rilis</span><em>C.Verse</em></li><li style="--i:5"><b>H+7</b><span>Laporan penjualan</span><em>C.Verse</em></li><li style="--i:6"><b>H+14</b><span>Pencairan pertama</span><em>C.Verse</em></li>
+    </ol><p class="note" data-reveal>Contoh target C.Card reguler; tanggal pasti dan promosi disepakati dalam deal memo.</p></div></section>
+    <section class="slide" id="i9" data-theme="silver" aria-labelledby="it9"><div class="slide__inner"><h2 id="it9" class="title" data-reveal>Hak dan kesepakatan</h2><div class="rights">
+      <div data-reveal><h3>Hak cipta tetap milik Anda</h3><p>Contoh lisensi C.Card bersifat non-eksklusif untuk mencetak, menjual, dan menampilkan kartu serta promosi rilis; tidak untuk penggunaan di luar C.Card.</p></div><div data-reveal><h3>Penghasilan dalam C.Gems</h3><p>Bagian penjualan dan royalti masuk sebagai C.Gems, lalu dapat dicairkan ke rekening atas nama Anda setelah verifikasi identitas.</p></div><div data-reveal><h3>Pencairan terjadwal</h3><p>Diproses mingguan, minimum 10 C.Gems dan biaya transfer Rp2.000 per pencairan. Pajak dipotong sesuai ketentuan, disertai bukti potong.</p></div><div data-reveal><h3>Bila kerja sama berakhir</h3><p>Kartu yang sudah terjual tetap beredar dan royalti tetap mengalir. Tidak ada kartu baru dengan karya Anda.</p></div>
+    </div><p class="note" data-reveal>Contoh ketentuan C.Card reguler; perjanjian kolaborasi menjadi acuan untuk rilis yang disepakati.</p></div></section>
+    <section class="slide slide--close" id="i10" data-theme="lime" aria-labelledby="it10"><div class="slide__inner close"><div class="close__copy">
+      <span class="brand-logo brand-logo--cvs" role="img" aria-label="C.Verse" data-reveal></span><h2 id="it10" class="display" data-reveal>Karya apa yang ingin Anda hadirkan?</h2><p class="lead" data-reveal>Ceritakan karya sendiri yang ingin Anda rilis, atau ide kolaborasi yang ingin dibicarakan.</p><p class="next" data-reveal>Balas pesan tim C.Verse yang mengirimkan tautan ini. Sertakan portofolio atau contoh karya bila ada.</p>
+    </div><div class="close__side"><span class="brand-symbol brand-symbol--cc" aria-hidden="true"></span><div class="template" data-reveal><p class="template__label" id="artist-tpl-label">Contoh balasan</p><pre id="artist-tpl" aria-labelledby="artist-tpl-label">Halo tim C.Verse, saya [nama] dan ingin membicarakan karya saya.
+Ide karya atau kolaborasi: [ceritakan singkat]
+Portofolio: [tautan, bila ada]</pre><button class="btn btn--solid" type="button" data-copy="#artist-tpl">Salin contoh balasan</button><span class="template__status" role="status"></span></div></div></div></section>
   </main>
 
   <footer class="chrome" hidden>

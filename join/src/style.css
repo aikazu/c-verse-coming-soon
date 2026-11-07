@@ -74,6 +74,7 @@ body{
 }
 .slide__inner{
   width:100%;
+  min-width:0;
   max-width:1280px;
   margin-inline:auto;
   padding:clamp(48px, 9vh, 88px) var(--gutter) calc(var(--chrome-h) + clamp(28px, 5vh, 48px));
@@ -480,7 +481,7 @@ body[data-theme="lime"] .chrome{--bg:var(--black);--fg:var(--silver);--line:var(
 
 /* ---------------------------------------------------------- small screens */
 @media (max-width:959px){
-  .cover,.split,.split--calc,.close{grid-template-columns:1fr}
+  .cover,.split,.split--calc,.close{grid-template-columns:minmax(0,1fr)}
   .cover{grid-template-rows:auto}
   .cover__cards{height:min(84vw, 400px);max-width:420px;width:100%;justify-self:center;margin-top:24px}
   .cover__cards .card--back{left:10%}
@@ -503,6 +504,10 @@ body[data-theme="lime"] .chrome{--bg:var(--black);--fg:var(--silver);--line:var(
   .brand-symbol--cc{width:96px;align-self:flex-start}
   .note{margin-top:28px}
 }
+@media (max-width:360px){
+  .display,.title{overflow-wrap:anywhere}
+  .readout > div{flex-wrap:wrap;gap:4px 16px}
+}
 @media (max-width:560px){
   .track{grid-template-columns:1fr}
   .calc__row{grid-template-columns:1fr}
@@ -513,10 +518,23 @@ body[data-theme="lime"] .chrome{--bg:var(--black);--fg:var(--silver);--line:var(
 .role-choice{min-height:100svh;background:var(--black);color:var(--silver)}
 .role-choice__inner{min-height:100svh;max-width:1440px;margin:auto;padding:clamp(24px,4vw,56px) var(--gutter);display:flex;flex-direction:column}
 .role-choice .brand-logo{color:var(--lime)}
-.role-choice__body{flex:1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:clamp(40px,8vw,140px);align-items:center;padding-block:64px}
-.role-choice h1,.illustrator__hero h1,.illustrator__close h2{font-size:clamp(48px,7.4vw,104px);line-height:1.03;letter-spacing:-.035em;color:#fff;font-weight:700}
-.role-choice h1 em,.illustrator h1 em,.illustrator h2 em{font-style:normal;color:var(--lime)}
-.role-choice__body p,.illustrator__intro>p{font-size:clamp(17px,1.5vw,21px);line-height:1.55;max-width:34ch;margin-top:28px}
+.role-choice__body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.9fr) minmax(250px,.85fr);gap:clamp(32px,4vw,68px);align-items:center;padding-block:clamp(32px,5vh,64px)}
+.role-choice h1{font-size:clamp(38px,4.2vw,68px);line-height:1.12;letter-spacing:-.025em;color:#fff;font-weight:700;text-wrap:balance}
+.role-choice h1 em{font-style:normal;color:var(--lime)}
+.role-choice__body p{font-size:clamp(17px,1.5vw,21px);line-height:1.55;max-width:34ch;margin-top:28px}
+.role-choice__art{position:relative;min-width:0;height:clamp(280px,42vw,500px);perspective:1100px;--rx:0deg;--ry:0deg}
+.role-choice__fan{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .45s var(--ease)}
+.role-choice__fan .role-card{position:absolute;width:52%;height:auto;top:16%;box-shadow:0 8px 18px #0005}
+.role-card--left{left:0;transform:rotate(-10deg)}
+.role-choice__fan .role-card--middle{left:25%;top:9%;transform:rotate(0deg) translateZ(22px)}
+.role-card--right{right:0;transform:rotate(10deg) translateZ(44px)}
+.role-choice__fan::after{content:"";position:absolute;inset:15% 20% 20%;pointer-events:none;background:linear-gradient(112deg,transparent 35%,#fff9 49%,transparent 61%) 0 0 / 200% 100%;mix-blend-mode:overlay;opacity:.14}
+@media (prefers-reduced-motion:no-preference){
+  .role-choice__art{animation:choice-enter .8s var(--ease) both}
+  .role-choice__fan::after{animation:choice-foil 3.5s var(--ease) .3s 1 both}
+}
+@keyframes choice-enter{from{opacity:.3;translate:0 18px}to{opacity:1;translate:0 0}}
+@keyframes choice-foil{from{opacity:0;background-position:0 0}45%{opacity:.3}to{opacity:.12;background-position:100% 0}}
 .role-choice__actions{border-top:1px solid #777}
 .role-choice__actions button{display:flex;width:100%;justify-content:space-between;align-items:center;gap:24px;min-height:128px;text-align:left;border:0;border-bottom:1px solid #777;background:transparent;color:#fff;cursor:pointer;padding:24px 4px}
 .role-choice__actions button strong,.role-choice__actions button small{display:block}
@@ -524,63 +542,29 @@ body[data-theme="lime"] .chrome{--bg:var(--black);--fg:var(--silver);--line:var(
 .role-choice__actions button small{font-size:15px;color:var(--silver);margin-top:10px}
 .role-choice__actions button>span:last-child{font-size:30px;color:var(--lime)}
 .role-choice__actions button:hover strong,.role-choice__actions button:focus-visible strong{color:var(--lime)}
-.role-choice__actions button:focus-visible,.role-back:focus-visible,.illustrator a:focus-visible,.illustrator input:focus-visible,.chrome__switch:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
+.role-choice__actions button:focus-visible,.chrome__switch:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
 .role-choice__foot{display:flex;justify-content:space-between;gap:20px;border-top:1px solid #777;padding-top:18px;font-size:11px;font-weight:600;letter-spacing:.08em}
-.chrome__switch,.role-back{background:transparent;color:inherit;border:0;text-decoration:underline;text-underline-offset:4px;cursor:pointer;min-height:44px}
+.chrome__switch{background:transparent;color:inherit;border:0;text-decoration:underline;text-underline-offset:4px;cursor:pointer;min-height:44px}
 .chrome__switch{margin-left:16px;font-size:11px;color:var(--lime);letter-spacing:normal;text-transform:none}
-.illustrator{background:var(--black);color:var(--silver)}
-.illustrator__header{max-width:1440px;margin:auto;padding:28px var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:20px}
-.illustrator__header .brand-logo{color:var(--lime)}
-.illustrator__header .role-back{color:var(--lime)}
-.illustrator__hero{max-width:1440px;min-height:min(760px,85svh);margin:auto;padding:45px var(--gutter) 90px;display:grid;grid-template-columns:1fr .85fr;align-items:center;gap:40px}
-.illustrator__link{display:inline-flex;gap:16px;color:var(--lime);margin-top:36px;text-decoration:none;font-weight:700;border-bottom:1px solid currentColor;padding-bottom:8px}
-.illustrator__hero-art{display:flex;justify-content:center;align-items:center;min-width:0}
-.illustrator__hero-art img{width:min(75%,320px);border-radius:12px;transform:rotate(5deg);box-shadow:0 18px 50px #0008}
-.illustrator__gallery{background:var(--lime);color:var(--black);padding:clamp(64px,8vw,120px) var(--gutter)}
-.illustrator__heading,.illustrator__cards,.illustrator__terms,.illustrator__close{max-width:1280px;margin-inline:auto}
-.illustrator__heading{display:flex;align-items:end;justify-content:space-between;gap:30px}
-.illustrator__heading h2,.illustrator__terms h2{font-size:clamp(36px,5vw,68px);line-height:1.08;letter-spacing:-.03em}
-.illustrator__heading h2 em{color:var(--black)}
-.illustrator__heading p{max-width:35ch;line-height:1.5}
-.illustrator__cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3vw,40px);margin-top:48px}
-.illustrator__cards img{width:100%;border-radius:12px;box-shadow:0 10px 25px #17171730}
-.illustrator__cards figcaption{display:grid;gap:4px;margin-top:16px}
-.illustrator__cards figcaption strong{font-size:clamp(18px,2vw,25px)}
-.illustrator__cards figcaption span{font-size:14px}
-.illustrator__process{max-width:1280px;margin:auto;padding:clamp(70px,9vw,130px) var(--gutter) 0;display:grid;grid-template-columns:1fr 1fr;gap:60px}
-.illustrator__process h2{font-size:clamp(36px,5vw,68px);line-height:1.08;letter-spacing:-.03em;color:#fff}
-.illustrator__process p{margin-top:22px;max-width:34ch;font-size:17px}
-.illustrator__process ol{list-style:none;border-top:1px solid #888}
-.illustrator__process li{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;padding:22px 0;border-bottom:1px solid #888}
-.illustrator__process li strong{color:#fff}.illustrator__process li span{line-height:1.5}
-.illustrator__terms{padding:clamp(70px,9vw,130px) var(--gutter)}
-.illustrator__terms h2{color:#fff}
-.illustrator__terms>div:first-child p{margin-top:22px;max-width:58ch;font-size:17px}
-.illustrator__facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:56px}
-.illustrator__facts>div{border-top:1px solid #888;padding-top:22px}
-.illustrator__facts strong{font-size:clamp(42px,5vw,68px);color:var(--orange);line-height:1}
-.illustrator__facts p{margin-top:16px;line-height:1.55}
-.illustrator__calculator{margin-top:64px;padding:28px;background:#292929;max-width:760px}
-.illustrator__calculator label{display:flex;justify-content:space-between;gap:18px;font-weight:700;color:#fff}
-.illustrator__calculator input{width:100%;accent-color:var(--lime);margin:22px 0}
-.illustrator__calculator p{line-height:1.6}.illustrator__calculator strong{color:var(--lime)}
-.illustrator__close{padding:60px var(--gutter) 110px}
-.illustrator__close p{max-width:48ch;margin-top:24px;line-height:1.55;font-size:18px}
-.illustrator__close .role-back{color:var(--lime);margin-top:28px}
+@media (min-width:761px) and (max-width:1050px){
+  .role-choice__body{grid-template-columns:1fr 1fr;gap:32px}
+  .role-choice__art{height:300px}
+  .role-choice__actions{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+}
 @media (max-width:760px){
-  .role-choice__body{grid-template-columns:1fr;gap:40px;padding-block:52px}
-  .role-choice__actions button{min-height:104px}
+  .role-choice__body{grid-template-columns:1fr;gap:24px;padding-block:32px}
+  .role-choice__art{height:clamp(170px,45vw,240px);width:min(100%,340px);justify-self:center}
+  .role-choice__fan .role-card{width:36%;top:4%}
+  .role-card--left{left:10%}.role-choice__fan .role-card--middle{left:32%;top:0}.role-card--right{right:10%}
+  .role-choice__actions button{min-height:94px}
   .role-choice__foot{font-size:10px}
-  .illustrator__hero{grid-template-columns:1fr;min-height:0;padding-top:50px}
-  .illustrator__hero-art{justify-content:flex-end;margin-top:10px}
-  .illustrator__hero-art img{width:min(64%,260px)}
-  .illustrator__heading{display:block}.illustrator__heading p{margin-top:20px}
-  .illustrator__cards{gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}
-  .illustrator__process{grid-template-columns:1fr;gap:36px}.illustrator__process li{grid-template-columns:1fr;gap:6px}
-  .illustrator__facts{grid-template-columns:1fr;gap:28px}
-  .illustrator__calculator{padding:20px}.illustrator__calculator label{display:grid}
 }
-@media (max-width:380px){.illustrator__cards{grid-template-columns:1fr}.illustrator__cards figure{max-width:280px}}
 @media (prefers-reduced-motion:reduce){
-  .progress span,.cover__cards .card,.switch__ui,.switch__ui::after{transition:none}
+  .progress span,.cover__cards .card,.switch__ui,.switch__ui::after,.role-choice__fan{transition:none}
 }
+.artist-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3vw,42px);margin-top:24px}
+.artist-gallery figure{min-width:0}
+.artist-gallery img{width:auto;height:min(38vh,300px);max-width:100%}
+.artist-gallery figcaption{display:grid;gap:3px;margin-top:10px;font-size:14px}
+.artist-gallery figcaption strong{font-size:clamp(15px,1.7vw,20px)}
+@media (max-width:760px){.artist-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 16px}.artist-gallery img{height:auto;width:100%}.artist-gallery figcaption{font-size:12px}}

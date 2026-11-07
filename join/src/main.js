@@ -1,25 +1,29 @@
 import './style.css';
 import { num, primaryShare, royalty, rp, seedFee } from './economy.js';
-import { roleFromLocation } from './role.js';
+import { roleFromLocation, slideIndexForRole } from './role.js';
 
 document.documentElement.classList.add('js');
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const slides = [...document.querySelectorAll('.slide')];
-const dots = [...document.querySelectorAll('.dots a')];
+const creatorView = document.querySelector('#creator-view');
+const illustratorView = document.querySelector('#illustrator-view');
+const decks = {
+  creator: [...creatorView.querySelectorAll('.slide')],
+  illustrator: [...illustratorView.querySelectorAll('.slide')],
+};
+let slides = decks.creator;
+let dots = [...document.querySelectorAll('.dots a')];
 const counter = document.querySelector('[data-current]');
 const progress = document.querySelector('.progress');
 const [prevBtn, nextBtn] = document.querySelectorAll('[data-go]');
 const chooser = document.querySelector('#role-choice');
-const creatorView = document.querySelector('#creator-view');
-const illustratorView = document.querySelector('#illustrator-view');
-const creatorChrome = [...document.querySelectorAll('.dots, .progress, .chrome, .skip')];
+const deckChrome = [...document.querySelectorAll('.dots, .progress, .chrome, .skip')];
 let current = 0;
 let displayedRole = null;
 
 // ---------------------------------------------------------------- navigation
 function setActive(index) {
-  if (creatorView.hidden) return;
+  if (!displayedRole || index < 0) return;
   current = index;
   const slide = slides[index];
   document.body.dataset.theme = slide.dataset.theme;
@@ -31,12 +35,24 @@ function setActive(index) {
   });
   prevBtn.disabled = index === 0;
   nextBtn.disabled = index === slides.length - 1;
-  if (location.hash !== `#${slide.id}`) history.replaceState(null, '', `${location.pathname}${location.search}${index === 0 ? '' : `#${slide.id}`}`);
+  if (location.hash !== `#${slide.id}`) {
+    const url = new URL(location.href);
+    if (index === 0 || displayedRole === 'illustrator') url.searchParams.set('role', displayedRole);
+    url.hash = index === 0 ? '' : slide.id;
+    history.replaceState(null, '', url);
+  }
 }
 
-function go(index) {
+function go(index, { focus = false } = {}) {
   const target = slides[Math.max(0, Math.min(slides.length - 1, index))];
   target.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+  if (focus) {
+    const heading = target.querySelector('h1, h2');
+    if (heading) {
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    }
+  }
 }
 
 // The slide covering the middle of the viewport is the active one. Scroll snap
@@ -61,7 +77,7 @@ const revealObserver = new IntersectionObserver(
   },
   { threshold: 0.25 },
 );
-for (const slide of slides) {
+for (const slide of [...decks.creator, ...decks.illustrator]) {
   activeObserver.observe(slide);
   revealObserver.observe(slide);
 }
@@ -70,19 +86,19 @@ prevBtn.addEventListener('click', () => go(current - 1));
 nextBtn.addEventListener('click', () => go(current + 1));
 
 document.addEventListener('keydown', (event) => {
-  if (creatorView.hidden) return;
+  if (!displayedRole) return;
   if (event.altKey || event.ctrlKey || event.metaKey) return;
   const field = event.target.closest('input, textarea, select, [contenteditable]');
   if (field) return;
-  if (event.key === 'ArrowRight') go(current + 1);
-  else if (event.key === 'ArrowLeft') go(current - 1);
+  if (event.key === 'ArrowRight') go(current + 1, { focus: true });
+  else if (event.key === 'ArrowLeft') go(current - 1, { focus: true });
   else return;
   event.preventDefault();
 });
 
 // ---------------------------------------------------------------- cover tilt
-const tilt = document.querySelector('[data-tilt]');
-if (tilt && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+for (const tilt of document.querySelectorAll('[data-tilt]')) {
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) continue;
   const cover = tilt.closest('.slide');
   cover.addEventListener('pointermove', (event) => {
     if (reduceMotion.matches) return;
@@ -100,20 +116,34 @@ if (tilt && matchMedia('(hover: hover) and (pointer: fine)').matches) {
   });
 }
 
-// ---------------------------------------------------------------- card flip
-const flip = document.querySelector('.flip');
-const flipLabel = document.querySelector('.flip__label');
-function setFlip(back) {
-  flip.setAttribute('aria-pressed', String(back));
-  flipLabel.textContent = back ? 'Belakang: identitas kolaborasi' : 'Depan: artwork';
+const choiceTilt = document.querySelector('[data-choice-tilt]');
+if (choiceTilt && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  choiceTilt.addEventListener('pointermove', (event) => {
+    if (reduceMotion.matches) return;
+    const box = choiceTilt.getBoundingClientRect();
+    choiceTilt.style.setProperty('--ry', `${((event.clientX - box.left) / box.width - 0.5) * 12}deg`);
+    choiceTilt.style.setProperty('--rx', `${((event.clientY - box.top) / box.height - 0.5) * -8}deg`);
+  });
+  choiceTilt.addEventListener('pointerleave', () => {
+    choiceTilt.style.setProperty('--ry', '0deg');
+    choiceTilt.style.setProperty('--rx', '0deg');
+  });
 }
-flip.addEventListener('click', () => setFlip(flip.getAttribute('aria-pressed') !== 'true'));
-// One demonstration turn the first time the slide is seen, so the back is discovered.
-flip.closest('.slide').addEventListener('seen', () => {
-  if (reduceMotion.matches) return;
-  setTimeout(() => setFlip(true), 900);
-  setTimeout(() => setFlip(false), 2600);
-});
+
+// ---------------------------------------------------------------- card flip
+for (const flip of document.querySelectorAll('.flip')) {
+  const flipLabel = flip.closest('.flip-wrap').querySelector('.flip__label');
+  const setFlip = (back) => {
+    flip.setAttribute('aria-pressed', String(back));
+    flipLabel.textContent = back ? 'Belakang: identitas kolaborasi' : 'Depan: artwork';
+  };
+  flip.addEventListener('click', () => setFlip(flip.getAttribute('aria-pressed') !== 'true'));
+  flip.closest('.slide').addEventListener('seen', () => {
+    if (reduceMotion.matches) return;
+    setTimeout(() => setFlip(true), 900);
+    setTimeout(() => setFlip(false), 2600);
+  });
+}
 
 // ---------------------------------------------------------------- big numbers
 for (const el of document.querySelectorAll('[data-count]')) {
@@ -163,7 +193,7 @@ function setupCalc(root, render) {
   const collab = root.querySelector('[data-collab]');
   const update = () => {
     ranges.forEach(syncRange);
-    const fixedPrice = root.dataset.calc === 'primary';
+    const fixedPrice = root.dataset.calc === 'primary' || root.dataset.calc === 'artist-primary';
     const price = fixedPrice ? 30 : Number(ranges[0].value);
     presets.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.price) === price)));
     const isCollab = Boolean(collab?.checked);
@@ -222,6 +252,36 @@ setupCalc(document.querySelector('[data-calc="royalty"]'), function ({ price, co
   ranges[1].setAttribute('aria-valuetext', `${count} kali`);
 });
 
+setupCalc(document.querySelector('[data-calc="artist-primary"]'), function ({ price, count, collab, ranges }) {
+  const share = primaryShare(price, collab);
+  write(this, 'count', `${num(count)} kartu`);
+  write(this, 'share', gems(share));
+  write(this, 'partner', gems(primaryShare(price, true)));
+  write(this, 'total-label', `Total untuk ${num(count)} kartu`);
+  write(this, 'total', gems(share * count));
+  write(this, 'note', collab
+    ? 'Contoh C.Card reguler: 15% untuk Anda dan 15% untuk kreator, masing-masing dibulatkan ke bawah per kartu. Sebelum biaya pencairan dan pajak.'
+    : 'Contoh C.Card reguler karya Anda sendiri: 30% dibulatkan ke bawah per kartu. Sebelum biaya pencairan dan pajak.');
+  document.querySelector('[data-artist-primary-rate]').textContent = collab ? '15' : '30';
+  ranges[0].setAttribute('aria-valuetext', `${count} kartu`);
+});
+
+setupCalc(document.querySelector('[data-calc="artist-royalty"]'), function ({ price, count, collab, ranges }) {
+  const share = royalty(price, collab);
+  write(this, 'price', coins(price));
+  write(this, 'count', `${num(count)} kali`);
+  write(this, 'share', gems(share));
+  write(this, 'partner', gems(royalty(price, true)));
+  write(this, 'total-label', `Total dari ${num(count)} penjualan`);
+  write(this, 'total', gems(share * count));
+  write(this, 'note', collab
+    ? 'Contoh C.Card reguler di C.Verse: 5% untuk Anda dan 5% untuk kreator, masing-masing dibulatkan ke atas. Fee C.Verse 5% terpisah. Sebelum biaya pencairan dan pajak.'
+    : 'Contoh C.Card reguler karya Anda sendiri di C.Verse: 7,5% dibulatkan ke atas. Seed memakai aturan berbeda.');
+  document.querySelector('[data-artist-royalty-rate]').textContent = collab ? '5' : '7,5';
+  ranges[0].setAttribute('aria-valuetext', `${price} C.Coin`);
+  ranges[1].setAttribute('aria-valuetext', `${count} kali`);
+});
+
 // ---------------------------------------------------------------- copy reply
 for (const button of document.querySelectorAll('[data-copy]')) {
   const source = document.querySelector(button.dataset.copy);
@@ -245,13 +305,30 @@ function showRole(role, focus = false) {
   chooser.hidden = Boolean(selected);
   creatorView.hidden = selected !== 'creator';
   illustratorView.hidden = selected !== 'illustrator';
-  creatorChrome.forEach((element) => { element.hidden = selected !== 'creator'; });
+  deckChrome.forEach((element) => { element.hidden = !selected; });
   document.body.dataset.role = selected ?? 'choice';
-  document.documentElement.classList.toggle('role-deck', selected === 'creator');
-  document.body.dataset.theme = selected === 'creator' ? 'lime' : 'black';
-  if (selected === 'creator') {
-    const slide = /^#s(?:10|[1-9])$/.test(location.hash) ? document.querySelector(location.hash) : slides[0];
+  document.documentElement.classList.toggle('role-deck', Boolean(selected));
+  document.body.dataset.theme = selected ? 'lime' : 'black';
+  if (selected) {
+    slides = decks[selected];
+    const list = document.querySelector('.dots ol');
+    list.replaceChildren(...slides.map((item) => {
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      const label = document.createElement('span');
+      link.href = `#${item.id}`;
+      label.className = 'sr-only';
+      label.textContent = item.querySelector('h1, h2')?.textContent ?? 'Slide';
+      link.append(label);
+      li.append(link);
+      return li;
+    }));
+    dots = [...list.querySelectorAll('a')];
+    document.querySelector('.chrome__sub').textContent = selected === 'creator' ? ' / Kolaborasi kreator' : ' / Ilustrator';
+    document.querySelector('.skip').href = `#${slides[1].id}`;
+    const slide = slides[slideIndexForRole(selected, location.hash)];
     slide?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    setActive(slides.indexOf(slide));
     if (focus) {
       const heading = slide?.querySelector('h1, h2');
       if (heading) {
@@ -260,11 +337,9 @@ function showRole(role, focus = false) {
       }
     }
   } else {
-    const anchor = selected === 'illustrator' ? document.getElementById(location.hash.slice(1)) : null;
-    if (anchor && illustratorView.contains(anchor)) anchor.scrollIntoView({ behavior: 'instant', block: 'start' });
-    else window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
     if (focus) {
-      const target = selected ? document.querySelector('#illustrator-title') : document.querySelector(`[data-role-choice="${previousRole ?? 'creator'}"]`);
+      const target = document.querySelector(`[data-role-choice="${previousRole ?? 'creator'}"]`);
       target?.focus({ preventScroll: true });
     }
   }
@@ -290,15 +365,3 @@ window.addEventListener('popstate', () => {
   if (role !== displayedRole) showRole(role, true);
 });
 showRole(roleFromLocation(location));
-
-const illustratorPrice = document.querySelector('#illustrator-price');
-illustratorPrice.addEventListener('input', () => {
-  const price = Number(illustratorPrice.value);
-  const fee = seedFee(price, true) / 2;
-  document.querySelector('[data-illustrator-price]').textContent = `${num(price)} C.Coin`;
-  document.querySelector('[data-illustrator-royalty]').textContent = `${num(royalty(price, true))} C.Gems`;
-  document.querySelector('[data-illustrator-platform]').textContent = `${num(fee)} C.Coin`;
-  document.querySelector('[data-illustrator-seed]').textContent = `${num(fee)} C.Gems`;
-  document.querySelector('[data-illustrator-owner]').textContent = `${num(price - 2 * fee)} C.Gems`;
-  illustratorPrice.setAttribute('aria-valuetext', `${price} C.Coin`);
-});
