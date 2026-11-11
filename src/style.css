@@ -131,11 +131,13 @@ main{position:relative;z-index:2;height:100dvh;height:100vh}
 .hero__footer{
   position:absolute;
   left:50%;bottom:20px;transform:translateX(-50%);
-  display:flex;align-items:center;gap:10px;
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;
   font-size:12px;font-weight:500;letter-spacing:.01em;color:var(--grey);
   white-space:nowrap;
 }
 .hero__footer .sep{opacity:.5}
+.hero__footer a{color:var(--grey);padding:6px 0;text-underline-offset:4px}
+.hero__footer a:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
 .hero__footer button{
   color:var(--white);
   padding:6px 0;
